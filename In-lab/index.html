@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8"/>
+
+
+     <!--External link for CSS style sheet-->
+    <!--Line below for external CSS style sheet (when all files stored in same folder) when running file in browser i.e. offline
+    <link href="style.css" rel="stylesheet" type="text/css">-->
+
+    <!--Line below (i.e. ABSOLUTE path) for external CSS style sheet when running file online i.e. psych-JATOS-->
+    <link rel="stylesheet" type="text/css" href="/study_assets/TRT/style.css"/>
+
+    <!--This script is for running experiment on JATOS-->
+    <script src="/assets/javascripts/jatos.js"></script>
+
+
+    <!-- Use below ABSOLUTE path refs when running study on https://psych-jatos.newcastle.edu.au/jatos (i.e. < JATOS Version 3.2.3 )-->
+    <script src="/study_assets/TRT/jquery1.js"></script>
+    <script src="/study_assets/TRT/jquery2.js"></script>
+    <script src="/study_assets/TRT/underscore.js"></script>
+
+<!--
+<script> This function is only necessary when using JATOS variables/functions
+  jatos.onLoad(function() {
+    var username = "0";
+    if (jatos.urlQueryParameters.hasOwnProperty("id")) {
+      username = jatos.urlQueryParameters.id;
+    }
+    /// Start here with your code that uses jatos.js' variables and functions
+  });
+</script>-->
+
+
+</head>
+<!--
+<body>-->
+
+<!-- Uncomment the follow div elements AND associated functions below when using dialog box 
+    (i.e. in lab experiment OR when running the file in the browser)-->
+  <body onload="startDialogBox()">
+  <div class="at-dialog">
+	   <div id="fullscreen" style="display: none">
+		     <div id="task-div">
+			        <div id="task"></div>
+		    </div>
+	  </div>
+  </div>
+
+	<div id="dialog-box">
+		<div id="login-div" class="dialog-content">
+			<p>Welcome to a <strong>Consumer Choice</strong> study.</p>
+			<p>Please make sure your web browser is in fullscreen mode.</p>
+			<p>Enter your five digit SONA ID and press begin.</p>
+			<p>SONA ID : <input type="password" id="username"></input></p>
+			<button class="btn" id="begin-button">Begin</button>
+		</div>
+	</div>
+
+  <div id ="goFast"style="display: none;">
+    <p> </p>
+  <p> BE FAST!! </p>
+  </div>
+
+  <div id ="goSlow"style="display: none;">
+  <p> </p>
+  <p> BE CAREFUL!! </p>
+  </div>
+
+<div id="inTime"style="display:none">
+  <p> </p>
+  <p> IN TIME! </p>
+  <p> </p>
+</div>
+
+  <!--<div id ="countdown" style="display: none;">
+  <p> You have <b id="timeLeft"> XXXX </b> seconds remaining </p>
+  </div>-->
+
+  <div>
+      <table id="productTable">
+          <tbody id="tableBody">
+          </tbody>
+      </table>
+  </div>
+
+<div id="pageOne" style="display: none">
+  <p>In this study we ask you to imagine that you are in the market to purchase a product/service. <br>Please choose from the set below which product you would <b>most</b> likely purchase.</p>
+  <form action="#" method="post" class="demoForm" id="productForm" style="display: none;">
+      <fieldset>
+          <label><input type="radio" name="ship" value="Shoes." checked /> Shoes</label> <!-- Shoes is the default 'checked' option-->
+          <label><input type="radio" name="ship" value="Chocolate." /> Chocolate</label>
+          <label><input type="radio" name="ship" value="an overnight stay in a hotel." />an overnight stay in a hotel</label>
+          <label><input type="radio" name="ship" value="Coffee." /> Coffee</label>
+          <label><input type="radio" name="ship" value="a Mobile phone." />Mobile Phone</label>
+          <label><input type="radio" name="ship" value="a Car." />Car</label>
+      </p>
+      <p><button type="button" class="btn" name="getVal" id="formBtn" onclick="getProduct()">This One</button></p>
+      <!--MUST specify the button type as 'button'. If the button type is not specified,
+          browser will set it to 'reset' or 'submit' which causes the page to reload.-->
+      </fieldset>
+</div>
+
+<div id ="instructionsOne" style="display: none;">
+    <p> Now we would like you to imagine that you are purchasing <b id="product"></b> </p>
+    <p> You will be shown options related to this purchase that look like the image below.</p>
+    <img src="S-R_DCE.svg" alt="DCE-ExampleHere">
+    <p> You will see two options (option <b>A</b> and option <b>B</b>) and each option
+        will have two attributes: <em>Price</em> and <em>Quality</em>.</p>
+    <p> Choices can be made by pressing the <kbd>Z</kbd> button for option <b>A</b>
+        or by pressing the <kbd>/</kbd> button for option <b>B</b>.
+</div>
+
+
+<div id="instructionsTwo" class="iTwoWrapper" style="display:none;">
+  <div id="iTwoP1">
+       <p>For some choices, you will see the screen below.</p>
+       <!--<p> You <strong>MUST</strong> choose your preferred option when you see the screen below.</p>-->
+  </div>
+  <div id="iTwoP2">
+      <p>************</p>
+      <p>RESPOND NOW</p>
+      <p>************</p>
+  </div>
+  <div id="iTwoP3">
+       <p> You may feel some time pressure to make a choice when you see this screen. We ask that you please try to indicate your most preferred option as often as you can.</p>
+       <p> For some choices, you will have more time to choose your preferred option.</p>
+       <!--<p> We ask that you please try to indicate your most preferred option as often as you can.</p>
+       <p> You will be asked to make <b id='howManyTrials'>XXXX</b> choices across <b id='blocks'></b> blocks.-->
+       <p> This study will take approximately 45 minutes to complete. SONA points will be allocated after the experiment.</p>
+  </div>
+</div>
+
+
+<div id ="signalResponseCue" style="display: none;">
+   <p>************</p>
+   <p>RESPOND NOW</p>
+   <p>************</p>
+</div>
+
+<div id ="experimentEnd"style="display: none;">
+    <p> You have now finished the experiment. Thank you for your participation! </p>
+    <p> Your SONA points will be allocated shortly. </p>
+</div>
+
+<div id ="loading">
+    <p>  </p>
+</div>
+
+<div id ="fixationCross" style="display: none;">
+    <p> + </p>
+</div>
+
+<div id ="youWentTooFast" style="display: none;">
+    <p> Too Fast!! </p>
+    <p> Please avoid making your decision before you see the options. </p>
+</div>
+
+<div id ="youWentTooSlow" style="display: none;">
+    <p> Too slow!! </p>
+  <!-- <p> It is important to carefully consider the available options. However, please try to make faster choices in future trials. </p> -->
+</div>
+
+<div id ="spacebarToContinue" style="display: none;">Press spacebar to continue</div>
+
+<div id ="endBlock" style="display: none;">
+    <p> End of Block. </p>
+    <p> Please take a short break before continuing.</p>
+    <p> Remember, your choices relate to purchasing </p>
+    <p><b id="chosenProduct"></b></p>
+    <p> Press spacebar to continue. </p>
+</div>
+
+<div id ="progress" style="display: none;">
+    <p> You are up to choice <b id="currentProgress"> XXXX </b> / <b id="totalProgress"> XXXX </b> choices </p>
+</div>
+
+<script type="text/javascript">
+
+// ----- Customisation -----
+const online = true;												                  // Is the current version online or not
+const numFeatures = 2;  	 			     			  	 		            // Number of Attributes/Features for each poduct
+const randomProductsMode = 2; 				   				 		          /* Number of Options in a trial
+                                                                    Modes: 
+                                                                    0 = Choose a random product from 'specificNumProducts' randomised per trial 
+                                                                    1 = Random Products between 'minProducts' & 'maxProducts'
+                                                                    2 = static Products from 'fixedProducts'
+                                                                    3 = Static Products from 'fixedProducts' randomised per block
+                                                                    4 = static Products, randomised BS. */
+const randomPresentation = 1; 									              /* Feature Order Presentation
+                                                                    Modes: 
+                                                                    0 = set order of Products 
+                                                                    1 = between subjects randomisation of order 
+                                                                    2 = within subjects randomisation (per trial) */
+const minProducts = 2;                         				 		    // 'randomProductsMode' = 1, min Products to choose from
+const maxProducts = 2;                         				 		    // 'randomProductsMode' = 1, max Products to choose from
+const fixedProducts = 2;                      				 		    // 'randomProductsMode' = 2, always have 'fixedProducts' number of Products
+const specificNumProducts = ["2", "4", "8"]; 						      // Specific number of product to be randomly chosen from
+const BSProducts = ["2", "4", "8"];									          // Random product options for BS design
+const recommendation = false;		            					        // Is there a recommended option
+const trialInstructions = false;									            // Change to false to turn off fast or accurate
+const progressOn = false;											                // Is the progress bit on?
+const randomTimer = true; 										                // Is the timer random?
+const timerPresent = false;										                // Is the timer present?
+const tooSlowPresent = true;										              // Does the choice timeout?
+const fastOrAccurate = [1,2]; 									                
+const nTrials = 40;												                    // Number of trials per block
+const nBlocks = 12;												                    // Number of blocks in experiment
+const waitTime = 2000;											                  // Time participant must wait, after a 'too fast' response, before they can continue
+var maxTrialTime = [];											                  // Maximum trial time - The length of time a stimulus is shown for
+// var maxTrialTimeOpt = [100, 200, 400, 800, 1200, 2000, 4000];		// Stimulus durations (used if randomTimer = true) - This var from old exp
+const setMaxTrialTime = 300;									                // Set maximum trial time (used if randomtimer = false)
+const minTrialTime = 150;											                // Minimum trial time
+const stimTime = 1000;											                  // Stimulus duration of SAT instructions (when trialInstructions = true)
+const postSelectTime = 500;										                // Time after product selected
+var fixationTime = [];											                  // Duration fixation cross is shown for
+const minfixationtime = 1000;										              // Minimum time of fixation cross presentation
+const maxfixationtime = 4000;   									            // Longest possible inter-trial time
+const exponentialRate = .002;                                 /* Rate parameter for exponentially distributed inter-trial times. 
+                                                                 Rate = .002 -> mean exponential of 500ms. 
+                                                                 combined with minfixationtime = 500 gives mean inter-trial time of 1 second. 
+                                                                 set maxfixationtime to something sensible (eg 5 seconds)*/
+// ------------ Variables created for RT Titration experiment ---------------                
+const sigTrialArr = [100, 200, 400, 800, 1200];               // Signal trial stimulus durations
+const regTrialArr = [10000];                                  // Regular trial stimulus durations
+const propSigTrials = 0.50                                    // Proportion of signal trials required in each block
+const propRegTrials = 0.50                                    // Proportion of free RT trials required in each block                                            
+const nSignalTrials = propSigTrials * nTrials                 // Set n signalTrials within each block
+const nRegTrials = propRegTrials * nTrials                    // Set n regTrials within each block
+const prelimRegArr = [];                                      // Create an empty array to store the regular trial stimulus durations
+const prelimSigArr = [];                                      // Create an empty array to store the signal trial stimulus durations
+prelimRegArr.length = nRegTrials                              // Set no. of elements in prelimRegArr - must be a WHOLE number, if no. blocks and trials are uneven numbers, will throw
+prelimSigArr.length = nSignalTrials                           // Set no. of elements in prelimSigArr
+var durations = [];                                           // Array to hold all stimulus durations for a single block
+const sigTrialMultip = nSignalTrials / sigTrialArr.length     // Calculate a multiplier for signal trials to fill prelimSigArr
+const regTrialMultip = nRegTrials / regTrialArr.length        // Calculate a multiplier for signal trials to fill prelimSigArr
+// ---------------------------------------------------------------------------
+const productBrands = ["A", "B",]; 	                          // Array of options (e.g. product brands, pizza, phones etc)
+var features = [												                      // Array containing attributes and their levels (e.g. product attributes, pizza attributes)
+                ["Low Price", "High Price",],
+                ["Low Quality", "High Quality",],
+                ];
+var startDate;
+var startTime;
+var endDate;
+var endTime;
+var countdownEndTime;
+var currenttotaltrial;
+var rt;
+var nCurrentTrial;
+var nCurrentBlock = 0;
+var experimentStartDate;
+var experimentStartTime;
+var currentDate;
+var currentTime;
+var experimentTotalTime;
+var totaltrials = (nTrials*nBlocks);
+var productArray = [];
+var usingFeatures = [];
+var numProducts = [];
+var dataOutput = [];
+var recommendedproduct;
+var randomStimulus;
+var stimulus;
+//var counter = 1000;
+// ------------- Variables created for SR Experiment --------------
+var username; // = $("#username"); uncomment this var to assign a Sona ID to username WHEN using dialog prompt box below
+var duplicateproduct = true;
+var tmpproduct = [];
+var inTrial = false;
+var maxResponseWindow = 750;
+var stopContEvent = false;
+var regEOBKP = false;
+//-- timeout variables --//
+var contWaitTime;
+var instructDelay1;
+var instructDelay2;
+var timeout;
+var stimTimeout;
+//var countdownTimeout;
+var fixationTimeout;
+var postTimeout;
+var srwTimeout;
+var pFeedbackTO;
+var endExpTO;
+var dceTimeout;
+//------------------------//
+var dialogBox = $('#dialog-box')
+var fullscreen = $('#fullscreen')
+var taskDiv = $('#task-div')
+var instruxOne = $('#instructionsOne')
+var instruxTwo = $('#instructionsTwo')
+var loading = $('#loading')
+var countdownDiv = $('#countdown')
+var progressDiv = $('#progress')
+var endBlock = $('#endBlock')
+var goFast = $('#goFast')
+var goSlow = $('#goSlow')
+var fixationCross = $('#fixationCross')
+var signalResponseCue = $('#signalResponseCue')
+var expEnd = $("#experimentEnd")
+var spacebarToContinue = $('#spacebarToContinue')
+var tooSlowDiv = $("#youWentTooSlow")
+var tooFastDiv = $("#youWentTooFast")
+var inTimeDiv = $("#inTime")
+var prodFormDiv = $('#productForm')
+var pageOneDiv = $("#pageOne")
+var yourProd;
+var radios;
+
+/* The below "jatos.onload(function grabSonaID()" function is required when running ONLINE psych-JATOS study
+jatos.onLoad(function grabSonaID() {
+       //var username = jatos.studySessionData.username;
+     if (jatos.urlQueryParameters.hasOwnProperty("id")) {
+               //var username = "0"
+               username = jatos.urlQueryParameters.id;
+               //console.log("a:" + username);
+               jatos.studySessionData["SonaID"] = username;
+             } else {
+           username = null;
+           jatos.studySessionData["SonaID"] = username;
+           }
+     chooseYourProduct();
+   });*/
+
+
+// The below functions (startDialogBox,recenterDialog, checkLogin,dblCheckCreds)
+// are required when running the experiment in lab - i.e. manually entering a SONA //
+
+function startDialogBox (){
+  $(window).resize(recenterDialog);
+  recenterDialog();
+  dialogBox.show();
+}
+
+var recenterDialog = function() {
+
+  var height = $(window).height()
+  var width = $(window).width()
+
+  var dialogTop =  (height/2) - (dialogBox.height()/1.6)
+  var dialogLeft = (width /2) - (dialogBox.width()/2)
+
+  var taskDivTop =  (height/2) - (taskDiv.height()/1.8)
+  var taskDivLeft = (width /2) - (taskDiv.width()/2)
+
+  dialogBox.css( { top:dialogTop, left:dialogLeft } )
+  taskDiv.css( { top:taskDivTop, left:taskDivLeft } )
+}
+
+
+
+var checkLogin = function() {
+  username = $("#username").val()
+  dblCheckCreds()
+}
+
+$("#begin-button")
+  .button( { disabled : false } )
+  .click(checkLogin)
+
+
+var dblCheckCreds = function(){
+  if (username == null) {
+    alert('SONA ID must be a 5 digit number')
+  }
+  else if (username.length != 5) {
+    alert('SONA ID must be a 5 digit number')
+  }
+  else if (username != null && username.length == 5) {
+    if (!Number.isInteger(Number(username))) {
+      alert('SONA ID must be a 5 digit number')
+      return
+    }
+    $("#login-div").hide()
+   chooseYourProduct();
+   console.log('Valid Login', username)
+  }
+}
+
+function chooseYourProduct(){
+pageOneDiv.show()
+prodFormDiv.show()
+}
+
+
+function selectedRadioButton(form, name) {
+    var val;
+    // get list of radio buttons with specified name
+    var radios = document.getElementById('productForm').elements[name];
+    //pageOne.form.elements[name];
+    // loop through list of radio buttons
+    for (var i = 0, len = radios.length; i < len; i++) {
+        if ( radios[i].checked ) { // radio checked?
+            val = radios[i].value; // if so, hold its value in val
+            break;                 // and break out of for loop
+        }
+    }
+    return val; // return value of checked radio or undefined if none checked
+}
+
+function getProduct() { // get value of selected 'ship' radio button in 'prodForm'
+  var val = selectedRadioButton(document.getElementById('productForm'), 'ship');
+  yourProd = val;
+  console.log(val)
+  pageOneDiv.hide()
+  prodFormDiv.hide()
+  instructOne()
+}
+
+
+
+function instructOne() {
+  instruxOne.show()
+  document.getElementById('product').innerHTML = yourProd;
+	experimentStartDate = new Date();
+	experimentStartTime = experimentStartDate.getTime();
+  instructDelay1 = setTimeout(instructOneButton, 1000) 
+}
+
+
+function instructOneButton (){
+  // 1. Create the button
+  var introButton = document.createElement("button");
+  introButton.innerHTML = "Click here to continue";
+  // 2. Append somewhere
+  document.getElementById('instructionsOne');
+  instructionsOne.appendChild(introButton);
+  // 3. Add onclick
+  introButton.setAttribute("class", "btn");
+  introButton.setAttribute("onclick", "instructTwo()")
+}
+
+
+
+function instructTwo() {
+  //console.log("instructTwo");
+  instruxOne.hide()
+  instruxTwo.show()
+  instructDelay2 = setTimeout(instructTwoButton, 1000)
+	//document.getElementById('howManyTrials').innerHTML = totaltrials;
+  //document.getElementById('blocks').innerHTML = nBlocks;
+}
+
+
+function instructTwoButton (){
+  // 1. Create the button
+  var instructTwoContButton = document.createElement("button");
+  instructTwoContButton.innerHTML = "Click here to continue";
+  // 2. Append somewhere
+  document.getElementById('instructionsTwo');
+  instructionsTwo.appendChild(instructTwoContButton);
+  // 3. Add onclick
+  instructTwoContButton.setAttribute("class", "btn");
+  instructTwoContButton.setAttribute("onclick", "postInstruct()");
+}
+
+
+function postInstruct() {
+  instruxTwo.hide()
+  initialiseSetup();
+  initialiseProductsetup();
+}
+
+function fillPrelimArrays (multiplier, origArr, prelimArr) { // Function to fill the prelimary stimDuration arrays
+  let arrPos = 0;
+    for (let i = 0; i < multiplier; i++) {
+          for (let j = 0; j < origArr.length; j++) {
+            prelimArr[arrPos] = origArr[j];
+            arrPos++
+          }
+        }
+      return prelimArr
+      //console.log(fillPrelimArrays)
+    }
+
+function shuffleArr(arr) {    // This shuffle/randomise function lifted from https://bost.ocks.org/mike/shuffle/
+                              // Shuffle function - Pick a random element, swap with last element in back of array/list.
+  let m = arr.length, t, i;   // Shorthand for var m = arr.length, var t;, var i; i.e. multiple elements  
+    while (m) {               // While there remain elements to shuffle (i.e. m = > 0)
+                              // Pick a remaining element
+                              // Generate a random number within the range of no. durations array and round down
+      i = Math.floor(Math.random() * m--); 
+                              // And swap it with the current element.
+      t = arr[m];
+                              // var t = the last element in durations array/list
+      arr[m] = arr[i];
+                              // Swap the last element in the durations array/list to the
+                              // randomly chosen element in the durations array/list
+      arr[i] = t;
+                              // and swap element durations[i] with the formerly last element of the durations array/list
+    }
+  return arr;
+  //console.log(shuffleArr)
+}
+
+function produceStimDurArr() {
+  console.log(produceStimDurArr)
+  fillPrelimArrays(regTrialMultip, regTrialArr, prelimRegArr)       // Fill prelim regular trial array
+  fillPrelimArrays(sigTrialMultip, sigTrialArr, prelimSigArr)       // Fill prelim signal trial array
+  durations = [...prelimSigArr,...prelimRegArr]                     /* Clone (deep copy) array i.e. DO NOT modify original array
+                                                                       This creates an immutable object - https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array */
+  shuffleArr(durations)
+  console.log('length of prelimsigarr', prelimSigArr)               // Enter an array as this function's argument to shuffle/randomise array                                   
+}
+
+
+ 
+
+function initialiseSetup() { //makes the experiment start
+  produceStimDurArr();
+  document.getElementById("productTable").style.display = "block";
+  document.getElementById("totalProgress").innerHTML = totaltrials;
+  //progDiv();
+  console.log(initialiseSetup)
+  console.log('length of prelimsigarr', prelimSigArr)
+}
+
+
+function initialiseProductsetup() {
+  console.log("initialiseProductsetup");
+  nCurrentTrial = 0;
+  var randomSelectedProduct = Math.floor(Math.random() * specificNumProducts.length);
+  blockProducts = specificNumProducts[randomSelectedProduct];
+  if (nCurrentBlock == 0) {
+    for (var i = 0; i < features.length; i++)
+        usingFeatures.push(i);
+	if (randomProductsMode == 4) {
+	var randomSelectedProduct = Math.floor(Math.random() * BSProducts.length);
+            BSnumProducts = BSProducts[randomSelectedProduct];
+            }
+            else {
+            }
+    // To set the features being used, casually remove them randomly until it's the right length
+    for (var i = 0; i < usingFeatures.length - numFeatures; i++)
+        usingFeatures.splice(Math.floor(Math.random() * usingFeatures.length), 1);
+        if (randomPresentation == 1) {
+         for (var i = 0; i < usingFeatures.length; i++) {
+        var randomFeature = Math.floor(Math.random() * usingFeatures.length);
+        var temp = usingFeatures[i];
+        usingFeatures[i] = usingFeatures[randomFeature];
+        usingFeatures[randomFeature] = temp;
+        }
+    }
+    else {
+    }
+      postTrial();
+	}
+ else {
+ postTrial();
+ }
+}
+
+
+function produceDurationsArray() {
+  if (durations.length == 0) {
+      produceStimDurArr();
+      postTrial();
+  } else {
+      postTrial();
+  }
+}
+
+function postTrial() {
+  console.log("postTrial")
+  console.log(durations)
+  loading.show()
+  document.getElementById("productTable").style.display = "none";
+  document.getElementById("totalProgress").innerHTML = totaltrials;
+  //progDiv();
+	if (trialInstructions == false) {
+	postTimeout = setTimeout(preTrial, postSelectTime);
+	}
+	else if (trialInstructions == true) {
+	postTimeout = setTimeout(beSomething, postSelectTime);
+	}
+	else {
+	}
+}
+
+
+/*function progDiv() {
+  if (progressOn == true) {
+    progressDiv.show()
+  }
+else {
+  progressDiv.hide()
+  }
+}*/
+
+
+function preTrial() {
+  //console.log("preTrial")
+  clearTimeout(postTimeout)
+  goSlow.hide()
+  goFast.hide()
+  loading.hide()
+  fixationCross.show()
+  document.getElementById("productTable").style.display = "none";
+  document.getElementById("totalProgress").innerHTML = totaltrials;
+  //progDiv();
+	/* Exponential random number generator
+	Time until next arrival
+	randomExponential();
+	truncated exponential distribution for inter-trial times. repeatedly sample fixationTime until the random inter-trial time is less than maxFixationTime*/
+	fixationTime = 20000;  // set to large value prior to sampling inter-trial time
+	// repeatedly sample fixation time until it is lower than maxfixationtime
+	while(fixationTime > maxfixationtime) {
+       	fixationTime = randomExponential(exponentialRate);
+        }
+	if (trialInstructions == false) {
+	fixationTimeout = setTimeout(beSomething, fixationTime);
+	}
+	else if (trialInstructions == true) {
+	fixationTimeout = setTimeout(generateProductArray, fixationTime);
+	}
+	else {
+	}
+}
+
+
+function randomExponential(rate, randomUniform) {
+  //console.log("randomExponential");
+	  /* Allow to pass a random uniform value or function
+  	   Default to Math.random() */
+  	var U = randomUniform;
+  	if (typeof randomUniform === 'function') U = randomUniform();
+  	if (!U) U = Math.random();
+  	return (-Math.log(U)/rate) + minfixationtime;
+}
+
+
+/*
+whether there are instructions present (ie be fast or accurate). randomises the condition shown.
+Feature Order Presentation - Modes (0, 1, 2):
+0 = set order of Products. 1 = between subjects randomisation of order. 2 = within subjects randomisation (per trial)
+*/
+function beSomething() {
+  //console.log("beSomething");
+  clearTimeout(postTimeout)
+  clearTimeout(fixationTimeout)
+  loading.hide()
+  fixationCross.hide()
+if (randomPresentation == 2) {
+ for (var i = 0; i < usingFeatures.length; i++) {
+        var randomFeature = Math.floor(Math.random() * usingFeatures.length);
+        var temp = usingFeatures[i];
+        usingFeatures[i] = usingFeatures[randomFeature];
+        usingFeatures[randomFeature] = temp;
+    	}
+    	}
+    	else {
+    	}
+if (trialInstructions == true) {
+var randomStimulus = Math.floor(Math.random() * fastOrAccurate.length);
+            stimulus = fastOrAccurate[randomStimulus];
+if (stimulus == 1) {
+	goFast.show()
+	document.getElementById("productTable").style.display = "none";
+	stimTimeout = setTimeout(preTrial, stimTime);
+	if (randomTimer == true) {
+		 //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
+		 //maxTrialTime = maxTrialTimeOpt[temp];
+     maxTrialTime = durations.shift();
+    }
+	else {
+		maxTrialTime = setMaxTrialTime;
+		}
+	}
+else if (stimulus == 2) {
+	goSlow.show()
+	document.getElementById("productTable").style.display = "none"
+	stimTimeout = setTimeout(preTrial, stimTime);
+	if (randomTimer == true) {
+		 //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
+     //maxTrialTime = maxTrialTimeOpt[temp];
+     maxTrialTime = durations.shift();
+      }
+	else {
+		maxTrialTime = setMaxTrialTime;
+		}
+	}
+else {
+}
+}
+else {
+(stimulus == 0);
+if (randomTimer == true) {
+		 //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
+     //maxTrialTime = maxTrialTimeOpt[temp];
+     maxTrialTime = durations.shift();
+  }
+	else {
+		maxTrialTime = setMaxTrialTime;
+		}
+generateProductArray();
+  }
+}
+
+
+function generateProductArray() {									//makes the array of Products
+  //console.log("generateProductArray");
+  document.getElementById("productTable").style.display = "block";
+  fixationCross.hide()
+  //progDiv();
+  clearTimeout(fixationTimeout)
+  //clearTimeout(stimTimeout);
+  /* 
+  Modes:
+      0 = Choose a random product from 'specificNumProducts'.
+      1 = Random Products between 'minProducts' & 'maxProducts'. 
+      2 = static Products from 'fixedProducts' 
+  */
+   switch(randomProductsMode) {
+        case 0:
+            var randomSelectedProduct = Math.floor(Math.random() * specificNumProducts.length);
+            numProducts = specificNumProducts[randomSelectedProduct];
+            break;
+        case 1:
+            numProducts = Math.floor(Math.random() * (maxProducts - minProducts + 1) + minProducts);
+            break;
+        case 2:
+            numProducts = fixedProducts;
+            break;
+        case 3:
+        	numProducts = blockProducts;
+        	break;
+        case 4:
+        	numProducts = BSnumProducts;
+        	break;
+    }
+    productArray = [];
+    // Create 'numProducts' new Products
+    for (var i = 0; i < numProducts; i++) {
+        // to revert to version that does not check for duplicates, only need to uncomment the following line
+        //   then delete from if(i==0) through to just above tooSlowPresent (~ 12 lines)
+//        productArray.push(createNewProduct());
+        if(i == 0) {
+          productArray.push(createNewProduct());
+        } else {
+          // hard coded to prevent duplicates when numProducts=2. Not for use when numProducts>2!
+          duplicateproduct = true;
+          while(duplicateproduct == true) {
+            tmpproduct = createNewProduct();
+            // check whether product is unique in this trials
+            for(var j = 0; j < numFeatures; j++) {
+              if(tmpproduct.features[j] != productArray[0].features[j]) duplicateproduct = false;
+            }
+          }
+          // productArray.push(createNewProduct());    //
+          productArray.push(tmpproduct);
+        }
+    }
+    /*if (tooSlowPresent == true) {
+    	timeout = setTimeout(tooSlow, maxTrialTime);
+    	}
+    	else {
+    	}*/
+    if (recommendation == true) {
+    recommendedproduct = Math.floor(Math.random() * numProducts);
+    }
+    else {
+    }
+    updateTable();
+   	updateTrialNumber();
+   	//timeLeft();
+}
+
+
+
+
+function createNewProduct() {								//creates Products
+    //console.log("createNewProduct");
+    // New product
+    var product = {features:[]};
+    // Add the features
+    for (var i = 0; i < numFeatures; i++) {
+        // Pick a random value for the feature
+        var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length));
+        product.features[usingFeatures[i]] = features[usingFeatures[i]][randomValue];
+    }
+    // Return the new product
+    return product;
+
+}
+
+
+function updateTable() {									//makes the product table
+    //console.log("updateTable");
+    // Get the child nodes of the table
+    var tableBody = document.getElementById("tableBody");
+    var tableRows = tableBody.getElementsByTagName("tr");
+    // Delete the current table
+    while(tableRows.length != 0)
+        tableRows[0].remove();
+    // Add the Brand column - "th" header cell, "td" standard cell contains data
+    var row = createRow();
+    //addCell(row, "th", "");
+    // Add the current features row
+    for (var brand = 0; brand < numProducts; brand++) {
+        addCell(row, "td", productBrands[brand]);
+    }
+    // Add the recommendation
+    /*if (recommendation == true) {
+    var row = createRow();
+    for (var currentproduct = -1; currentproduct < numProducts; currentproduct++) {
+        if (currentproduct == recommendedproduct && recommendation)
+            addCell(row, "td", "Highly Popular");
+        else
+            addCell(row, "td", "");
+    }
+    }
+    else {
+    }*/
+
+    // Fill the data in
+    for (var currentFeature = 0; currentFeature < numFeatures; currentFeature++) {
+        var row = createRow();
+
+        for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
+            /* if (currentproduct == -1) // This is adding the headings in
+                addCell(row, "th", features[usingFeatures[currentFeature]][0]);
+            else // This is adding the contents in*/
+                addCell(row, "td", productArray[currentproduct].features[usingFeatures[currentFeature]]);
+        }
+    }
+  startTimer();
+  document.addEventListener('keyup', recordKP, false); // This adds event listener to page ("Listens" for keypress)
+	document.getElementById("productTable").style.display = "block";
+   
+  if (maxTrialTime < 9000) { 
+        // If trial is a signal trial (< 9000)
+        dceTimeout = setTimeout(signalResponseWindow, maxTrialTime);     // setTimeout method must be cleared IF it is not triggered
+        //console.log('signal trial', maxTrialTime);                     // E.g. if event listener keypress registers before setTimeout fires      
+       }                                                                        
+  else {
+        // Else the trial is a regular trial                   
+        dceTimeout = setTimeout(tooSlow, maxTrialTime);
+        //console.log('regular trial', maxTrialTime);
+  }
+  //console.log(inTrial);
+}
+
+function updateTrialNumber() {
+  //console.log("updateTrialNumber");
+  currenttotaltrial = ((nCurrentTrial + 1) + (nCurrentBlock * nTrials));
+  document.getElementById("currentProgress").innerHTML = currenttotaltrial;
+  console.log(currenttotaltrial)
+}
+
+
+function signalResponseWindow() {
+  //console.log("signalResponseWindow");
+  clearTimeout(dceTimeout);
+  //document.addEventListener('keyup', recordKP, false); // This adds event listener to page ("Listens" for keypress)
+  document.getElementById("productTable").style.display = "none";
+  signalResponseCue.show()
+  document.getElementById("totalProgress").innerHTML = totaltrials;
+  srwTimeout = setTimeout(tooSlow, maxResponseWindow)
+}
+
+
+function recordKP(event) {
+  console.log("recordKP");
+  clearTimeout(srwTimeout)
+   var ekc = event.keyCode;
+      if (inTrial == true && ekc == 90 ) {
+          stopTimer();
+          document.getElementById("productTable").style.display = "none";
+          event.preventDefault()
+          document.removeEventListener('keyup', recordKP, false)
+          signalResponseCue.hide()
+          productSelected("0");
+          console.log("z Button Pressed - recordKP fired");
+            }
+      else if (inTrial == true && ekc == 191) {
+          stopTimer();
+          document.getElementById("productTable").style.display = "none";
+          event.preventDefault()
+          document.removeEventListener('keyup', recordKP, false)
+          signalResponseCue.hide()
+          productSelected("1");
+          console.log("/ Button Pressed - recordKP fired");
+            }
+          }
+
+
+function createRow() {
+  //console.log('createRow')
+    var row = document.createElement("tr");
+    tableBody.appendChild(row);
+    return row;
+}
+
+
+function addCell(row, type, input) {
+  //console.log('addCell');
+    var cell = document.createElement(type);
+    cell.innerHTML = input;
+    row.appendChild(cell);
+    return cell;
+}
+
+
+function productSelected(selected) {										//records which product is selected and generates what happens next
+    console.log("productSelected");
+    rt = endTime - startTime;
+    if (rt < minTrialTime) {
+        var output = "";
+        /* Output-file appearance on a "Too Fast!" trial
+        For each product:
+        Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
+        Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N);
+        */
+    for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
+        output += nCurrentBlock +", " + nCurrentTrial + ", ";
+        for (var currentFeature = 0; currentFeature < numFeatures; currentFeature++) {
+            output += productArray[currentproduct].features[usingFeatures[currentFeature]] + ", ";
+        }
+        output += rt + ", ";
+        output += "fast" + ", ";
+        if (tooSlowPresent == true) {
+        output += maxTrialTime + ", ";
+    	}
+    	else {
+    	output += "null" + ", ";
+    	}
+        output += fixationTime + ", ";
+         if (stimulus == 0)
+        	output += "0, "
+        else if (stimulus == 1)
+        	output += "1, "
+        else if (stimulus == 2)
+        	output += "2, "
+        else
+        	output += "0, "
+
+        if (currentproduct == recommendedproduct)
+            output += "1, "
+        else
+            output += "0, "
+
+        if (currentproduct == selected)
+            output += "1;\n"
+        else
+            output += "0;\n"
+    }
+    dataOutput.push(output);
+    console.log("productSelected-tooFastTrial")
+        tooFast();
+        }
+    else {
+      /* Output file appearance on a valid trial
+      For each product:
+      Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
+      Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N);
+      */
+    var output = "";
+    for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
+        output += nCurrentBlock +", " + nCurrentTrial + ", ";
+        for (var currentFeature = 0; currentFeature < numFeatures; currentFeature++) {
+            output += productArray[currentproduct].features[usingFeatures[currentFeature]] + ", ";
+        }
+
+        output += rt + ", ";
+        output += "null" + ", ";
+        if (tooSlowPresent == true) {
+        output += maxTrialTime + ", ";
+    	}
+    	else {
+    	output += "null" + ", ";
+    	}
+    	output += fixationTime + ", ";
+          if (stimulus == 0)
+        	output += "0, "
+        else if (stimulus == 1)
+        	output += "1, "
+        else if (stimulus == 2)
+        	output += "2, "
+        else
+        	output += "0, "
+
+        if (currentproduct == recommendedproduct)
+            output += "1, "
+        else
+            output += "0, "
+
+        if (currentproduct == selected)
+            output += "1;\n"
+        else
+            output += "0;\n"
+    }
+    dataOutput.push(output);
+    posiFeedback();
+    console.log("productSelected - Valid Trial")
+}
+}
+
+
+function posiFeedback() {
+  inTimeDiv.show();
+  console.log("Valid trial positive feedback")
+  pFeedbackTO = setTimeout(nextRound, 500);
+}
+
+
+function startTimer() { //starts the timer
+  console.log("startTimer")												
+    startDate = new Date();
+    startTime = startDate.getTime();
+    countdownEndTime = startTime + maxTrialTime;
+    inTrial = true;
+	}
+
+/*
+function timeLeft() {												//function that writes how long left
+console.log("timeLeft")
+      if (timerPresent == true) {
+   		 if (tooSlowPresent == true) {
+    		countdownEndTime = startTime + maxTrialTime;
+    		TimeRemaining = (countdownEndTime - new Date())/1000;
+    		if (TimeRemaining > 0) {
+    			document.getElementById('timeLeft').innerHTML = Number(Math.round(TimeRemaining+'e0')+'e-0');
+    			countdownTimeout = setTimeout (timeLeft, counter);
+    		}
+    		else {
+    			document.getElementById('timeLeft').innerHTML = 0;
+    			countdownTimeout = setTimeout (timeLeft, counter);
+   				 }
+    		}
+    		else {
+    			document.getElementById('timeLeft').innerHTML = NA;
+    			countdownTimeout = setTimeout (timeLeft, counter);
+    			}
+    		}
+    	else {
+    	}
+	}
+*/
+
+function stopTimer() {  //after product selected, gets time and calculates time taken
+  //console.log('stopTimer')												
+    endDate = new Date();
+    endTime = endDate.getTime();
+    inTrial = false;
+    clearTimeout(dceTimeout);
+	}
+
+
+
+function tooFast() {	  //when someone goes too fast (can set MinTrialTime above)
+  console.log("tooFast");
+  document.getElementById("productTable").style.display = "none";
+  tooFastDiv.show()
+  signalResponseCue.hide()
+	//progDiv();
+  nCurrentTrial++;
+  if (nCurrentTrial == nTrials) {
+        endOfBlock();
+        }
+  else {
+        contWaitTime = setTimeout(fastTimeout, waitTime);
+        }
+    }
+
+
+function fastTimeout() {
+  //console.log("fastTimeout");
+  stopContEvent = true;
+  clearTimeout(contWaitTime)
+  spacebarToContinue.show()
+  document.addEventListener('keyup', contKP, false);
+}
+
+
+function contKP(event) {
+  if (event.keyCode == 32 && stopContEvent == true){
+           stopContEvent = false;
+           event.preventDefault();
+           document.removeEventListener('keyup', contKP, false);
+           spacebarToContinue.hide()
+           tooSlowDiv.hide()
+           tooFastDiv.hide()
+           postTrial();
+           //console.log('spacebar Pressed')
+          }
+         }
+
+function tooSlow() {	//when someone doesnt respond fast enough. Can set this above. Records mode as slow and doesnt show a selected product
+  //console.log("tooSlow");
+  stopTimer();
+  document.removeEventListener('keyup', recordKP, false);
+  document.getElementById("productTable").style.display = "none";
+  tooSlowDiv.show();
+  signalResponseCue.hide();
+	clearTimeout(srwTimeout);
+	rt = endTime - startTime;
+  /* Output file appearance on a "TOO SLOW" trial
+  Records the following data for each product/option on a single trial
+  Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
+  Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N); */
+  var output = "";
+  for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
+        output += nCurrentBlock +", " + nCurrentTrial + ", ";
+       for (var currentFeature = 0; currentFeature < numFeatures; currentFeature++) {
+           output += productArray[currentproduct].features[usingFeatures[currentFeature]] + ", ";
+      }
+       	output += rt + ", ";
+    	output += "Slow" + ", ";
+        if (tooSlowPresent == true) {
+        output += maxTrialTime + ", ";
+    	}
+    	else {
+    	output += "null" + ", ";
+    	}
+        output += fixationTime + ", ";
+        if (stimulus == 0)
+        	output += "0, "
+        else if (stimulus == 1)
+        	output += "1, "
+        else if (stimulus == 2)
+        	output += "2, "
+        else
+        	output += "0, "
+
+       if (currentproduct == recommendedproduct)
+            output += "1, " + "0;\n"
+       else
+           output += "0, " + "0;\n"
+           }
+
+    dataOutput.push(output);
+    nCurrentTrial++;
+	 if (nCurrentTrial == nTrials) {
+        endOfBlock();
+        }
+        else {
+            contWaitTime = setTimeout(fastTimeout, waitTime);
+            }
+}
+
+
+function nextRound() {										//moves to the next trial
+    //console.log("nextRound");
+    clearTimeout(pFeedbackTO);
+    inTimeDiv.hide();
+    nCurrentTrial++;
+    if (nCurrentTrial < nTrials) {
+        postTrial();
+        }
+    else {
+        endOfBlock();
+        }
+    }
+
+
+
+function endOfBlock() {									//works out the end of the block
+ 	//console.log("endOfBlock");
+  tooFastDiv.hide();
+  tooSlowDiv.hide();
+ 	nCurrentTrial = (nCurrentTrial - nTrials);
+ 	nCurrentBlock++;
+ 	 if (randomProductsMode == 3) {
+ 	 var randomSelectedProduct = Math.floor(Math.random() * specificNumProducts.length);
+    blockProducts = specificNumProducts[randomSelectedProduct];
+    }
+    else {
+    }
+ 	if (nCurrentBlock < nBlocks) {
+ 		showEndBlock();
+ 		}
+ 	else {
+ 		endOfExperiment();
+ 	}
+ }
+
+
+
+function showEndBlock() {									//shows "end of block"
+  //console.log("showEndBlock")
+  regEOBKP = true;
+  endBlock.show()
+  document.getElementById('chosenProduct').innerHTML = yourProd;
+  document.getElementById("productTable").style.display = "none";
+  document.addEventListener('keyup', endOBContKP,false);
+  //progDiv();
+}
+
+
+
+function endOBContKP(event) { // Event listener for end of block key press
+  //console.log("endOBContKP")
+  if (event.keyCode == 32 && regEOBKP == true){
+           regEOBKP = false;
+           event.preventDefault();
+           document.removeEventListener('keyup', endOBContKP, false);
+           endBlock.hide();
+           produceDurationsArray();
+          }
+         }
+
+
+
+function endOfExperiment() {	//shows the experiment end
+  //console.log("endOfExperiment")
+  expEnd.show()
+  document.getElementById("productTable").style.display = "none";
+  //console.log(dataOutput);
+  endExpTO = setTimeout(saveResults, 2000);
+}
+
+
+
+function saveResults() {	   //function to save the output file to php
+    //console.log("saveResults");
+    clearTimeout(endExpTO)
+    /* Output file appearance
+    Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
+    Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N);
+    */
+    var output_txt = "block, " + "trial, ";
+    for (i = 0; i < numFeatures; i++)
+    output_txt += "feature_" + i + ", ";
+    output_txt += "rt, ";
+    output_txt += "Error, ";
+    output_txt += "MaxTrialTime, ";
+    output_txt += "fixationTime, ";
+    output_txt += "Condition, ";
+    output_txt += "recommended, ";
+    output_txt += "selected\n";
+
+    for (var i = 0; i < dataOutput.length; i++) {
+        output_txt += dataOutput[i].toString() + "\n";
+    }
+    //console.log("check");
+
+    //send data to PHP on server
+    //var experimentDataRequest = new XMLHttpRequest();
+    //experimentDataRequest.open("POST", "save.php", false);  //syncron
+    //experimentDataRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    var expVarTxt = output_txt;
+    var expVarFn = username;
+    var expSendVariables = "" + expVarTxt + "SonaID=" + expVarFn + " Chosen Product: " + yourProd;
+
+    //experimentDataRequest.send(expSendVariables);
+    //console.log(expSendVariables);
+
+    //from:  http://help.dottoro.com/ljskourt.php
+jatos.submitResultData(expSendVariables, pointsLink);
+    //console.log(experimentDataRequest.responseText);
+    pointsLink()
+}
+
+
+/* SONA point credit options - Information found here https://psych.newcastle.edu.au/sona/researchers/SONA_external_credit.pdf
+
+// The client-side completion URL will look like this:
+    https://newcastle.sona-systems.com/webstudy_credit.aspx?experiment_id=123&credit_token=9185d436e5f94b1581b0918162f6d7e8&survey_code=XXXX
+// The server-side completion URL will look like this (if displayed):
+  https://newcastle.sona-systems.com/services/SonaAPI.svc/WebstudyCredit?experiment_id=123&credit_token=9185d436e5f94b1581b0918162f6d7e8&survey_code=XXXX
+*/
+
+
+function pointsLink() {
+        var url = "https://newcastle.sona-systems.com/services/SonaAPI.svc/WebstudyCredit?experiment_id=1062&credit_token=c4eac5ef19974180ab814513d16d76ce&survey_code=" + username;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", url, true);
+    xhttp.send();
+    jatos.endStudyAjax(true)
+  }
+
+
+
+/*
+function pointsLink() { // Original pointslink function
+        setTimeout(function() {
+        window.location.href = "https://newcastle.sona-systems.com/webstudy_credit.aspx?experiment_id=947&credit_token=d75b5797aa44475bac6c2e9753029335&survey_code=" + username;
+      }, 2000);
+
+          jatos.endStudy();
+       }
+*/
+
+</script>
+</body>
+</html>
