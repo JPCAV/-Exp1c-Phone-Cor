@@ -179,7 +179,7 @@
 
 // ----- Customisation -----
 const online = true;												                  // Is the current version online or not
-const numFeatures = 2;  	 			     			  	 		            // Number of Attributes/Features for each poduct
+const numAttributes = 2;  	 			     			  	 		            // Number of Attributes/Features for each poduct
 const randomProductsMode = 2; 				   				 		          /* Number of Options in a trial
                                                                     Modes: 
                                                                     0 = Choose a random product from 'specificNumProducts' randomised per trial 
@@ -532,7 +532,7 @@ function initialiseProductsetup() {
             else {
             }
     // To set the features being used, casually remove them randomly until it's the right length
-    for (var i = 0; i < usingFeatures.length - numFeatures; i++)
+    for (var i = 0; i < usingFeatures.length - numAttributes; i++)
         usingFeatures.splice(Math.floor(Math.random() * usingFeatures.length), 1);
         if (randomPresentation == 1) {
          for (var i = 0; i < usingFeatures.length; i++) {
@@ -743,7 +743,7 @@ function generateProductArray() {									//makes the array of Products
           while(duplicateproduct == true) {
             tmpproduct = createNewProduct();
             // check whether product is unique in this trials
-            for(var j = 0; j < numFeatures; j++) {
+            for(var j = 0; j < numAttributes; j++) {
               if(tmpproduct.features[j] != productArray[0].features[j]) duplicateproduct = false;
             }
           }
@@ -774,7 +774,7 @@ function createNewProduct() {								//creates Products
     // New product
     var product = {features:[]};
     // Add the features
-    for (var i = 0; i < numFeatures; i++) {
+    for (var i = 0; i < numAttributes; i++) {
         // Pick a random value for the feature
         var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length));
         product.features[usingFeatures[i]] = features[usingFeatures[i]][randomValue];
@@ -814,7 +814,7 @@ function updateTable() {									//makes the product table
     }*/
 
     // Fill the data in
-    for (var currentFeature = 0; currentFeature < numFeatures; currentFeature++) {
+    for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
         var row = createRow();
 
         for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
@@ -914,7 +914,7 @@ function productSelected(selected) {										//records which product is selecte
         */
     for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
-        for (var currentFeature = 0; currentFeature < numFeatures; currentFeature++) {
+        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
             output += productArray[currentproduct].features[usingFeatures[currentFeature]] + ", ";
         }
         output += rt + ", ";
@@ -958,7 +958,7 @@ function productSelected(selected) {										//records which product is selecte
     var output = "";
     for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
-        for (var currentFeature = 0; currentFeature < numFeatures; currentFeature++) {
+        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
             output += productArray[currentproduct].features[usingFeatures[currentFeature]] + ", ";
         }
 
@@ -1102,7 +1102,7 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
   var output = "";
   for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
-       for (var currentFeature = 0; currentFeature < numFeatures; currentFeature++) {
+       for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
            output += productArray[currentproduct].features[usingFeatures[currentFeature]] + ", ";
       }
        	output += rt + ", ";
@@ -1220,7 +1220,7 @@ function saveResults() {	   //function to save the output file to php
     Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N);
     */
     var output_txt = "block, " + "trial, ";
-    for (i = 0; i < numFeatures; i++)
+    for (i = 0; i < numAttributes; i++)
     output_txt += "feature_" + i + ", ";
     output_txt += "rt, ";
     output_txt += "Error, ";
