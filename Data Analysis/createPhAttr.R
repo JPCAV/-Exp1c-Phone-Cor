@@ -23,7 +23,7 @@ for (pkg in pkgs){
 # locate file directory
 setwd("/Users/jpc/Documents/PhD/Experiments/Exp_1c-Phone Cor/Data Analysis")
 # Read in excel sheet with phone attributes
-phoneAtts <- read_excel("phone-attributes.xlsx")
+phoneAtts <- read_excel("original-phone-attributes.xlsx")
 # Remove brand and model columns
 phoneAtts <- select(phoneAtts,
                     c(`price ($)`, `camera (MP)`, `memory (GB)`, 

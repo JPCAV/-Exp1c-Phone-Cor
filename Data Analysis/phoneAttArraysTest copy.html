@@ -1,0 +1,233 @@
+<script>
+
+let uncorrPhAtts = [
+  {price: "$44", camera: "5MP", memory: "8GB", screenSize: '5"',resolution: "1280 x 720"},
+  {price: "$134", camera: "13MP", memory: "16GB", screenSize: '5"', resolution: "1280 x 720"},
+  {price: "$179", camera: "8MP", memory: "8GB", screenSize: '5"', resolution: "1280 x 720"},
+  {price: "$179", camera: "16MP", memory: "32GB", screenSize: '5.2"', resolution: "1920 x 1080"},
+  {price: "$199", camera: "13MP", memory: "64GB", screenSize: '6.1"', resolution: "1560 x 720"},
+  {price: "$199", camera: "13MP", memory: "16GB", screenSize: '5.7"', resolution: "1520 x 720"},
+  {price: "$199", camera: "13MP", memory: "32GB", screenSize: '5.5"', resolution: "1440 x 720"},
+  {price: "$229", camera: "13MP", memory: "32GB", screenSize: '6.2"', resolution: "1520 x 720"},
+  {price: "$239", camera: "13MP", memory: "64GB", screenSize: '6.2"', resolution: "1520 x 720"},
+  {price: "$249", camera: "13MP", memory: "64GB", screenSize: '6.4"', resolution: "1544 x 720"},
+  {price: "$249", camera: "13MP", memory: "32GB", screenSize: '5.5"', resolution: "1920 x 1080"},
+  {price: "$249", camera: "13MP", memory: "32GB", screenSize: '6.3"', resolution: "1520 x 720"},
+  {price: "$279", camera: "13MP", memory: "32GB", screenSize: '6.4"', resolution: "1560 x 720"},
+  {price: "$279", camera: "13MP", memory: "64GB", screenSize: '6.2"', resolution: "1520 x 720"},
+  {price: "$279", camera: "13MP", memory: "32GB", screenSize: '5.5"', resolution: "2160 x 1080"},
+  {price: "$299", camera: "13MP", memory: "64GB", screenSize: '6.2"', resolution: "1520 x 720"},
+  {price: "$299", camera: "13MP", memory: "32GB", screenSize: '5.7"', resolution: "1520 x 720"},
+  {price: "$299", camera: "12MP", memory: "64GB", screenSize: '5.7"', resolution: "2560 x 1440"},
+  {price: "$299", camera: "13MP", memory: "128GB", screenSize: '6.4"', resolution: "1544 x 720"},
+  {price: "$299", camera: "16MP", memory: "32GB", screenSize: '5.5"', resolution: "1920 x 1080"},
+  {price: "$299", camera: "16MP", memory: "64GB", screenSize: '6.3"', resolution: "1520 x 720"},
+  {price: "$299", camera: "16MP", memory: "64GB", screenSize: '6.5"', resolution: "1600 x 720"},
+  {price: "$299", camera: "12MP", memory: "32GB", screenSize: '5.2"', resolution: "1920 x 1080"},
+  {price: "$349", camera: "16MP", memory: "128GB", screenSize: '6.6"', resolution: "2340 x 1080"},
+  {price: "$379", camera: "16MP", memory: "32GB", screenSize: '6.4"', resolution: "1920 x 1080"},
+  {price: "$379", camera: "16MP", memory: "32GB", screenSize: '5.7"', resolution: "1920 x 1080"},
+  {price: "$399", camera: "48MP", memory: "128GB", screenSize: '6.5"', resolution: "2340 x 1080"},
+  {price: "$399", camera: "16MP", memory: "128GB", screenSize: '6.3"', resolution: "2340 x 1080"},
+  {price: "$399", camera: "16MP", memory: "64GB", screenSize: '6.3"', resolution: "2280 x 1080"},
+  {price: "$399", camera: "48MP", memory: "128GB", screenSize: '6.3"', resolution: "2520 x 1080"},
+  {price: "$399", camera: "24MP", memory: "128GB", screenSize: '6.2"', resolution: "2312 x 1080"},
+  {price: "$399", camera: "12MP", memory: "32GB", screenSize: '5.2"', resolution: "1920 x 1080"},
+  {price: "$399", camera: "16MP", memory: "128GB", screenSize: '6.4"', resolution: "2340 x 1080"},
+  {price: "$399", camera: "48MP", memory: "128GB", screenSize: '6.1"', resolution: "1560 x 720"},
+  {price: "$399", camera: "12MP", memory: "128GB", screenSize: '5.0"', resolution: "1920 x 1080"},
+  {price: "$399", camera: "16MP", memory: "32GB", screenSize: '5.1"', resolution: "2560 x 1440"},
+  {price: "$449", camera: "48MP", memory: "128GB", screenSize: '6.4"', resolution: "2340 x 1080"},
+  {price: "$449", camera: "12MP", memory: "32GB", screenSize: '5.8"', resolution: "2280 x 1080"},
+  {price: "$499", camera: "12MP", memory: "32GB", screenSize: '4.7"', resolution: "1334 x 750"},
+  {price: "$499", camera: "25MP", memory: "64GB", screenSize: '6.4"', resolution: "2340 x 1080"},
+  {price: "$499", camera: "48MP", memory: "128GB", screenSize: '5.5"', resolution: "2340 x 1080"},
+  {price: "$499", camera: "12MP", memory: "64GB", screenSize: '6.2"', resolution: "2280 x 1080"},
+  {price: "$499", camera: "20MP", memory: "128GB", screenSize: '5.5"', resolution: "2560 x 1440"},
+  {price: "$499", camera: "12MP", memory: "128GB", screenSize: '5.5"', resolution: "2560 x 1440"},
+  {price: "$499", camera: "23MP", memory: "32GB", screenSize: '5.5"', resolution: "3840 x 2160"},
+  {price: "$499", camera: "13MP", memory: "64GB", screenSize: '5.7"', resolution: "2880 x 1440"},
+  {price: "$549", camera: "48MP", memory: "128GB", screenSize: '6.3"', resolution: "2280 x 1080"},
+  {price: "$549", camera: "16MP", memory: "32GB", screenSize: '5.6"', resolution: "2220 x 1080"},
+  {price: "$599", camera: "12MP", memory: "128GB", screenSize: '4.7"', resolution: "1334 x 750"},
+  {price: "$599", camera: "48MP", memory: "128GB", screenSize: '6.5"', resolution: "2340 x 1080"},
+  {price: "$599", camera: "48MP", memory: "128GB", screenSize: '6.3"', resolution: "2340 x 1080"},
+  {price: "$599", camera: "48MP", memory: "128GB", screenSize: '6.4"', resolution: "2340 x 1080"},
+  {price: "$599", camera: "20MP", memory: "128GB", screenSize: '6.4"', resolution: "2340 x 1080"},
+  {price: "$649", camera: "32MP", memory: "128GB", screenSize: '6.7"', resolution: "2400 x 1080"},
+  {price: "$649", camera: "12MP", memory: "64GB", screenSize: '5.6"', resolution: "2220 x 1080"},
+  {price: "$699", camera: "12MP", memory: "128GB", screenSize: '6.0"', resolution: "2880 x 1440"},
+  {price: "$699", camera: "12MP", memory: "128GB", screenSize: '6.4"', resolution: "2340 x 1080"},
+  {price: "$699", camera: "20MP", memory: "256GB", screenSize: '6.4"', resolution: "2340 x 1080"},
+  {price: "$699", camera: "12MP", memory: "128GB", screenSize: '6.4"', resolution: "3120 x 1400"},
+  {price: "$699", camera: "12MP", memory: "32GB", screenSize: '3.3"', resolution: "1280 x 720"},
+  {price: "$779", camera: "12MP", memory: "64GB", screenSize: '4.7"', resolution: "1334 x 750"},
+  {price: "$799", camera: "12MP", memory: "64GB", screenSize: '6.2"', resolution: "2960 x 1440"},
+  {price: "$799", camera: "12MP", memory: "128GB", screenSize: '5.5"', resolution: "1920 x 1080"},
+  {price: "$799", camera: "13MP", memory: "32GB", screenSize: '4.5"', resolution: "1620 x 1080"},
+  {price: "$859", camera: "12MP", memory: "128GB", screenSize: '4.7"', resolution: "1334 x 750"},
+  {price: "$879", camera: "12MP", memory: "128GB", screenSize: '5.5"', resolution: "2160 x 1080"},
+  {price: "$899", camera: "40MP", memory: "128GB", screenSize: '6.1"', resolution: "2340 x 1080"},
+  {price: "$899", camera: "12MP", memory: "256GB", screenSize: '5.8"', resolution: "2960 x 1400"},
+  {price: "$899", camera: "12MP", memory: "64GB", screenSize: '6.3"', resolution: "2960 x 1440"},
+  {price: "$999", camera: "12MP", memory: "64GB", screenSize: '5.8"', resolution: "2436 x 1125"},
+  {price: "$999", camera: "16MP", memory: "128GB", screenSize: '5.8"', resolution: "2280 x 1080"},
+  {price: "$999", camera: "48MP", memory: "128GB", screenSize: '6.7"', resolution: "2400 x 1080"},
+  {price: "$999", camera: "12MP", memory: "256GB", screenSize: '6.2"', resolution: "2960 x 1440"},
+  {price: "$999", camera: "12MP", memory: "128GB", screenSize: '6.3"', resolution: "2960 x 1440"},
+  {price: "$1049", camera: "16MP", memory: "64GB", screenSize: '5.7"', resolution: "2280 x 1080"},
+  {price: "$1049", camera: "12MP", memory: "64GB", screenSize: '6.1"', resolution: "1792 x 868"},
+  {price: "$1129", camera: "12MP", memory: "128GB", screenSize: '6.1"', resolution: "1792 x 868"},
+  {price: "$1149", camera: "12MP", memory: "256GB", screenSize: '5.8"', resolution: "2436 x 1125"},
+  {price: "$1199", camera: "12MP", memory: "64GB", screenSize: '6.1"', resolution: "1792 x 828"},
+  {price: "$1199", camera: "16MP", memory: "128GB", screenSize: '6.4"', resolution: "3040 x 1440"},
+  {price: "$1199", camera: "40MP", memory: "256GB", screenSize: '6.5"', resolution: "2340 x 1080"},
+  {price: "$1199", camera: "16MP", memory: "128GB", screenSize: '5.7"', resolution: "2280 x 1080"},
+  {price: "$1199", camera: "16MP", memory: "512GB", screenSize: '6.1"', resolution: "3040 x 1440"},
+  {price: "$1249", camera: "12MP", memory: "64GB", screenSize: '6.5"', resolution: "2688 x 1242"},
+  {price: "$1279", camera: "12MP", memory: "128GB", screenSize: '6.1"', resolution: "1792 x 828"},
+  {price: "$1279", camera: "16MP", memory: "64GB", screenSize: '6.3"', resolution: "3040 x 1440"},
+  {price: "$1349", camera: "12MP", memory: "512GB", screenSize: '5.8"', resolution: "2436 x 1125"},
+  {price: "$1399", camera: "12MP", memory: "256GB", screenSize: '6.5"', resolution: "2688 x 1242"},
+  {price: "$1429", camera: "16MP", memory: "128GB", screenSize: '6.3"', resolution: "3040 x 1440"},
+  {price: "$1449", camera: "12MP", memory: "256GB", screenSize: '6.1"', resolution: "1792 x 828"},
+  {price: "$1599", camera: "16MP", memory: "512GB", screenSize: '6.4"', resolution: "3040 x 1440"},
+  {price: "$1699", camera: "12MP", memory: "256GB", screenSize: '6.8"', resolution: "3040 x 1440"},
+  {price: "$1699", camera: "16MP", memory: "1000GB", screenSize: '6.4"', resolution: "3040 x 1440"},
+  {price: "$1749", camera: "12MP", memory: "64GB", screenSize: '5.8"', resolution: "2436 x 1125"},
+  {price: "$1899", camera: "12MP", memory: "64GB", screenSize: '6.5"', resolution: "2688 x 1242"},
+  {price: "$1999", camera: "12MP", memory: "256GB", screenSize: '5.8"', resolution: "2436 x 1125"},
+  {price: "$1999", camera: "12MP", memory: "512GB", screenSize: '6.8"', resolution: "3040 x 1440"},
+  {price: "$2149", camera: "12MP", memory: "256GB", screenSize: '6.5"', resolution: "2688 x 1242"},
+  {price: "$2349", camera: "12MP", memory: "512GB", screenSize: '5.8"', resolution: "2436 x 1125"},
+  {price: "$2499", camera: "12MP", memory: "512GB", screenSize: '6.5"', resolution: "2688 x 1242"},
+  ]
+
+
+let memLvls = [ 
+"8GB", "16GB", "8GB", "32GB", "64GB", "16GB", "32GB", "32GB", "64GB", "64GB",
+"32GB", "32GB", "32GB", "64GB", "32GB", "64GB", "64GB", "32GB", "64GB", "128GB",
+"32GB", "64GB", "64GB", "32GB", "128GB", "32GB", "32GB", "128GB", "128GB", "64GB",
+"128GB", "128GB", "32GB", "128GB", "128GB", "128GB", "32GB", "128GB", "32GB", "32GB",
+"64GB", "128GB", "64GB", "128GB", "128GB", "32GB", "64GB", "128GB", "32GB", "128GB",
+"128GB", "128GB", "128GB", "128GB", "128GB", "64GB", "128GB", "128GB", "256GB", "128GB",
+"32GB", "64GB", "64GB", "128GB", "32GB", "128GB", "128GB", "128GB", "256GB", "64GB",
+"64GB", "128GB", "128GB", "256GB", "128GB", "64GB", "64GB", "128GB", "256GB", "64GB",
+"128GB", "256GB", "128GB", "512GB", "64GB", "128GB", "64GB", "512GB", "256GB", "128GB",
+"256GB", "512GB", "256GB", "1000GB", "64GB", "64GB", "256GB", "512GB", "256GB", "512GB",
+"512GB",
+]
+
+
+
+let scSzLvls = []
+
+let priceLvls = [
+"$44", "$134", "$179", "$179", "$199", "$199", "$199", "$229", "$239", "$249",
+"$249", "$249", "$279", "$279", "$279", "$299", "$299", "$299", "$299", "$299",
+"$299", "$299", "$299", "$349", "$379", "$379", "$399", "$399", "$399", "$399",
+"$399", "$399", "$399", "$399", "$399", "$399", "$449", "$449", "$499", "$499",
+"$499", "$499", "$499", "$499", "$499", "$499", "$549", "$549", "$599", "$599",
+"$599", "$599", "$599", "$649", "$649", "$699", "$699", "$699", "$699", "$699",
+"$779", "$799", "$799", "$799", "$859", "$879", "$899", "$899", "$899", "$999", 
+"$999", "$999", "$999", "$999", "$1049", "$1049", "$1129", "$1149", "$1199", "$1199", 
+"$1199", "$1199", "$1199", "$1249", "$1279", "$1279", "$1349", "$1399", "$1429","$1449",
+"$1599","$1699","$1699","$1749","$1899","$1999","$1999","$2149","$2349","$2499",]
+
+
+for(let phone of uncorrPhAtts){
+  resLvls.push([phone.resolution])
+}
+ console.log(resLvls)
+
+
+
+/*
+function mobilePhone(price, camera, memory, screenSize, resolution) {
+  this.price = price;
+  this.camera = camera;
+  this.memory = memory;
+  this.screenSize = screenSize;
+  this.resolution = resolution;
+}
+
+var myphone = new mobilePhone("$4999", '12MP', '43gb', "7.0", "1280 x 1080")
+console.log(myphone)
+
+
+
+
+function shuffleArr(arr) {    // This shuffle/randomise function lifted from https://bost.ocks.org/mike/shuffle/
+                              // Shuffle function - Pick a random element, swap with last element in back of array/list.
+  let m = arr.length, t, i;   // Shorthand for var m = arr.length, var t;, var i; i.e. multiple elements  
+    while (m) {               // While there remain elements to shuffle (i.e. m = > 0)
+                              // Pick a remaining element
+                              // Generate a random number within the range of no. durations array and round down
+      i = Math.floor(Math.random() * m--); 
+                              // And swap it with the current element.
+      t = arr[m];
+                              // var t = the last element in durations array/list
+      arr[m] = arr[i];
+                              // Swap the last element in the durations array/list to the
+                              // randomly chosen element in the durations array/list
+      arr[i] = t;
+                              // and swap element durations[i] with the formerly last element of the durations array/list
+    }
+  return arr;
+  //console.log(shuffleArr)
+}
+
+// Shuffle all correlated options
+shuffleArr(corrPhAtts) 
+// Options are indices within the corrPhAtts array
+console.log(corrPhAtts[[1]])
+// Each phone is described by 5 attributes - Price, Camera, Memory, screen size and resolution
+// The location of each attribute should be randomised b/w subjects
+
+shuffleArr(uncorrPhAtts) // Shuffle all correlated options in the 
+
+///console.log(uncorrPhAtts)
+
+//console.log(uncorrPhAtts[2])
+
+
+const randomPresentation = 1; 	
+const numAttributes = 3;
+const randomProductsMode = 2;
+const specificNumProducts = ["2", "4", "8"];
+var nCurrentBlock = 0
+var features = [	 // Array containing attributes and their levels (e.g. product attributes, pizza attributes)
+  ["Low Price", "High Price",],
+  ["Low Quality", "High Quality",],
+  ["whatever", "whaetves",],
+  ];
+var usingFeatures = [];
+var randomSelectedProduct = Math.floor(Math.random() * specificNumProducts.length);
+  blockProducts = specificNumProducts[randomSelectedProduct];
+  console.log(blockProducts) //hd r r y y
+
+
+
+console.log(usingFeatures)
+
+if (nCurrentBlock == 0) {
+    for (var i = 0; i < features.length; i++)
+              usingFeatures.push(i);
+              console.log(usingFeatures);// 
+          // To set the features being used, casually remove them randomly until it's the right length
+          for (var i = 0; i < usingFeatures.length - numAttributes; i++)
+              usingFeatures.splice(Math.floor(Math.random() * usingFeatures.length), 1);
+              console.log(usingFeatures)
+              if (randomPresentation == 1) { // This randomises the location of attributes between-subjects 
+               for (var i = 0; i < usingFeatures.length; i++) 
+                      var randomFeature = Math.floor(Math.random() * usingFeatures.length);
+                      var temp = usingFeatures[i];
+                      usingFeatures[i] = usingFeatures[randomFeature];
+                      usingFeatures[randomFeature] = temp;
+              }
+            }
+
+            console.log(usingFeatures) // niyigiy
+            */
+
+</script>
