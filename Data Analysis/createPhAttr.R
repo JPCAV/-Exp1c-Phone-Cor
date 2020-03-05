@@ -31,7 +31,9 @@ phoneAtts <- select(phoneAtts,
                       `pixels width`)) %>% # Change column names
   rename(c("price" = `price ($)`, "camera" = `camera (MP)`, "memory" = `memory (GB)`, 
            "screen_size" = `Device screen size (inches)`)) %>% # Create resolution column
-  unite("resolution", c(`pixels height`, `pixels width`), sep = " x ")
+  unite("resolution", c(`pixels height`, `pixels width`), sep = " x ") %>% 
+  mutate(price = glue("${price}"), camera = glue("{camera}MP"), # Insert dollar sign, MP, GB, inches "
+       memory = glue("{memory}GB"), screen_size = glue({'{screen_size}"'}))
 # Export as csv  
 write_excel_csv(x = phoneAtts, path = "phoneAtts.csv")
                
