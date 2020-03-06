@@ -179,7 +179,7 @@
 
 // ----- Customisation -----
 const online = true;												                  // Is the current version online or not
-const numAttributes = 5;  	 			     			  	 		            // Number of Attributes/Features for each poduct
+const numAttributes = 5;  	 			     			  	 		          // Number of Attributes/Attributes for each poduct
 const randomProductsMode = 2; 				   				 		          /* Number of Options in a trial
                                                                     Modes: 
                                                                     0 = Choose a random product from 'specificNumProducts' randomised per trial 
@@ -187,7 +187,7 @@ const randomProductsMode = 2; 				   				 		          /* Number of Options in a 
                                                                     2 = static Products from 'fixedProducts'
                                                                     3 = Static Products from 'fixedProducts' randomised per block
                                                                     4 = static Products, randomised BS. */
-const randomPresentation = 1; 									              /* Feature Order Presentation
+const randomPresentation = 1; 									              /* Attribute order presentation for DCE
                                                                     Modes: 
                                                                     0 = set order of Products 
                                                                     1 = between subjects randomisation of order 
@@ -195,7 +195,7 @@ const randomPresentation = 1; 									              /* Feature Order Presentati
 const minProducts = 2;                         				 		    // 'randomProductsMode' = 1, min Products to choose from
 const maxProducts = 2;                         				 		    // 'randomProductsMode' = 1, max Products to choose from
 const fixedProducts = 3;                      				 		    // 'randomProductsMode' = 2, always have 'fixedProducts' number of Products
-const specificNumProducts = ["2", "4", "8"]; 						      // Specific number of product to be randomly chosen from
+//const specificNumProducts = ["2", "4", "8"]; 						      // Specific number of product to be randomly chosen from
 const BSProducts = ["2", "4", "8"];									          // Random product options for BS design
 const recommendation = false;		            					        // Is there a recommended option
 const trialInstructions = false;									            // Change to false to turn off fast or accurate
@@ -203,12 +203,11 @@ const progressOn = false;											                // Is the progress bit on?
 const randomTimer = true; 										                // Is the timer random?
 const timerPresent = false;										                // Is the timer present?
 const tooSlowPresent = true;										              // Does the choice timeout?
-const fastOrAccurate = [1,2]; 									                
-const nTrials = 40;												                    // Number of trials per block
-const nBlocks = 12;												                    // Number of blocks in experiment
+const fastOrAccurate = [1,2]; 									              // SAT Manipulation - Fast = 1, Accuratate = 2 
+const nTrials = 40; // Old phone DCE - 25 trials              // Number of trials per block
+const nBlocks = 12;	// Old phone DCE - 6 blocks               // Number of blocks in experiment
 const waitTime = 2000;											                  // Time participant must wait, after a 'too fast' response, before they can continue
 var maxTrialTime = [];											                  // Maximum trial time - The length of time a stimulus is shown for
-// var maxTrialTimeOpt = [100, 200, 400, 800, 1200, 2000, 4000];		// Stimulus durations (used if randomTimer = true) - This var from old exp
 const setMaxTrialTime = 300;									                // Set maximum trial time (used if randomtimer = false)
 const minTrialTime = 150;											                // Minimum trial time
 const stimTime = 1000;											                  // Stimulus duration of SAT instructions (when trialInstructions = true)
@@ -221,7 +220,7 @@ const exponentialRate = .002;                                 /* Rate parameter 
                                                                  combined with minfixationtime = 500 gives mean inter-trial time of 1 second. 
                                                                  set maxfixationtime to something sensible (eg 5 seconds)*/
 // ------------ Variables created for RT Titration experiment ---------------                
-const sigTrialArr = [100, 200, 400, 800, 1200];               // Signal trial stimulus durations
+/* const sigTrialArr = [100, 200, 400, 800, 1200];               // Signal trial stimulus durations
 const regTrialArr = [10000];                                  // Regular trial stimulus durations
 const propSigTrials = 0.50                                    // Proportion of signal trials required in each block
 const propRegTrials = 0.50                                    // Proportion of free RT trials required in each block                                            
@@ -233,10 +232,10 @@ prelimRegArr.length = nRegTrials                              // Set no. of elem
 prelimSigArr.length = nSignalTrials                           // Set no. of elements in prelimSigArr
 var durations = [];                                           // Array to hold all stimulus durations for a single block
 const sigTrialMultip = nSignalTrials / sigTrialArr.length     // Calculate a multiplier for signal trials to fill prelimSigArr
-const regTrialMultip = nRegTrials / regTrialArr.length        // Calculate a multiplier for signal trials to fill prelimSigArr
+const regTrialMultip = nRegTrials / regTrialArr.length */        // Calculate a multiplier for signal trials to fill prelimSigArr
 // ---------------------------------------------------------------------------
 const productBrands = ["A", "B", "C"]; 	                      // Array of options (e.g. product brands, pizza, phones etc)
-var features = [
+var attributes = [
 ["Resolution", "1280 x 720", "1280 x 720", "1280 x 720", "1920 x 1080", "1560 x 720", "1520 x 720", "1440 x 720", "1520 x 720", "1520 x 720", "1544 x 720",
 "1920 x 1080", "1520 x 720", "1560 x 720", "1520 x 720", "2160 x 1080", "1520 x 720", "1520 x 720", "2560 x 1440", "1544 x 720", "1920 x 1080",
 "1520 x 720", "1600 x 720", "1920 x 1080", "2340 x 1080", "1920 x 1080", "1920 x 1080", "2340 x 1080", "2340 x 1080", "2280 x 1080", "2520 x 1080",
@@ -310,7 +309,7 @@ var currentTime;
 var experimentTotalTime;
 var totaltrials = (nTrials*nBlocks);
 var productArray = [];
-var usingFeatures = [];
+var usingAttributes = [];
 var numProducts = [];
 var dataOutput = [];
 var recommendedproduct;
@@ -548,26 +547,12 @@ function shuffleArr(arr) {    // This shuffle/randomise function lifted from htt
   //console.log(shuffleArr)
 }
 
-function produceStimDurArr() {
-  console.log(produceStimDurArr)
-  fillPrelimArrays(regTrialMultip, regTrialArr, prelimRegArr)       // Fill prelim regular trial array
-  fillPrelimArrays(sigTrialMultip, sigTrialArr, prelimSigArr)       // Fill prelim signal trial array
-  durations = [...prelimSigArr,...prelimRegArr]                     /* Clone (deep copy) array i.e. DO NOT modify original array
-                                                                       This creates an immutable object - https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array */
-  shuffleArr(durations)
-  console.log('length of prelimsigarr', prelimSigArr)               // Enter an array as this function's argument to shuffle/randomise array                                   
-}
-
-
- 
 
 function initialiseSetup() { //makes the experiment start
-  produceStimDurArr();
   document.getElementById("productTable").style.display = "block";
   document.getElementById("totalProgress").innerHTML = totaltrials;
   //progDiv();
   console.log(initialiseSetup)
-  console.log('length of prelimsigarr', prelimSigArr)
 }
 
 
@@ -575,29 +560,29 @@ function initialiseProductsetup() {
   console.log("initialiseProductsetup");
   nCurrentTrial = 0;
   var randomSelectedProduct = Math.floor(Math.random() * specificNumProducts.length);
-  blockProducts = specificNumProducts[randomSelectedProduct];
-  if (nCurrentBlock == 0) {
-    for (var i = 0; i < features.length; i++)
-        usingFeatures.push(i);
-	if (randomProductsMode == 4) {
-	var randomSelectedProduct = Math.floor(Math.random() * BSProducts.length);
-            BSnumProducts = BSProducts[randomSelectedProduct];
+      blockProducts = specificNumProducts[randomSelectedProduct]; // How many options/products shown in each trial
+    if (nCurrentBlock == 0) { // Only on first block 
+      for (var i = 0; i < attributes.length; i++) // For the number of attributes in an option
+        usingAttributes.push(i); // Fill usingAttributes array - gives attribute order for the DCE. i.e. in numeric order 0,1,2,3,4
+	    if (randomProductsMode == 4) {
+	        var randomSelectedProduct = Math.floor(Math.random() * BSProducts.length);
+              BSnumProducts = BSProducts[randomSelectedProduct]; // Number of options/products shown on each trial - between/subjs 
+            }
+        else {
+          }
+    // To set the attributes being used, casually remove them randomly until it's the right length
+    for (var i = 0; i < usingAttributes.length - numAttributes; i++)
+          usingAttributes.splice(Math.floor(Math.random() * usingAttributes.length), 1); // Pro
+          if (randomPresentation == 1) {
+              for (var i = 0; i < usingAttributes.length; i++) {
+                var randomFeature = Math.floor(Math.random() * usingAttributes.length);
+                var temp = usingAttributes[i];
+                usingAttributes[i] = usingAttributes[randomFeature];
+                usingAttributes[randomFeature] = temp;
+              }
             }
             else {
             }
-    // To set the features being used, casually remove them randomly until it's the right length
-    for (var i = 0; i < usingFeatures.length - numAttributes; i++)
-        usingFeatures.splice(Math.floor(Math.random() * usingFeatures.length), 1);
-        if (randomPresentation == 1) {
-         for (var i = 0; i < usingFeatures.length; i++) {
-        var randomFeature = Math.floor(Math.random() * usingFeatures.length);
-        var temp = usingFeatures[i];
-        usingFeatures[i] = usingFeatures[randomFeature];
-        usingFeatures[randomFeature] = temp;
-        }
-    }
-    else {
-    }
       postTrial();
 	}
  else {
@@ -605,8 +590,8 @@ function initialiseProductsetup() {
  }
 }
 
-
-function produceDurationsArray() {
+// This function needs to be updated - this is when end of block is reached.
+/* function produceDurationsArray() {
   if (durations.length == 0) {
       produceStimDurArr();
       postTrial();
@@ -614,7 +599,7 @@ function produceDurationsArray() {
       postTrial();
   }
 }
-
+ */
 function postTrial() {
   console.log("postTrial")
   console.log(durations)
@@ -696,11 +681,11 @@ function beSomething() {
   loading.hide()
   fixationCross.hide()
 if (randomPresentation == 2) {
- for (var i = 0; i < usingFeatures.length; i++) {
-        var randomFeature = Math.floor(Math.random() * usingFeatures.length);
-        var temp = usingFeatures[i];
-        usingFeatures[i] = usingFeatures[randomFeature];
-        usingFeatures[randomFeature] = temp;
+ for (var i = 0; i < usingAttributes.length; i++) {
+        var randomFeature = Math.floor(Math.random() * usingAttributes.length);
+        var temp = usingAttributes[i];
+        usingAttributes[i] = usingAttributes[randomFeature];
+        usingAttributes[randomFeature] = temp;
     	}
     	}
     	else {
@@ -786,26 +771,8 @@ function generateProductArray() {									//makes the array of Products
     productArray = [];
     // Create 'numProducts' new Products
     for (var i = 0; i < numProducts; i++) {
-        // to revert to version that does not check for duplicates, only need to uncomment the following line
-        //   then delete from if(i==0) through to just above tooSlowPresent (~ 12 lines)
-//        productArray.push(createNewProduct());
-        if(i == 0) {
-          productArray.push(createNewProduct());
-        } else {
-          // hard coded to prevent duplicates when numProducts=2. Not for use when numProducts>2!
-          duplicateproduct = true;
-          while(duplicateproduct == true) {
-            tmpproduct = createNewProduct();
-            // check whether product is unique in this trials
-            for(var j = 0; j < numAttributes; j++) {
-              if(tmpproduct.features[j] != productArray[0].features[j]) duplicateproduct = false;
-            }
-          }
-          // productArray.push(createNewProduct());    //
-          productArray.push(tmpproduct);
-        }
-    }
-    /*if (tooSlowPresent == true) {
+        productArray.push(createNewProduct())
+      /*if (tooSlowPresent == true) {
     	timeout = setTimeout(tooSlow, maxTrialTime);
     	}
     	else {
@@ -821,17 +788,15 @@ function generateProductArray() {									//makes the array of Products
 }
 
 
-
-
-function createNewProduct() {								//creates Products
+function createNewProduct() {	//creates products
     //console.log("createNewProduct");
     // New product
-    var product = {features:[]};
-    // Add the features
+    var product = {attributes:[]};
+    // Add the attributes
     for (var i = 0; i < numAttributes; i++) {
         // Pick a random value for the feature
-        var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length));
-        product.features[usingFeatures[i]] = features[usingFeatures[i]][randomValue];
+        var randomValue = Math.floor(Math.random() * (attributes[usingAttributes[i]].length));
+        product.attributes[usingAttributes[i]] = attributes[usingAttributes[i]][randomValue];
     }
     // Return the new product
     return product;
@@ -850,7 +815,7 @@ function updateTable() {									//makes the product table
     // Add the Brand column - "th" header cell, "td" standard cell contains data
     var row = createRow();
     //addCell(row, "th", "");
-    // Add the current features row
+    // Add the current attributes row
     for (var brand = 0; brand < numProducts; brand++) {
         addCell(row, "td", productBrands[brand]);
     }
@@ -873,9 +838,9 @@ function updateTable() {									//makes the product table
 
         for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
             /* if (currentproduct == -1) // This is adding the headings in
-                addCell(row, "th", features[usingFeatures[currentFeature]][0]);
+                addCell(row, "th", attributes[usingAttributes[currentFeature]][0]);
             else // This is adding the contents in*/
-                addCell(row, "td", productArray[currentproduct].features[usingFeatures[currentFeature]]);
+                addCell(row, "td", productArray[currentproduct].attributes[usingAttributes[currentFeature]]);
         }
     }
   startTimer();
@@ -969,7 +934,7 @@ function productSelected(selected) {										//records which product is selecte
     for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
         for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
-            output += productArray[currentproduct].features[usingFeatures[currentFeature]] + ", ";
+            output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
         }
         output += rt + ", ";
         output += "fast" + ", ";
@@ -1013,7 +978,7 @@ function productSelected(selected) {										//records which product is selecte
     for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
         for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
-            output += productArray[currentproduct].features[usingFeatures[currentFeature]] + ", ";
+            output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
         }
 
         output += rt + ", ";
@@ -1157,7 +1122,7 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
   for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
-           output += productArray[currentproduct].features[usingFeatures[currentFeature]] + ", ";
+           output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
       }
        	output += rt + ", ";
     	output += "Slow" + ", ";
