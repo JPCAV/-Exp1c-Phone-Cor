@@ -665,13 +665,21 @@ for (var i = 0; i < features.length; i++)
           usingFeatures.splice(Math.floor(Math.random() * usingFeatures.length), 1); // Pro
       if (randomPresentation == 1) {
           for (var i = 0; i < usingFeatures.length; i++) {
-                var randomFeature = Math.floor(Math.random() * usingFeatures.length);
+                var randomFeature = Math.floor(Math.random() * usingFeatures.length); //
+                
                 var temp = usingFeatures[i];
                 console.log(temp)
                 usingFeatures[i] = usingFeatures[randomFeature];
+                console.log(usingFeatures[i])
                 usingFeatures[randomFeature] = temp;
     }
   }
     console.log(usingFeatures)
     console.log(features.length, numAttributes)
     console.log(randomFeature)
+
+const minPhones = 2; //
+const maxPhones = 8;   ////////////////////////   
+var numPhones = Math.floor(Math.random() * (maxPhones - minPhones + 1) + minPhones);
+
+console.log(numPhones)

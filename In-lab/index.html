@@ -555,7 +555,7 @@ function initialiseSetup() { //makes the experiment start
 }
 
 
-function initialisePhonesSetup() {
+function initialisePhonesSetup() { //This function generates the NUMBER of attributes to be used when creating DCE
   console.log("initialisePhonesSetup");
   nCurrentTrial = 0;
   var randomSelectedPhone = Math.floor(Math.random() * specificNumPhones.length);
@@ -567,18 +567,18 @@ function initialisePhonesSetup() {
 	    if (randomPhonesMode == 4) { 
 	        var randomSelectedProduct = Math.floor(Math.random() * BSPhones.length);
               BSnumPhones = BSPhones[randomSelectedProduct]; 
-            } // randomPhonesMode == 4 Select random number of options/phones to be shown for entire experiment
+            } // randomPhonesMode == 4 Generate random number - determines  no. options/phones to be shown for entire experiment
         else {
           }
     // To set the attributes being used, casually remove them randomly until it's the right length
     for (var i = 0; i < usingAttributes.length - numAttributes; i++)
           usingAttributes.splice(Math.floor(Math.random() * usingAttributes.length), 1); // Pro
-          if (randomPresentation == 1) {
-              for (var i = 0; i < usingAttributes.length; i++) {
-                var randomFeature = Math.floor(Math.random() * usingAttributes.length);
-                var temp = usingAttributes[i];
-                usingAttributes[i] = usingAttributes[randomFeature];
-                usingAttributes[randomFeature] = temp;
+          if (randomPresentation == 1) { // Randomise the order of attributes displayed in DCE b/w subjects
+              for (var i = 0; i < usingAttributes.length; i++) { // For length of attributes
+                var randomFeature = Math.floor(Math.random() * usingAttributes.length); // Generate random number
+                var temp = usingAttributes[i]; // temp = index i of usingAttributes array
+                usingAttributes[i] = usingAttributes[randomFeature]; // Set index i of usingAttributes array to index   
+                usingAttributes[randomFeature] = temp; 
               }
             }
             else {
@@ -589,7 +589,6 @@ function initialisePhonesSetup() {
  postTrial();
  }
 }
-
 // This function needs to be updated - this is when end of block is reached.
 /* function produceDurationsArray() {
   if (durations.length == 0) {
@@ -762,7 +761,7 @@ function generateProductArray() {									//makes the array of Phones
         	numPhones = BSnumPhones;
         	break;
     }
-    productArray = [];
+    phoneArray = [];
     // Create 'numPhones' new Phones
     for (var i = 0; i < numPhones; i++) {
         productArray.push(createNewProduct())
