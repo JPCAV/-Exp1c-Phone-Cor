@@ -78,7 +78,7 @@
   </div>-->
 
   <div>
-      <table id="productTable">
+      <table id="phoneTable">
           <tbody id="tableBody">
           </tbody>
       </table>
@@ -180,23 +180,23 @@
 // ----- Customisation -----
 const online = true;												                  // Is the current version online or not
 const numAttributes = 5;  	 			     			  	 		          // Number of Attributes/Attributes for each poduct
-const randomProductsMode = 2; 				   				 		          /* Number of Options in a trial
+const randomPhonesMode = 2; 				   				 		          /* Number of Options in a trial
                                                                     Modes: 
-                                                                    0 = Choose a random product from 'specificNumProducts' randomised per trial 
-                                                                    1 = Random Products between 'minProducts' & 'maxProducts'
-                                                                    2 = static Products from 'fixedProducts'
-                                                                    3 = Static Products from 'fixedProducts' randomised per block
-                                                                    4 = static Products, randomised BS. */
+                                                                    0 = Choose a random phone from 'specificNumPhones' randomised per trial 
+                                                                    1 = Random Phones between 'minPhones' & 'maxPhones'
+                                                                    2 = static Phones from 'fixedPhones'
+                                                                    3 = Static Phones from 'fixedPhones' randomised per block
+                                                                    4 = static Phones, randomised BS. */
 const randomPresentation = 1; 									              /* Attribute order presentation for DCE
                                                                     Modes: 
-                                                                    0 = set order of Products 
+                                                                    0 = set order of Phones 
                                                                     1 = between subjects randomisation of order 
                                                                     2 = within subjects randomisation (per trial) */
-const minProducts = 2;                         				 		    // 'randomProductsMode' = 1, min Products to choose from
-const maxProducts = 2;                         				 		    // 'randomProductsMode' = 1, max Products to choose from
-const fixedProducts = 3;                      				 		    // 'randomProductsMode' = 2, always have 'fixedProducts' number of Products
-//const specificNumProducts = ["2", "4", "8"]; 						      // Specific number of product to be randomly chosen from
-const BSProducts = ["2", "4", "8"];									          // Random product options for BS design
+const minPhones = 2;                         				 		    // 'randomPhonesMode' = 1, min Phones to choose from
+const maxPhones = 2;                         				 		    // 'randomPhonesMode' = 1, max Phones to choose from
+const fixedPhones = 3;                      				 		    // 'randomPhonesMode' = 2, always have 'fixedPhones' number of Phones
+const specificNumPhones = ["2", "4", "8"]; 						      // Specific number of phones to be randomly chosen from
+const BSPhones = ["2", "4", "8"];									          // Random phone options for BS design
 const recommendation = false;		            					        // Is there a recommended option
 const trialInstructions = false;									            // Change to false to turn off fast or accurate
 const progressOn = false;											                // Is the progress bit on?
@@ -211,7 +211,7 @@ var maxTrialTime = [];											                  // Maximum trial time - The l
 const setMaxTrialTime = 300;									                // Set maximum trial time (used if randomtimer = false)
 const minTrialTime = 150;											                // Minimum trial time
 const stimTime = 1000;											                  // Stimulus duration of SAT instructions (when trialInstructions = true)
-const postSelectTime = 500;										                // Time after product selected
+const postSelectTime = 500;										                // Time after phone selected
 var fixationTime = [];											                  // Duration fixation cross is shown for
 const minfixationtime = 1000;										              // Minimum time of fixation cross presentation
 const maxfixationtime = 4000;   									            // Longest possible inter-trial time
@@ -234,7 +234,7 @@ var durations = [];                                           // Array to hold a
 const sigTrialMultip = nSignalTrials / sigTrialArr.length     // Calculate a multiplier for signal trials to fill prelimSigArr
 const regTrialMultip = nRegTrials / regTrialArr.length */        // Calculate a multiplier for signal trials to fill prelimSigArr
 // ---------------------------------------------------------------------------
-const productBrands = ["A", "B", "C"]; 	                      // Array of options (e.g. product brands, pizza, phones etc)
+const phoneBrands = ["A", "B", "C"]; 	                      // Array of options/brands of phones
 var attributes = [
 ["Resolution", "1280 x 720", "1280 x 720", "1280 x 720", "1920 x 1080", "1560 x 720", "1520 x 720", "1440 x 720", "1520 x 720", "1520 x 720", "1544 x 720",
 "1920 x 1080", "1520 x 720", "1560 x 720", "1520 x 720", "2160 x 1080", "1520 x 720", "1520 x 720", "2560 x 1440", "1544 x 720", "1920 x 1080",
@@ -308,18 +308,17 @@ var currentDate;
 var currentTime;
 var experimentTotalTime;
 var totaltrials = (nTrials*nBlocks);
-var productArray = [];
+var phoneArray = [];
 var usingAttributes = [];
-var numProducts = [];
+var numPhones = [];
 var dataOutput = [];
-var recommendedproduct;
+var recommendedPhone;
 var randomStimulus;
 var stimulus;
 //var counter = 1000;
 // ------------- Variables created for SR Experiment --------------
 var username; // = $("#username"); uncomment this var to assign a Sona ID to username WHEN using dialog prompt box below
-var duplicateproduct = true;
-var tmpproduct = [];
+//var tmpproduct = [];
 var inTrial = false;
 var maxResponseWindow = 750;
 var stopContEvent = false;
@@ -512,7 +511,7 @@ function instructTwoButton (){
 function postInstruct() {
   instruxTwo.hide()
   initialiseSetup();
-  initialiseProductsetup();
+  initialisePhonesetup();
 }
 
 function fillPrelimArrays (multiplier, origArr, prelimArr) { // Function to fill the prelimary stimDuration arrays
@@ -549,25 +548,26 @@ function shuffleArr(arr) {    // This shuffle/randomise function lifted from htt
 
 
 function initialiseSetup() { //makes the experiment start
-  document.getElementById("productTable").style.display = "block";
+  document.getElementById("phoneTable").style.display = "block";
   document.getElementById("totalProgress").innerHTML = totaltrials;
   //progDiv();
   console.log(initialiseSetup)
 }
 
 
-function initialiseProductsetup() {
-  console.log("initialiseProductsetup");
+function initialisePhonesSetup() {
+  console.log("initialisePhonesSetup");
   nCurrentTrial = 0;
-  var randomSelectedProduct = Math.floor(Math.random() * specificNumProducts.length);
-      blockProducts = specificNumProducts[randomSelectedProduct]; // How many options/products shown in each trial - set for each block
+  var randomSelectedPhone = Math.floor(Math.random() * specificNumPhones.length);
+      blockPhones = specificNumPhones[randomSelectedProduct]; 
+      // Pick a random number - number informs how many options/phones shown in each trial - set  at the start of each block i.e. nCurrentTrial = 0
     if (nCurrentBlock == 0) { // Only on first block 
       for (var i = 0; i < attributes.length; i++) // For the number of attributes in an option
         usingAttributes.push(i); // Fill usingAttributes array - gives attribute order for the DCE. i.e. in numeric order 0,1,2,3,4
-	    if (randomProductsMode == 4) {
-	        var randomSelectedProduct = Math.floor(Math.random() * BSProducts.length);
-              BSnumProducts = BSProducts[randomSelectedProduct]; // Number of options/products shown on each trial - between/subjs 
-            }
+	    if (randomPhonesMode == 4) { 
+	        var randomSelectedProduct = Math.floor(Math.random() * BSPhones.length);
+              BSnumPhones = BSPhones[randomSelectedProduct]; 
+            } // randomPhonesMode == 4 Select random number of options/phones to be shown for entire experiment
         else {
           }
     // To set the attributes being used, casually remove them randomly until it's the right length
@@ -604,7 +604,7 @@ function postTrial() {
   console.log("postTrial")
   console.log(durations)
   loading.show()
-  document.getElementById("productTable").style.display = "none";
+  document.getElementById("phoneTable").style.display = "none";
   document.getElementById("totalProgress").innerHTML = totaltrials;
   //progDiv();
 	if (trialInstructions == false) {
@@ -635,7 +635,7 @@ function preTrial() {
   goFast.hide()
   loading.hide()
   fixationCross.show()
-  document.getElementById("productTable").style.display = "none";
+  document.getElementById("phoneTable").style.display = "none";
   document.getElementById("totalProgress").innerHTML = totaltrials;
   //progDiv();
 	/* Exponential random number generator
@@ -672,7 +672,7 @@ function randomExponential(rate, randomUniform) {
 /*
 whether there are instructions present (ie be fast or accurate). randomises the condition shown.
 Feature Order Presentation - Modes (0, 1, 2):
-0 = set order of Products. 1 = between subjects randomisation of order. 2 = within subjects randomisation (per trial)
+0 = set order of Phones. 1 = between subjects randomisation of order. 2 = within subjects randomisation (per trial)
 */
 function beSomething() {
   //console.log("beSomething");
@@ -695,7 +695,7 @@ var randomStimulus = Math.floor(Math.random() * fastOrAccurate.length);
             stimulus = fastOrAccurate[randomStimulus];
 if (stimulus == 1) {
 	goFast.show()
-	document.getElementById("productTable").style.display = "none";
+	document.getElementById("phoneTable").style.display = "none";
 	stimTimeout = setTimeout(preTrial, stimTime);
 	if (randomTimer == true) {
 		 //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
@@ -708,7 +708,7 @@ if (stimulus == 1) {
 	}
 else if (stimulus == 2) {
 	goSlow.show()
-	document.getElementById("productTable").style.display = "none"
+	document.getElementById("phoneTable").style.display = "none"
 	stimTimeout = setTimeout(preTrial, stimTime);
 	if (randomTimer == true) {
 		 //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
@@ -737,40 +737,34 @@ generateProductArray();
 }
 
 
-function generateProductArray() {									//makes the array of Products
+function generateProductArray() {									//makes the array of Phones
   //console.log("generateProductArray");
-  document.getElementById("productTable").style.display = "block";
+  document.getElementById("phoneTable").style.display = "block";
   fixationCross.hide()
   //progDiv();
   clearTimeout(fixationTimeout)
   //clearTimeout(stimTimeout);
-  /* 
-  Modes:
-      0 = Choose a random product from 'specificNumProducts'.
-      1 = Random Products between 'minProducts' & 'maxProducts'. 
-      2 = static Products from 'fixedProducts' 
-  */
-   switch(randomProductsMode) {
-        case 0:
-            var randomSelectedProduct = Math.floor(Math.random() * specificNumProducts.length);
-            numProducts = specificNumProducts[randomSelectedProduct];
+   switch(randomPhonesMode) { // This function determines the number of options to be shown in the DCE, case by case
+        case 0: // 0 = Choose a random number from 'specificNumPhones' i.e. 2, 4, or 8 phones
+            var randomSelectedProduct = Math.floor(Math.random() * specificNumPhones.length);
+            numPhones = specificNumPhones[randomSelectedProduct]; 
             break;
-        case 1:
-            numProducts = Math.floor(Math.random() * (maxProducts - minProducts + 1) + minProducts);
+        case 1: // 1 = Choose a random number between 'minPhones' & 'maxPhones' - number = number of phone options per trial
+            numPhones = Math.floor(Math.random() * (maxPhones - minPhones + 1) + minPhones);
             break;
-        case 2:
-            numProducts = fixedProducts;
+        case 2: // 2 = Hard code number of phones to be shown per trial. Number taken from var fixedPhones = X
+            numPhones = fixedPhones;
             break;
-        case 3:
-        	numProducts = blockProducts;
+        case 3: // 3 = Select random number of options/phones to be shown for a block e.g. Block 1 = 2, block 4 = 4 etc..
+        	numPhones = blockPhones;
         	break;
-        case 4:
-        	numProducts = BSnumProducts;
+        case 4: // 4 = Select random number of options/phones to be shown for entire experiment
+        	numPhones = BSnumPhones;
         	break;
     }
     productArray = [];
-    // Create 'numProducts' new Products
-    for (var i = 0; i < numProducts; i++) {
+    // Create 'numPhones' new Phones
+    for (var i = 0; i < numPhones; i++) {
         productArray.push(createNewProduct())
       /*if (tooSlowPresent == true) {
     	timeout = setTimeout(tooSlow, maxTrialTime);
@@ -778,7 +772,7 @@ function generateProductArray() {									//makes the array of Products
     	else {
     	}*/
     if (recommendation == true) {
-    recommendedproduct = Math.floor(Math.random() * numProducts);
+    recommendedproduct = Math.floor(Math.random() * numPhones);
     }
     else {
     }
@@ -788,7 +782,7 @@ function generateProductArray() {									//makes the array of Products
 }
 
 
-function createNewProduct() {	//creates products
+function createNewProduct() {	//creates Phones
     //console.log("createNewProduct");
     // New product
     var product = {attributes:[]};
@@ -816,13 +810,13 @@ function updateTable() {									//makes the product table
     var row = createRow();
     //addCell(row, "th", "");
     // Add the current attributes row
-    for (var brand = 0; brand < numProducts; brand++) {
+    for (var brand = 0; brand < numPhones; brand++) {
         addCell(row, "td", productBrands[brand]);
     }
     // Add the recommendation
     /*if (recommendation == true) {
     var row = createRow();
-    for (var currentproduct = -1; currentproduct < numProducts; currentproduct++) {
+    for (var currentproduct = -1; currentproduct < numPhones; currentproduct++) {
         if (currentproduct == recommendedproduct && recommendation)
             addCell(row, "td", "Highly Popular");
         else
@@ -836,7 +830,7 @@ function updateTable() {									//makes the product table
     for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
         var row = createRow();
 
-        for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
+        for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
             /* if (currentproduct == -1) // This is adding the headings in
                 addCell(row, "th", attributes[usingAttributes[currentFeature]][0]);
             else // This is adding the contents in*/
@@ -845,7 +839,7 @@ function updateTable() {									//makes the product table
     }
   startTimer();
   document.addEventListener('keyup', recordKP, false); // This adds event listener to page ("Listens" for keypress)
-	document.getElementById("productTable").style.display = "block";
+	document.getElementById("phoneTable").style.display = "block";
    
   if (maxTrialTime < 9000) { 
         // If trial is a signal trial (< 9000)
@@ -872,7 +866,7 @@ function signalResponseWindow() {
   //console.log("signalResponseWindow");
   clearTimeout(dceTimeout);
   //document.addEventListener('keyup', recordKP, false); // This adds event listener to page ("Listens" for keypress)
-  document.getElementById("productTable").style.display = "none";
+  document.getElementById("phoneTable").style.display = "none";
   signalResponseCue.show()
   document.getElementById("totalProgress").innerHTML = totaltrials;
   srwTimeout = setTimeout(tooSlow, maxResponseWindow)
@@ -885,20 +879,20 @@ function recordKP(event) {
    var ekc = event.keyCode;
       if (inTrial == true && ekc == 90 ) {
           stopTimer();
-          document.getElementById("productTable").style.display = "none";
+          document.getElementById("phoneTable").style.display = "none";
           event.preventDefault()
           document.removeEventListener('keyup', recordKP, false)
           signalResponseCue.hide()
-          productSelected("0");
+          phoneSelected("0");
           console.log("z Button Pressed - recordKP fired");
             }
       else if (inTrial == true && ekc == 191) {
           stopTimer();
-          document.getElementById("productTable").style.display = "none";
+          document.getElementById("phoneTable").style.display = "none";
           event.preventDefault()
           document.removeEventListener('keyup', recordKP, false)
           signalResponseCue.hide()
-          productSelected("1");
+          phoneSelected("1");
           console.log("/ Button Pressed - recordKP fired");
             }
           }
@@ -921,8 +915,8 @@ function addCell(row, type, input) {
 }
 
 
-function productSelected(selected) {										//records which product is selected and generates what happens next
-    console.log("productSelected");
+function phoneSelected(selected) {										//records which product is selected and generates what happens next
+    console.log("phoneSelected");
     rt = endTime - startTime;
     if (rt < minTrialTime) {
         var output = "";
@@ -931,7 +925,7 @@ function productSelected(selected) {										//records which product is selecte
         Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
         Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N);
         */
-    for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
+    for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
         for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
             output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
@@ -965,7 +959,7 @@ function productSelected(selected) {										//records which product is selecte
             output += "0;\n"
     }
     dataOutput.push(output);
-    console.log("productSelected-tooFastTrial")
+    console.log("phoneSelected-tooFastTrial")
         tooFast();
         }
     else {
@@ -975,7 +969,7 @@ function productSelected(selected) {										//records which product is selecte
       Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N);
       */
     var output = "";
-    for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
+    for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
         for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
             output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
@@ -1011,7 +1005,7 @@ function productSelected(selected) {										//records which product is selecte
     }
     dataOutput.push(output);
     posiFeedback();
-    console.log("productSelected - Valid Trial")
+    console.log("phoneSelected - Valid Trial")
 }
 }
 
@@ -1069,7 +1063,7 @@ function stopTimer() {  //after product selected, gets time and calculates time 
 
 function tooFast() {	  //when someone goes too fast (can set MinTrialTime above)
   console.log("tooFast");
-  document.getElementById("productTable").style.display = "none";
+  document.getElementById("phoneTable").style.display = "none";
   tooFastDiv.show()
   signalResponseCue.hide()
 	//progDiv();
@@ -1109,7 +1103,7 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
   //console.log("tooSlow");
   stopTimer();
   document.removeEventListener('keyup', recordKP, false);
-  document.getElementById("productTable").style.display = "none";
+  document.getElementById("phoneTable").style.display = "none";
   tooSlowDiv.show();
   signalResponseCue.hide();
 	clearTimeout(srwTimeout);
@@ -1119,7 +1113,7 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
   Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
   Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N); */
   var output = "";
-  for (var currentproduct = 0; currentproduct < numProducts; currentproduct++) {
+  for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
            output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
@@ -1180,9 +1174,9 @@ function endOfBlock() {									//works out the end of the block
   tooSlowDiv.hide();
  	nCurrentTrial = (nCurrentTrial - nTrials);
  	nCurrentBlock++;
- 	 if (randomProductsMode == 3) {
- 	 var randomSelectedProduct = Math.floor(Math.random() * specificNumProducts.length);
-    blockProducts = specificNumProducts[randomSelectedProduct];
+ 	 if (randomPhonesMode == 3) {
+ 	 var randomSelectedPhone = Math.floor(Math.random() * specificNumPhones.length);
+    blockPhones = specificNumPhones[randomSelectedPhone];
     }
     else {
     }
@@ -1201,7 +1195,7 @@ function showEndBlock() {									//shows "end of block"
   regEOBKP = true;
   endBlock.show()
   document.getElementById('chosenProduct').innerHTML = yourProd;
-  document.getElementById("productTable").style.display = "none";
+  document.getElementById("phoneTable").style.display = "none";
   document.addEventListener('keyup', endOBContKP,false);
   //progDiv();
 }
@@ -1224,7 +1218,7 @@ function endOBContKP(event) { // Event listener for end of block key press
 function endOfExperiment() {	//shows the experiment end
   //console.log("endOfExperiment")
   expEnd.show()
-  document.getElementById("productTable").style.display = "none";
+  document.getElementById("phoneTable").style.display = "none";
   //console.log(dataOutput);
   endExpTO = setTimeout(saveResults, 2000);
 }
@@ -1236,7 +1230,7 @@ function saveResults() {	   //function to save the output file to php
     clearTimeout(endExpTO)
     /* Output file appearance
     Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
-    Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N);
+    Recommended phone 1/0 (Y/N), selected this phone 1/0 (Y/N);
     */
     var output_txt = "block, " + "trial, ";
     for (i = 0; i < numAttributes; i++)
