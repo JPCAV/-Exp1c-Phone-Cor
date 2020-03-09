@@ -560,7 +560,7 @@ function initialiseProductsetup() {
   console.log("initialiseProductsetup");
   nCurrentTrial = 0;
   var randomSelectedProduct = Math.floor(Math.random() * specificNumProducts.length);
-      blockProducts = specificNumProducts[randomSelectedProduct]; // How many options/products shown in each trial
+      blockProducts = specificNumProducts[randomSelectedProduct]; // How many options/products shown in each trial - set for each block
     if (nCurrentBlock == 0) { // Only on first block 
       for (var i = 0; i < attributes.length; i++) // For the number of attributes in an option
         usingAttributes.push(i); // Fill usingAttributes array - gives attribute order for the DCE. i.e. in numeric order 0,1,2,3,4
