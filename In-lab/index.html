@@ -669,7 +669,7 @@ function randomExponential(rate, randomUniform) {
 
 
 /*
-whether there are instructions present (ie be fast or accurate). randomises the condition shown.
+
 Feature Order Presentation - Modes (0, 1, 2):
 0 = set order of Phones. 1 = between subjects randomisation of order. 2 = within subjects randomisation (per trial)
 */
@@ -679,59 +679,59 @@ function beSomething() {
   clearTimeout(fixationTimeout)
   loading.hide()
   fixationCross.hide()
-if (randomPresentation == 2) {
+if (randomPresentation == 2) { // Randomise the location of each attribute in the DCE for every trial
  for (var i = 0; i < usingAttributes.length; i++) {
         var randomFeature = Math.floor(Math.random() * usingAttributes.length);
         var temp = usingAttributes[i];
         usingAttributes[i] = usingAttributes[randomFeature];
         usingAttributes[randomFeature] = temp;
-    	}
-    	}
-    	else {
-    	}
-if (trialInstructions == true) {
-var randomStimulus = Math.floor(Math.random() * fastOrAccurate.length);
-            stimulus = fastOrAccurate[randomStimulus];
-if (stimulus == 1) {
-	goFast.show()
-	document.getElementById("phoneTable").style.display = "none";
-	stimTimeout = setTimeout(preTrial, stimTime);
-	if (randomTimer == true) {
-		 //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
-		 //maxTrialTime = maxTrialTimeOpt[temp];
-     maxTrialTime = durations.shift();
+      }
+    } 
+    else {
     }
+if (trialInstructions == true) { // true = SAT instructions present
+  var randomStimulus = Math.floor(Math.random() * fastOrAccurate.length); // Generate random number b/w 1-2
+            stimulus = fastOrAccurate[randomStimulus]; // Set stimulus to "GO FAST" or "BE CAREFUL"
+            if (stimulus == 1) { // GO FAST
+              goFast.show()
+              document.getElementById("phoneTable").style.display = "none";
+              stimTimeout = setTimeout(preTrial, stimTime);
+              //if (randomTimer == true) {
+                //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
+                //maxTrialTime = maxTrialTimeOpt[temp];
+                //maxTrialTime = durations.shift();
+              }
 	else {
 		maxTrialTime = setMaxTrialTime;
 		}
 	}
 else if (stimulus == 2) {
-	goSlow.show()
-	document.getElementById("phoneTable").style.display = "none"
-	stimTimeout = setTimeout(preTrial, stimTime);
-	if (randomTimer == true) {
+  goSlow.show() // BE CAREFUL
+  document.getElementById("phoneTable").style.display = "none"
+  stimTimeout = setTimeout(preTrial, stimTime);
+  // if (randomTimer == true) {
 		 //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
      //maxTrialTime = maxTrialTimeOpt[temp];
-     maxTrialTime = durations.shift();
+     //maxTrialTime = durations.shift();
       }
-	else {
-		maxTrialTime = setMaxTrialTime;
-		}
-	}
-else {
-}
-}
-else {
-(stimulus == 0);
-if (randomTimer == true) {
-		 //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
-     //maxTrialTime = maxTrialTimeOpt[temp];
-     maxTrialTime = durations.shift();
+      else {
+        maxTrialTime = setMaxTrialTime;
+      }
+    }
+    else {
+    }
   }
-	else {
-		maxTrialTime = setMaxTrialTime;
-		}
-generateProductArray();
+  else {
+    (stimulus == 0);
+    if (randomTimer == true) {
+      //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
+      //maxTrialTime = maxTrialTimeOpt[temp];
+      //maxTrialTime = durations.shift();
+    }
+    else {
+      maxTrialTime = setMaxTrialTime;
+    }
+    generateProductArray()
   }
 }
 
