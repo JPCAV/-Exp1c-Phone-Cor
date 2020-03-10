@@ -187,7 +187,7 @@ const randomPhonesMode = 2; 				   				 		          /* Number of Options in a tr
                                                                     2 = static Phones from 'fixedPhones'
                                                                     3 = Static Phones from 'fixedPhones' randomised per block
                                                                     4 = static Phones, randomised BS. */
-const randomPresentation = 1; 									              /* Attribute order presentation for DCE
+const randomPresentation = 1; 									              /* Attribute order (vertically: top-btm) for DCE
                                                                     Modes: 
                                                                     0 = set order of Phones 
                                                                     1 = between subjects randomisation of order 
@@ -197,12 +197,11 @@ const maxPhones = 2;                         				 		    // 'randomPhonesMode' = 
 const fixedPhones = 3;                      				 		    // 'randomPhonesMode' = 2, always have 'fixedPhones' number of Phones
 const specificNumPhones = ["2", "4", "8"]; 						      // Specific number of phones to be randomly chosen from
 const BSPhones = ["2", "4", "8"];									          // Random phone options for BS design
-const recommendation = false;		            					        // Is there a recommended option
-const trialInstructions = false;									            // Change to false to turn off fast or accurate
-const progressOn = false;											                // Is the progress bit on?
-const randomTimer = true; 										                // Is the timer random?
-const timerPresent = false;										                // Is the timer present?
-const tooSlowPresent = true;										              // Does the choice timeout?
+const trialInstructions = true;									              // SAT verbal instruction: false to turn off fast or accurate
+const progressOn = false;											                // Show participant progress (i.e. trials completed)
+const randomTimer = true; 										                // SAT countdown timer - Randomise duration for each trial
+const timerPresent = false;										                // SAT countdown timer - true = show timer, false = no timer
+const tooSlowPresent = true;										              // Timeout choices
 const fastOrAccurate = [1,2]; 									              // SAT Manipulation - Fast = 1, Accuratate = 2 
 const nTrials = 40; // Old phone DCE - 25 trials              // Number of trials per block
 const nBlocks = 12;	// Old phone DCE - 6 blocks               // Number of blocks in experiment
@@ -312,7 +311,6 @@ var phoneArray = [];
 var usingAttributes = [];
 var numPhones = [];
 var dataOutput = [];
-var recommendedPhone;
 var randomStimulus;
 var stimulus;
 //var counter = 1000;
@@ -601,19 +599,18 @@ function initialisePhonesSetup() { //This function generates the NUMBER of attri
  */
 function postTrial() {
   console.log("postTrial")
-  console.log(durations)
   loading.show()
   document.getElementById("phoneTable").style.display = "none";
   document.getElementById("totalProgress").innerHTML = totaltrials;
   //progDiv();
 	if (trialInstructions == false) {
-	postTimeout = setTimeout(preTrial, postSelectTime);
-	}
-	else if (trialInstructions == true) {
-	postTimeout = setTimeout(beSomething, postSelectTime);
-	}
-	else {
-	}
+    postTimeout = setTimeout(preTrial, postSelectTime)
+  }
+  else if (trialInstructions == true) {
+    postTimeout = setTimeout(beSomething, postSelectTime)
+  } 
+  else {
+  }
 }
 
 
@@ -668,18 +665,13 @@ function randomExponential(rate, randomUniform) {
 }
 
 
-/*
-
-Feature Order Presentation - Modes (0, 1, 2):
-0 = set order of Phones. 1 = between subjects randomisation of order. 2 = within subjects randomisation (per trial)
-*/
 function beSomething() {
   //console.log("beSomething");
   clearTimeout(postTimeout)
   clearTimeout(fixationTimeout)
   loading.hide()
   fixationCross.hide()
-if (randomPresentation == 2) { // Randomise the location of each attribute in the DCE for every trial
+if (randomPresentation == 2) { // 2 = Randomise the position of attributes in the DCE for ALL trials
  for (var i = 0; i < usingAttributes.length; i++) {
         var randomFeature = Math.floor(Math.random() * usingAttributes.length);
         var temp = usingAttributes[i];
@@ -743,12 +735,13 @@ function generateProductArray() {									//makes the array of Phones
   //progDiv();
   clearTimeout(fixationTimeout)
   //clearTimeout(stimTimeout);
-   switch(randomPhonesMode) { // This function determines the number of options to be shown in the DCE, case by case
+   switch(randomPhonesMode) { 
+     // This function determines the number of options to be shown in the DCE, case by case
         case 0: // 0 = Choose a random number from 'specificNumPhones' i.e. 2, 4, or 8 phones
             var randomSelectedProduct = Math.floor(Math.random() * specificNumPhones.length);
             numPhones = specificNumPhones[randomSelectedProduct]; 
             break;
-        case 1: // 1 = Choose a random number between 'minPhones' & 'maxPhones' - number = number of phone options per trial
+        case 1: // 1 = Choose a random number between 'minPhones' & 'maxPhones'. number = number of phone options per trial
             numPhones = Math.floor(Math.random() * (maxPhones - minPhones + 1) + minPhones);
             break;
         case 2: // 2 = Hard code number of phones to be shown per trial. Number taken from var fixedPhones = X
@@ -759,25 +752,20 @@ function generateProductArray() {									//makes the array of Phones
         	break;
         case 4: // 4 = Select random number of options/phones to be shown for entire experiment
         	numPhones = BSnumPhones;
-        	break;
-    }
+          break;
+        }
     phoneArray = [];
-    // Create 'numPhones' new Phones
+    // Create 'numPhones' new phones - this is determined by the numbers from 1 of the 4 cases above
     for (var i = 0; i < numPhones; i++) {
-        productArray.push(createNewProduct())
+        productArray.push(createNewProduct()) // Phones are created by createNewProduct func, run  for 'numPhones' times
       /*if (tooSlowPresent == true) {
     	timeout = setTimeout(tooSlow, maxTrialTime);
     	}
     	else {
     	}*/
-    if (recommendation == true) {
-    recommendedproduct = Math.floor(Math.random() * numPhones);
-    }
-    else {
-    }
-    updateTable();
-   	updateTrialNumber();
-   	//timeLeft();
+    updateTable()
+    updateTrialNumber()
+   	//timeLeft()
 }
 
 
@@ -811,20 +799,7 @@ function updateTable() {									//makes the product table
     // Add the current attributes row
     for (var brand = 0; brand < numPhones; brand++) {
         addCell(row, "td", productBrands[brand]);
-    }
-    // Add the recommendation
-    /*if (recommendation == true) {
-    var row = createRow();
-    for (var currentproduct = -1; currentproduct < numPhones; currentproduct++) {
-        if (currentproduct == recommendedproduct && recommendation)
-            addCell(row, "td", "Highly Popular");
-        else
-            addCell(row, "td", "");
-    }
-    }
-    else {
-    }*/
-
+      }
     // Fill the data in
     for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
         var row = createRow();
@@ -920,39 +895,32 @@ function phoneSelected(selected) {										//records which product is selected 
     if (rt < minTrialTime) {
         var output = "";
         /* Output-file appearance on a "Too Fast!" trial
-        For each product:
-        Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
-        Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N);
+        For each product: reponse time, 
+        was there an error? (0/1/2 - no error/too fast/too slow),
+        selected this product 1/0 (Y/N);
         */
     for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
-        output += nCurrentBlock +", " + nCurrentTrial + ", ";
-        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
+        output += nCurrentBlock +", " + nCurrentTrial + ", "; // Record Block # and trial #
+        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) { // Record attributes
             output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
         }
-        output += rt + ", ";
-        output += "fast" + ", ";
+        output += rt + ", "; // Record RT
+        output += "fast" + ", "; // Record - trialError = fast
         if (tooSlowPresent == true) {
-        output += maxTrialTime + ", ";
-    	}
-    	else {
-    	output += "null" + ", ";
-    	}
-        output += fixationTime + ", ";
-         if (stimulus == 0)
-        	output += "0, "
-        else if (stimulus == 1)
-        	output += "1, "
-        else if (stimulus == 2)
-        	output += "2, "
+        output += maxTrialTime + ", "; // Record the max trial duration - this wont happen because this is a 'too fast' trial
+      } else {
+        output += "null" + ", "; // Record "null" on this trial i.e. too fast trial
+      }
+        output += fixationTime + ", "; // Record the fixation cross duration
+         if (stimulus == 0)            // If no SAT verbal instructions i.e. timer
+        	output += "0, "                // Record 0
+        else if (stimulus == 1)        // SAT verbal instruction
+        	output += "1, "                // record trial type i.e. "1" or "GO FAST" trial
+        else if (stimulus == 2)        // SAT verbal instruction
+        	output += "2, "                // record trial type i.e. "2" or "BE CAREFUL" trial
         else
         	output += "0, "
-
-        if (currentproduct == recommendedproduct)
-            output += "1, "
-        else
-            output += "0, "
-
-        if (currentproduct == selected)
+        if (currentproduct == selected) // Record 1 if chose the current option
             output += "1;\n"
         else
             output += "0;\n"
@@ -962,57 +930,46 @@ function phoneSelected(selected) {										//records which product is selected 
         tooFast();
         }
     else {
-      /* Output file appearance on a valid trial
-      For each product:
-      Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
-      Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N);
-      */
-    var output = "";
+    var output = "" // Output file - VALID TRIAL
+    // For each option, record:
     for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
-        output += nCurrentBlock +", " + nCurrentTrial + ", ";
-        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
-            output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
-        }
-
-        output += rt + ", ";
-        output += "null" + ", ";
-        if (tooSlowPresent == true) {
+      output += nCurrentBlock +", " + nCurrentTrial + ", "; // Record Block # and trial #
+      for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) { // Record attributes
+        output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
+      } 
+      output += rt + ", "; // Record Rt
+      output += "null" + ", "; // trialError = "null" i.e. made a section in time (not fast/slow)
+      if (tooSlowPresent == true) {
         output += maxTrialTime + ", ";
-    	}
-    	else {
-    	output += "null" + ", ";
-    	}
-    	output += fixationTime + ", ";
-          if (stimulus == 0)
-        	output += "0, "
-        else if (stimulus == 1)
-        	output += "1, "
-        else if (stimulus == 2)
-        	output += "2, "
-        else
-        	output += "0, "
-
-        if (currentproduct == recommendedproduct)
-            output += "1, "
-        else
-            output += "0, "
-
-        if (currentproduct == selected)
-            output += "1;\n"
-        else
-            output += "0;\n"
+      } 
+      else {
+        output += "null" + ", ";
+      }
+      output += fixationTime + ", "; // Record the fixation cross duration
+      if (stimulus == 0)             // If no SAT verbal instructions i.e. timer
+      output += "0, "                   // Record 0
+      else if (stimulus == 1)        // SAT verbal instruction
+      output += "1, "                   // record trial type i.e. "1" or "GO FAST" trial
+      else if (stimulus == 2)        // SAT verbal instruction
+      output += "2, "                   // record trial type i.e. "2" or "BE CAREFUL" trial
+      else 
+      output += "0, "
+      if (currentproduct == selected) // Record 1 if chose the current option
+      output += "1;\n"
+      else
+      output += "0;\n"
     }
-    dataOutput.push(output);
-    posiFeedback();
+    dataOutput.push(output)
+    posiFeedback()
     console.log("phoneSelected - Valid Trial")
-}
+  }
 }
 
 
 function posiFeedback() {
-  inTimeDiv.show();
+  inTimeDiv.show()
   console.log("Valid trial positive feedback")
-  pFeedbackTO = setTimeout(nextRound, 500);
+  pFeedbackTO = setTimeout(nextRound, 500)
 }
 
 
@@ -1107,40 +1064,35 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
   signalResponseCue.hide();
 	clearTimeout(srwTimeout);
 	rt = endTime - startTime;
-  /* Output file appearance on a "TOO SLOW" trial
+  /* Output file - "TOO SLOW" trial
   Records the following data for each product/option on a single trial
-  Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
-  Recommended product 1/0 (Y/N), selected this product 1/0 (Y/N); */
+  Block, trial, feature 1, feature 2, feature n, reponse time, 
+  was there an error? (0/1/2 - no error/too fast/too slow), selected this product 1/0 (Y/N); */
   var output = "";
   for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", ";
        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
            output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
-      }
-       	output += rt + ", ";
-    	output += "Slow" + ", ";
-        if (tooSlowPresent == true) {
-        output += maxTrialTime + ", ";
-    	}
-    	else {
-    	output += "null" + ", ";
-    	}
-        output += fixationTime + ", ";
-        if (stimulus == 0)
-        	output += "0, "
-        else if (stimulus == 1)
-        	output += "1, "
-        else if (stimulus == 2)
-        	output += "2, "
-        else
-        	output += "0, "
+          }
+          output += rt + ", ";
+          output += "Slow" + ", ";
+          if (tooSlowPresent == true) {
+            output += maxTrialTime + ", ";
+          }
+          else {
+            output += "null" + ", ";
+          }
+          output += fixationTime + ", ";
+          if (stimulus == 0)
+          output += "0, "
+          else if (stimulus == 1)
+          output += "1, "
+          else if (stimulus == 2)
+          output += "2, "
+          else
+          output += "0, "
 
-       if (currentproduct == recommendedproduct)
-            output += "1, " + "0;\n"
-       else
-           output += "0, " + "0;\n"
-           }
-
+          output += "0;\n" // Record "0" for selected column
     dataOutput.push(output);
     nCurrentTrial++;
 	 if (nCurrentTrial == nTrials) {
@@ -1228,8 +1180,8 @@ function saveResults() {	   //function to save the output file to php
     //console.log("saveResults");
     clearTimeout(endExpTO)
     /* Output file appearance
-    Block, trial, feature 1, feature 2, feature n, reponse time, was there an error? (0/1/2 - no error/too fast/too slow),
-    Recommended phone 1/0 (Y/N), selected this phone 1/0 (Y/N);
+    Block, trial, feature 1, feature 2, feature n, reponse time, 
+    was there an error? (0/1/2 - no error/too fast/too slow),selected this phone 1/0 (Y/N);
     */
     var output_txt = "block, " + "trial, ";
     for (i = 0; i < numAttributes; i++)
@@ -1238,10 +1190,8 @@ function saveResults() {	   //function to save the output file to php
     output_txt += "Error, ";
     output_txt += "MaxTrialTime, ";
     output_txt += "fixationTime, ";
-    output_txt += "Condition, ";
-    output_txt += "recommended, ";
+    output_txt += "condition, ";
     output_txt += "selected\n";
-
     for (var i = 0; i < dataOutput.length; i++) {
         output_txt += dataOutput[i].toString() + "\n";
     }
