@@ -945,19 +945,19 @@ function phoneSelected(selected) {										//records which product is selected 
       else {
         output += "null" + ", ";
       }
-      output += fixationTime + ", "; // Record the fixation cross duration
-      if (stimulus == 0)             // If no SAT verbal instructions i.e. timer
-      output += "0, "                   // Record 0
-      else if (stimulus == 1)        // SAT verbal instruction
+      output += fixationTime + ", ";  // Record the fixation cross duration
+      if (stimulus == 0)              // If no SAT verbal instructions i.e. timer
+      output += "0, "                   // Record condition = 0
+      else if (stimulus == 1)         // SAT verbal instruction
       output += "1, "                   // record trial type i.e. "1" or "GO FAST" trial
-      else if (stimulus == 2)        // SAT verbal instruction
+      else if (stimulus == 2)         // SAT verbal instruction
       output += "2, "                   // record trial type i.e. "2" or "BE CAREFUL" trial
       else 
       output += "0, "
-      if (currentproduct == selected) // Record 1 if chose the current option
+      if (currentproduct == selected) // Record "1" if chose the current option
       output += "1;\n"
       else
-      output += "0;\n"
+      output += "0;\n"                // Record "0" if DID NOT chose the current option
     }
     dataOutput.push(output)
     posiFeedback()
@@ -1070,29 +1070,28 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
   was there an error? (0/1/2 - no error/too fast/too slow), selected this product 1/0 (Y/N); */
   var output = "";
   for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
-        output += nCurrentBlock +", " + nCurrentTrial + ", ";
-       for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
+        output += nCurrentBlock +", " + nCurrentTrial + ", "; // Record block # and trial #
+       for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) { // Record attributes
            output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
           }
-          output += rt + ", ";
-          output += "Slow" + ", ";
+          output += rt + ", ";          // Record RT
+          output += "Slow" + ", ";      // Record trialError = "SLOW"
           if (tooSlowPresent == true) {
-            output += maxTrialTime + ", ";
+            output += maxTrialTime + ", "; // Record length of time the DCE was shown for
           }
           else {
-            output += "null" + ", ";
+            output += "null" + ", ";       // Record null for maxTrialTime when not using a timer
           }
-          output += fixationTime + ", ";
-          if (stimulus == 0)
-          output += "0, "
-          else if (stimulus == 1)
-          output += "1, "
-          else if (stimulus == 2)
-          output += "2, "
+          output += fixationTime + ", ";   // Record length of time fixation cross was shown
+          if (stimulus == 0)               // If no SAT verbal instructions i.e. timer
+          output += "0, "                     // condition = "0"
+          else if (stimulus == 1)          // SAT verbal instruction
+          output += "1, "                     // condition = "1" or "GO FAST" trial
+          else if (stimulus == 2)          // SAT verbal instruction
+          output += "2, "                     // condition = "2" or "BE CAREFUL" trial
           else
           output += "0, "
-
-          output += "0;\n" // Record "0" for selected column
+          output += "0;\n"                 // Record selected = "0" (no choice made)
     dataOutput.push(output);
     nCurrentTrial++;
 	 if (nCurrentTrial == nTrials) {
