@@ -120,6 +120,14 @@ body.at-task {
 		line-height: 1.5;
 	}
 
+	selectPhoneButton {
+		width:200px;
+		height:52px;
+		font-size:large;
+		border-radius: 8px;
+	}
+
+
 	img {
 		display:inline-block;
 		margin-top:0px;
@@ -310,3 +318,4 @@ border-spacing: 100px 10px;
     text-align:center;
     margin-top: 6cm;
 	}
+
