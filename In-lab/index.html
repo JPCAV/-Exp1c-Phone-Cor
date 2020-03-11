@@ -135,12 +135,13 @@
   </div>
 </div>
 
-
+<!--
 <div id ="signalResponseCue" style="display: none;">
    <p>************</p>
    <p>RESPOND NOW</p>
    <p>************</p>
 </div>
+-->
 
 <div id ="experimentEnd"style="display: none;">
     <p> You have now finished the experiment. Thank you for your participation! </p>
@@ -207,8 +208,8 @@ const randomTimer = false; 										                // SAT countdown timer - Ra
 const timerPresent = false;										                // SAT countdown timer - true = show timer, false = no timer
 const tooSlowPresent = true;										              // Timeout choices
 const fastOrAccurate = [1,2]; 									              // SAT Manipulation - Fast = 1, Accuratate = 2 
-const nTrials = 40; // Old phone DCE - 25 trials              // Number of trials per block
-const nBlocks = 12;	// Old phone DCE - 6 blocks               // Number of blocks in experiment
+const nTrials = 2; // Old phone DCE - 25 trials              // Number of trials per block
+const nBlocks = 4;	// Old phone DCE - 6 blocks               // Number of blocks in experiment
 const waitTime = 2000;											                  // Time participant must wait, after a 'too fast' response, before they can continue
 var maxTrialTime = [];											                  // Maximum trial time - The length of time a stimulus is shown for
 const setMaxTrialTime = 300;									                // Set maximum trial time (used if randomtimer = false)
@@ -351,7 +352,7 @@ var endBlock = $('#endBlock')
 var goFast = $('#goFast')
 var goSlow = $('#goSlow')
 var fixationCross = $('#fixationCross')
-var signalResponseCue = $('#signalResponseCue')
+//var signalResponseCue = $('#signalResponseCue')
 var expEnd = $("#experimentEnd")
 var spacebarToContinue = $('#spacebarToContinue')
 var tooSlowDiv = $("#youWentTooSlow")
@@ -488,7 +489,7 @@ function instructOneButton (){
 
 
 function instructTwo() {
-  //console.log("instructTwo");
+  console.log("instructTwo");
   instruxOne.hide()
   instruxTwo.show()
   instructDelay2 = setTimeout(instructTwoButton, 1000)
@@ -630,7 +631,7 @@ else {
 
 
 function preTrial() {
-  //console.log("preTrial")
+  console.log("preTrial")
   clearTimeout(postTimeout)
   goSlow.hide()
   goFast.hide()
@@ -660,7 +661,7 @@ function preTrial() {
 
 
 function randomExponential(rate, randomUniform) {
-  //console.log("randomExponential");
+  console.log("randomExponential");
 	  /* Allow to pass a random uniform value or function
   	   Default to Math.random() */
   	var U = randomUniform;
@@ -671,7 +672,7 @@ function randomExponential(rate, randomUniform) {
 
 
 function beSomething() {
-  //console.log("beSomething");
+  console.log("beSomething");
   clearTimeout(postTimeout)
   clearTimeout(fixationTimeout)
   loading.hide()
@@ -732,7 +733,7 @@ generateProductArray();
 
 
 function generateProductArray() {									//makes the array of Phones
-  //console.log("generateProductArray");
+  console.log("generateProductArray");
   document.getElementById("phoneTable").style.display = "block";
   fixationCross.hide()
   //progDiv();
@@ -773,7 +774,7 @@ function generateProductArray() {									//makes the array of Phones
 }
 
 function createNewProduct() {	//creates Phones
-    //console.log("createNewProduct");
+    console.log("createNewProduct");
     // Initialise product
     var phone = {attributes:[]};
     // Add the attributes
@@ -791,6 +792,7 @@ function createNewProduct() {	//creates Phones
 
 function updateTable() {									//makes the phone table
     console.log("updateTable()");
+    startTimer()
     // Get the child nodes of the table
     var tableBody = document.getElementById("tableBody");
     var tableRows = tableBody.getElementsByTagName("tr");
@@ -821,7 +823,6 @@ function updateTable() {									//makes the phone table
         }
     }
 
-
     // Add the Select row
     var row = createRow();
     addCell(row, "th", "Select");
@@ -830,48 +831,49 @@ function updateTable() {									//makes the phone table
     for (var currentPhone = 0; currentPhone < numPhones; currentPhone++) {
         // Select button
         var selectPhone = document.createElement("td");
-        var selectPhoneButton = document.createElement("input");
+        var selectPhoneButton = document.createElement("button")
+        selectPhoneButton.innerHTML = "This one"
         selectPhone.appendChild(selectPhoneButton);
-        selectPhoneButton.setAttribute("type", "button");
-        selectPhoneButton.setAttribute("value", "This one");
-        //selectPhoneButton.setAttribute("fontSize", "large");
-        selectPhoneButton.setAttribute("style", "width:200px;height:52px;font-size:large;border-radius: 8px;");
+        selectPhoneButton.setAttribute("class", "btn");
+       // selectPhoneButton.setAttribute("value", "This one");
+       // selectPhoneButton.setAttribute("fontSize", "large");
+        //selectPhoneButton.setAttribute("style", "width:200px;height:52px;font-size:large;border-radius: 8px;");
         selectPhoneButton.setAttribute("onclick", "stopTimer(); phoneSelected(" + currentPhone + "); ");
         row.appendChild(selectPhone);
     }
-    if (timerPresent == true) {
-	document.getElementById("CountDown").style.display = "block";
+    /*if (timerPresent == true) {
+	document.getElementById("countDown").style.display = "block";
 	}
 	else {
-	}
-	if (TrialInstructions == true){
-    	if (Stimulus == 1) {
-    	document.getElementById("GoFast").style.display = "block";
-    	document.getElementById("GoSlow").style.display = "none";
-    	document.getElementById("GoFast").setAttribute("style", "color:green;margin-top:1cm;");
+	}*/
+	if (trialInstructions == true){
+    	if (stimulus == 1) {
+    	goFast.show
+    	goSlow.hide
+    	document.getElementById("goFast").setAttribute("style", "color:green;margin-top:1cm;");
     	}
-    	else if (Stimulus == 2) {
-		document.getElementById("GoSlow").style.display = "block";
-		document.getElementById("GoFast").style.display = "none";
-		document.getElementById("GoSlow").setAttribute("style", "color:red;margin-top:1cm;");
+    	else if (stimulus == 2) {
+        goSlow.show
+        goFast.hide
+        document.getElementById("goSlow").setAttribute("style", "color:red;margin-top:1cm;");
 		}
 		else {
 		}
 }
 else {
 }
-	document.getElementById("phonesTable").setAttribute("style", "align:center;");
+	document.getElementById("phoneTable").setAttribute("style", "align:center;");
 }
 
 function updateTrialNumber() {
-  //console.log("updateTrialNumber");
+  console.log("updateTrialNumber");
   currenttotaltrial = ((nCurrentTrial + 1) + (nCurrentBlock * nTrials));
   document.getElementById("currentProgress").innerHTML = currenttotaltrial;
   console.log(currenttotaltrial)
 }
 
 
-function signalResponseWindow() {
+/*function signalResponseWindow() {
   //console.log("signalResponseWindow");
   clearTimeout(dceTimeout);
   //document.addEventListener('keyup', recordKP, false); // This adds event listener to page ("Listens" for keypress)
@@ -879,9 +881,9 @@ function signalResponseWindow() {
   signalResponseCue.show()
   document.getElementById("totalProgress").innerHTML = totaltrials;
   srwTimeout = setTimeout(tooSlow, maxResponseWindow)
-}
+}*/
 
-
+/*
 function recordKP(event) {
   console.log("recordKP");
   clearTimeout(srwTimeout)
@@ -905,10 +907,10 @@ function recordKP(event) {
           console.log("/ Button Pressed - recordKP fired");
             }
           }
-
+*/
 
 function createRow() {
-  //console.log('createRow')
+  console.log('createRow')
     var row = document.createElement("tr");
     tableBody.appendChild(row);
     return row;
@@ -916,7 +918,7 @@ function createRow() {
 
 
 function addCell(row, type, input) {
-  //console.log('addCell');
+  console.log('addCell');
     var cell = document.createElement(type);
     cell.innerHTML = input;
     row.appendChild(cell);
@@ -1043,7 +1045,7 @@ console.log("timeLeft")
 */
 
 function stopTimer() {  //after product selected, gets time and calculates time taken
-  //console.log('stopTimer')												
+  console.log('stopTimer')												
     endDate = new Date();
     endTime = endDate.getTime();
     inTrial = false;
@@ -1056,7 +1058,7 @@ function tooFast() {	  //when someone goes too fast (can set MinTrialTime above)
   console.log("tooFast");
   document.getElementById("phoneTable").style.display = "none";
   tooFastDiv.show()
-  signalResponseCue.hide()
+  //signalResponseCue.hide()
 	//progDiv();
   nCurrentTrial++;
   if (nCurrentTrial == nTrials) {
@@ -1069,7 +1071,7 @@ function tooFast() {	  //when someone goes too fast (can set MinTrialTime above)
 
 
 function fastTimeout() {
-  //console.log("fastTimeout");
+  console.log("fastTimeout");
   stopContEvent = true;
   clearTimeout(contWaitTime)
   spacebarToContinue.show()
@@ -1086,17 +1088,17 @@ function contKP(event) {
            tooSlowDiv.hide()
            tooFastDiv.hide()
            postTrial();
-           //console.log('spacebar Pressed')
+           console.log('spacebar Pressed')
           }
          }
 
 function tooSlow() {	//when someone doesnt respond fast enough. Can set this above. Records mode as slow and doesnt show a selected product
-  //console.log("tooSlow");
+  console.log("tooSlow");
   stopTimer();
   document.removeEventListener('keyup', recordKP, false);
   document.getElementById("phoneTable").style.display = "none";
   tooSlowDiv.show();
-  signalResponseCue.hide();
+  //signalResponseCue.hide();
 	clearTimeout(srwTimeout);
 	rt = endTime - startTime;
   /* Output file - "TOO SLOW" trial
@@ -1140,7 +1142,7 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
 
 
 function nextRound() {										//moves to the next trial
-    //console.log("nextRound");
+    console.log("nextRound");
     clearTimeout(pFeedbackTO);
     inTimeDiv.hide();
     nCurrentTrial++;
@@ -1155,7 +1157,7 @@ function nextRound() {										//moves to the next trial
 
 
 function endOfBlock() {									//works out the end of the block
- 	//console.log("endOfBlock");
+ 	console.log("endOfBlock");
   tooFastDiv.hide();
   tooSlowDiv.hide();
  	nCurrentTrial = (nCurrentTrial - nTrials);
@@ -1177,7 +1179,7 @@ function endOfBlock() {									//works out the end of the block
 
 
 function showEndBlock() {									//shows "end of block"
-  //console.log("showEndBlock")
+  console.log("showEndBlock")
   regEOBKP = true;
   endBlock.show()
   document.getElementById('chosenProduct').innerHTML = yourProd;
@@ -1189,30 +1191,30 @@ function showEndBlock() {									//shows "end of block"
 
 
 function endOBContKP(event) { // Event listener for end of block key press
-  //console.log("endOBContKP")
+  console.log("endOBContKP")
   if (event.keyCode == 32 && regEOBKP == true){
            regEOBKP = false;
            event.preventDefault();
            document.removeEventListener('keyup', endOBContKP, false);
            endBlock.hide();
-           produceDurationsArray();
+           postTrial();
           }
          }
 
 
 
 function endOfExperiment() {	//shows the experiment end
-  //console.log("endOfExperiment")
+  console.log("endOfExperiment")
   expEnd.show()
   document.getElementById("phoneTable").style.display = "none";
-  //console.log(dataOutput);
+  console.log(dataOutput);
   endExpTO = setTimeout(saveResults, 2000);
 }
 
 
 
 function saveResults() {	   //function to save the output file to php
-    //console.log("saveResults");
+    console.log("saveResults");
     clearTimeout(endExpTO)
     /* Output file appearance
     Block, trial, feature 1, feature 2, feature n, reponse time, 
@@ -1230,7 +1232,7 @@ function saveResults() {	   //function to save the output file to php
     for (var i = 0; i < dataOutput.length; i++) {
         output_txt += dataOutput[i].toString() + "\n";
     }
-    //console.log("check");
+    console.log("check");
 
     //send data to PHP on server
     //var experimentDataRequest = new XMLHttpRequest();
@@ -1242,7 +1244,7 @@ function saveResults() {	   //function to save the output file to php
     var expSendVariables = "" + expVarTxt + "SonaID=" + expVarFn + " Chosen Product: " + yourProd;
 
     //experimentDataRequest.send(expSendVariables);
-    //console.log(expSendVariables);
+    console.log(expSendVariables);
 
     //from:  http://help.dottoro.com/ljskourt.php
 jatos.submitResultData(expSendVariables, pointsLink);
