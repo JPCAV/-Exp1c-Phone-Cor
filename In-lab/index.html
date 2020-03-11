@@ -5,20 +5,24 @@
 
 
      <!--External link for CSS style sheet-->
-    <!--Line below for external CSS style sheet (when all files stored in same folder) when running file in browser i.e. offline
-    <link href="style.css" rel="stylesheet" type="text/css">-->
+    <!--Line below for external CSS style sheet (when all files stored in same folder) when running file in browser i.e. offline -->
+    <link href="style.css" rel="stylesheet" type="text/css">
 
-    <!--Line below (i.e. ABSOLUTE path) for external CSS style sheet when running file online i.e. psych-JATOS-->
-    <link rel="stylesheet" type="text/css" href="/study_assets/TRT/style.css"/>
+    <!--Line below (i.e. ABSOLUTE path) for external CSS style sheet when running file online i.e. psych-JATOS
+    <link rel="stylesheet" type="text/css" href="/study_assets/TRT/style.css"/>-->
 
-    <!--This script is for running experiment on JATOS-->
-    <script src="/assets/javascripts/jatos.js"></script>
+    <!--This script is for running experiment on JATOS
+    <script src="/assets/javascripts/jatos.js"></script> -->
 
 
-    <!-- Use below ABSOLUTE path refs when running study on https://psych-jatos.newcastle.edu.au/jatos (i.e. < JATOS Version 3.2.3 )-->
+    <!-- Use below ABSOLUTE path refs when running study on https://psych-jatos.newcastle.edu.au/jatos (i.e. < JATOS Version 3.2.3 )
     <script src="/study_assets/TRT/jquery1.js"></script>
     <script src="/study_assets/TRT/jquery2.js"></script>
-    <script src="/study_assets/TRT/underscore.js"></script>
+    <script src="/study_assets/TRT/underscore.js"></script> -->
+
+    <script src="jquery1.js"></script>
+    <script src="jquery2.js"></script>
+    <script src="underscore.js"></script>
 
 <!--
 <script> This function is only necessary when using JATOS variables/functions
@@ -199,7 +203,7 @@ const specificNumPhones = ["2", "4", "8"]; 						      // Specific number of pho
 const BSPhones = ["2", "4", "8"];									          // Random phone options for BS design
 const trialInstructions = true;									              // SAT verbal instruction: false to turn off fast or accurate
 const progressOn = false;											                // Show participant progress (i.e. trials completed)
-const randomTimer = true; 										                // SAT countdown timer - Randomise duration for each trial
+const randomTimer = false; 										                // SAT countdown timer - Randomise duration for each trial
 const timerPresent = false;										                // SAT countdown timer - true = show timer, false = no timer
 const tooSlowPresent = true;										              // Timeout choices
 const fastOrAccurate = [1,2]; 									              // SAT Manipulation - Fast = 1, Accuratate = 2 
@@ -423,12 +427,12 @@ var dblCheckCreds = function(){
       return
     }
     $("#login-div").hide()
-   chooseYourProduct();
+   instructOne();
    console.log('Valid Login', username)
   }
 }
 
-function chooseYourProduct(){
+/* function chooseYourProduct(){
 pageOneDiv.show()
 prodFormDiv.show()
 }
@@ -457,7 +461,7 @@ function getProduct() { // get value of selected 'ship' radio button in 'prodFor
   prodFormDiv.hide()
   instructOne()
 }
-
+*/
 
 
 function instructOne() {
@@ -509,9 +513,10 @@ function instructTwoButton (){
 function postInstruct() {
   instruxTwo.hide()
   initialiseSetup();
-  initialisePhonesetup();
+  initialisePhonesSetup();
 }
 
+/*
 function fillPrelimArrays (multiplier, origArr, prelimArr) { // Function to fill the prelimary stimDuration arrays
   let arrPos = 0;
     for (let i = 0; i < multiplier; i++) {
@@ -543,9 +548,9 @@ function shuffleArr(arr) {    // This shuffle/randomise function lifted from htt
   return arr;
   //console.log(shuffleArr)
 }
+*/
 
-
-function initialiseSetup() { //makes the experiment start
+function initialiseSetup() { // Begin experiment - display phoneTable/DCE
   document.getElementById("phoneTable").style.display = "block";
   document.getElementById("totalProgress").innerHTML = totaltrials;
   //progDiv();
@@ -688,10 +693,10 @@ if (trialInstructions == true) { // true = SAT instructions present
               goFast.show()
               document.getElementById("phoneTable").style.display = "none";
               stimTimeout = setTimeout(preTrial, stimTime);
-              //if (randomTimer == true) {
-                //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
-                //maxTrialTime = maxTrialTimeOpt[temp];
-                //maxTrialTime = durations.shift();
+              if (randomTimer == true) { // Uncomment here +4 lines for countdown timer
+                temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
+                maxTrialTime = maxTrialTimeOpt[temp];
+                maxTrialTime = durations.shift();
               }
 	else {
 		maxTrialTime = setMaxTrialTime;
@@ -701,29 +706,27 @@ else if (stimulus == 2) {
   goSlow.show() // BE CAREFUL
   document.getElementById("phoneTable").style.display = "none"
   stimTimeout = setTimeout(preTrial, stimTime);
-  // if (randomTimer == true) {
-		 //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
-     //maxTrialTime = maxTrialTimeOpt[temp];
-     //maxTrialTime = durations.shift();
+  if (randomTimer == true) {
+		 temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
+     maxTrialTime = maxTrialTimeOpt[temp];
       }
-      else {
-        maxTrialTime = setMaxTrialTime;
-      }
-    }
-    else {
-    }
+	else {
+		maxTrialTime = setMaxTrialTime;
+		}
+	}
+else {
+}
+}
+else {
+(stimulus == 0);
+if (randomTimer == true) {
+		 temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
+     maxTrialTime = maxTrialTimeOpt[temp];
   }
-  else {
-    (stimulus == 0);
-    if (randomTimer == true) {
-      //temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
-      //maxTrialTime = maxTrialTimeOpt[temp];
-      //maxTrialTime = durations.shift();
-    }
-    else {
-      maxTrialTime = setMaxTrialTime;
-    }
-    generateProductArray()
+	else {
+		maxTrialTime = setMaxTrialTime;
+		}
+generateProductArray();
   }
 }
 
@@ -757,75 +760,107 @@ function generateProductArray() {									//makes the array of Phones
     phoneArray = [];
     // Create 'numPhones' new phones - this is determined by the numbers from 1 of the 4 cases above
     for (var i = 0; i < numPhones; i++) {
-        productArray.push(createNewProduct()) // Phones are created by createNewProduct func, run  for 'numPhones' times
+        phoneArray.push(createNewProduct()) // Phones are created by createNewProduct func, run  for 'numPhones' times
       /*if (tooSlowPresent == true) {
     	timeout = setTimeout(tooSlow, maxTrialTime);
     	}
     	else {
     	}*/
+    }
     updateTable()
     updateTrialNumber()
    	//timeLeft()
 }
 
-
 function createNewProduct() {	//creates Phones
     //console.log("createNewProduct");
-    // New product
-    var product = {attributes:[]};
+    // Initialise product
+    var phone = {attributes:[]};
     // Add the attributes
     for (var i = 0; i < numAttributes; i++) {
-        // Pick a random value for the feature
-        var randomValue = Math.floor(Math.random() * (attributes[usingAttributes[i]].length));
-        product.attributes[usingAttributes[i]] = attributes[usingAttributes[i]][randomValue];
+        // Pick a random attribute from usingAttributes
+        var randomValue = Math.floor(Math.random() * (attributes[usingAttributes[i]].length - 1)) + 1;
+        phone.attributes[usingAttributes[i]] = attributes[usingAttributes[i]][randomValue];
     }
     // Return the new product
-    return product;
+    return phone;
 
 }
 
 
-function updateTable() {									//makes the product table
-    //console.log("updateTable");
+
+function updateTable() {									//makes the phone table
+    console.log("updateTable()");
     // Get the child nodes of the table
     var tableBody = document.getElementById("tableBody");
     var tableRows = tableBody.getElementsByTagName("tr");
+
     // Delete the current table
     while(tableRows.length != 0)
         tableRows[0].remove();
-    // Add the Brand column - "th" header cell, "td" standard cell contains data
+
+
+    // Add the Brand column - column name for first column (attributes)
     var row = createRow();
-    //addCell(row, "th", "");
-    // Add the current attributes row
+    addCell(row, "th", "");
+
+    // Add the current features row
     for (var brand = 0; brand < numPhones; brand++) {
-        addCell(row, "td", productBrands[brand]);
-      }
+        addCell(row, "td", phoneBrands[brand]);
+    }
+
     // Fill the data in
     for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
         var row = createRow();
 
-        for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
-            /* if (currentproduct == -1) // This is adding the headings in
+        for (var currentPhone = -1; currentPhone < numPhones; currentPhone++) {
+            if (currentPhone == -1) // Add attribute names e.g. Price, memory
                 addCell(row, "th", attributes[usingAttributes[currentFeature]][0]);
-            else // This is adding the contents in*/
-                addCell(row, "td", productArray[currentproduct].attributes[usingAttributes[currentFeature]]);
+            else // Add attribute levels to cells e.g. $xx, xxGB, xxMP, xx"
+                addCell(row, "td", phoneArray[currentPhone].attributes[usingAttributes[currentFeature]]);
         }
     }
-  startTimer();
-  document.addEventListener('keyup', recordKP, false); // This adds event listener to page ("Listens" for keypress)
-	document.getElementById("phoneTable").style.display = "block";
-   
-  if (maxTrialTime < 9000) { 
-        // If trial is a signal trial (< 9000)
-        dceTimeout = setTimeout(signalResponseWindow, maxTrialTime);     // setTimeout method must be cleared IF it is not triggered
-        //console.log('signal trial', maxTrialTime);                     // E.g. if event listener keypress registers before setTimeout fires      
-       }                                                                        
-  else {
-        // Else the trial is a regular trial                   
-        dceTimeout = setTimeout(tooSlow, maxTrialTime);
-        //console.log('regular trial', maxTrialTime);
-  }
-  //console.log(inTrial);
+
+
+    // Add the Select row
+    var row = createRow();
+    addCell(row, "th", "Select");
+
+    // Add the current features columns
+    for (var currentPhone = 0; currentPhone < numPhones; currentPhone++) {
+        // Select button
+        var selectPhone = document.createElement("td");
+        var selectPhoneButton = document.createElement("input");
+        selectPhone.appendChild(selectPhoneButton);
+        selectPhoneButton.setAttribute("type", "button");
+        selectPhoneButton.setAttribute("value", "This one");
+        //selectPhoneButton.setAttribute("fontSize", "large");
+        selectPhoneButton.setAttribute("style", "width:200px;height:52px;font-size:large;border-radius: 8px;");
+        selectPhoneButton.setAttribute("onclick", "stopTimer(); phoneSelected(" + currentPhone + "); ");
+        row.appendChild(selectPhone);
+    }
+    if (timerPresent == true) {
+	document.getElementById("CountDown").style.display = "block";
+	}
+	else {
+	}
+	if (TrialInstructions == true){
+    	if (Stimulus == 1) {
+    	document.getElementById("GoFast").style.display = "block";
+    	document.getElementById("GoSlow").style.display = "none";
+    	document.getElementById("GoFast").setAttribute("style", "color:green;margin-top:1cm;");
+    	}
+    	else if (Stimulus == 2) {
+		document.getElementById("GoSlow").style.display = "block";
+		document.getElementById("GoFast").style.display = "none";
+		document.getElementById("GoSlow").setAttribute("style", "color:red;margin-top:1cm;");
+		}
+		else {
+		}
+}
+else {
+}
+	document.getElementById("phonesTable").setAttribute("style", "align:center;");
 }
 
 function updateTrialNumber() {
@@ -902,7 +937,7 @@ function phoneSelected(selected) {										//records which product is selected 
     for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", "; // Record Block # and trial #
         for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) { // Record attributes
-            output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
+            output += phoneArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
         }
         output += rt + ", "; // Record RT
         output += "fast" + ", "; // Record - trialError = fast
@@ -935,7 +970,7 @@ function phoneSelected(selected) {										//records which product is selected 
     for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
       output += nCurrentBlock +", " + nCurrentTrial + ", "; // Record Block # and trial #
       for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) { // Record attributes
-        output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
+        output += phoneArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
       } 
       output += rt + ", "; // Record Rt
       output += "null" + ", "; // trialError = "null" i.e. made a section in time (not fast/slow)
@@ -1072,7 +1107,7 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
   for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", "; // Record block # and trial #
        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) { // Record attributes
-           output += productArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
+           output += phoneArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
           }
           output += rt + ", ";          // Record RT
           output += "Slow" + ", ";      // Record trialError = "SLOW"
@@ -1100,6 +1135,7 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
         else {
             contWaitTime = setTimeout(fastTimeout, waitTime);
             }
+}
 }
 
 

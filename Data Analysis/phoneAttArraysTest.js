@@ -666,7 +666,7 @@ for (var i = 0; i < features.length; i++)
       if (randomPresentation == 1) {
           for (var i = 0; i < usingFeatures.length; i++) {
                 var randomFeature = Math.floor(Math.random() * usingFeatures.length); //
-                
+
                 var temp = usingFeatures[i];
                 console.log(temp)
                 usingFeatures[i] = usingFeatures[randomFeature];
@@ -683,3 +683,123 @@ const maxPhones = 8;   ////////////////////////
 var numPhones = Math.floor(Math.random() * (maxPhones - minPhones + 1) + minPhones);
 
 console.log(numPhones)
+
+
+
+
+
+function createNewProduct() {	//creates Phones
+  //console.log("createNewProduct");
+  // Initialise product
+  var product = {features:[]};
+  // Add the attributes
+  for (var i = 0; i < numAttributes; i++) {
+      // Pick a random attribute from usingAttributes to create an option
+      var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length));
+      product.features[usingFeatures[i]] = features[usingFeatures[i]][randomValue];
+      console.log(product)
+  }
+  // Return the new product
+  return product;
+
+}
+console.log(createNewProduct())
+
+//var product = {features:[]};
+//product.features[usingFeatures[1]] = 
+//console.log(product)
+
+
+
+
+
+
+
+
+function updateTable() {									//makes the phone table
+  console.log("updateTable()");
+  // Get the child nodes of the table
+  var tableBody = document.getElementById("tableBody");
+  var tableRows = tableBody.getElementsByTagName("tr");
+
+  // Delete the current table
+  while(tableRows.length != 0)
+      tableRows[0].remove();
+
+
+  // Add the Brand column
+  var row = createRow();
+  addCell(row, "th", "Pizza Option");
+
+  // Add the current features row
+  for (var brand = 0; brand < numPhones; brand++) {
+      addCell(row, "td", phoneBrands[brand]);
+  }
+
+  // Add the recommendation
+  if (recommendation == true) {
+  var row = createRow();
+  for (var currentPhone = -1; currentPhone < numPhones; currentPhone++) {
+      if (currentPhone == recommendedPhone && recommendation)
+          addCell(row, "td", "Highly Popular");
+      else
+          addCell(row, "td", "");
+  }
+  }
+  else {
+  }
+
+  // Fill the data in
+  for (var currentFeature = 0; currentFeature < numFeatures; currentFeature++) {
+      var row = createRow();
+
+      for (var currentPhone = -1; currentPhone < numPhones; currentPhone++) {
+
+          if (currentPhone == -1) // This is adding the headings in
+              addCell(row, "th", features[usingFeatures[currentFeature]][0]);
+          else // This is adding the contents in
+              addCell(row, "td", phoneArray[currentPhone].features[usingFeatures[currentFeature]]);
+      }
+  }
+
+
+  // Add the Select row
+  var row = createRow();
+  addCell(row, "th", "Select");
+
+  // Add the current features columns
+  for (var currentPhone = 0; currentPhone < numPhones; currentPhone++) {
+      // Select button
+      var selectPhone = document.createElement("td");
+      var selectPhoneButton = document.createElement("input");
+      selectPhone.appendChild(selectPhoneButton);
+      selectPhoneButton.setAttribute("type", "button");
+      selectPhoneButton.setAttribute("value", "This one");
+      //selectPhoneButton.setAttribute("fontSize", "large");
+      selectPhoneButton.setAttribute("style", "width:200px;height:52px;font-size:large;border-radius: 8px;");
+      selectPhoneButton.setAttribute("onclick", "stopTimer(); phoneSelected(" + currentPhone + "); ");
+      row.appendChild(selectPhone);
+  }
+  if (TimerPresent == true) {
+document.getElementById("CountDown").style.display = "block";
+}
+else {
+}
+if (TrialInstructions == true){
+    if (Stimulus == 1) {
+    document.getElementById("GoFast").style.display = "block";
+    document.getElementById("GoSlow").style.display = "none";
+    document.getElementById("GoFast").setAttribute("style", "color:green;margin-top:1cm;");
+    }
+    else if (Stimulus == 2) {
+  document.getElementById("GoSlow").style.display = "block";
+  document.getElementById("GoFast").style.display = "none";
+  document.getElementById("GoSlow").setAttribute("style", "color:red;margin-top:1cm;");
+  }
+  else {
+  }
+}
+else {
+}
+document.getElementById("phonesTable").setAttribute("style", "align:center;");
+}
