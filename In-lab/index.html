@@ -584,8 +584,7 @@ function initialisePhonesSetup() { //This function generates the NUMBER of attri
                 usingAttributes[i] = usingAttributes[randomFeature]; // Set index i of usingAttributes array to index   
                 usingAttributes[randomFeature] = temp; 
               }
-            }
-            else {
+            } else {
             }
       postTrial();
 	}
@@ -614,8 +613,7 @@ function postTrial() {
   }
   else if (trialInstructions == true) {
     postTimeout = setTimeout(beSomething, postSelectTime)
-  } 
-  else {
+  } else {
   }
 }
 
@@ -654,8 +652,7 @@ function preTrial() {
 	}
 	else if (trialInstructions == true) {
 	fixationTimeout = setTimeout(generateProductArray, fixationTime);
-	}
-	else {
+	} else {
 	}
 }
 
@@ -684,8 +681,7 @@ if (randomPresentation == 2) { // 2 = Randomise the position of attributes in th
         usingAttributes[i] = usingAttributes[randomFeature];
         usingAttributes[randomFeature] = temp;
       }
-    } 
-    else {
+    } else {
     }
 if (trialInstructions == true) { // true = SAT instructions present
   var randomStimulus = Math.floor(Math.random() * fastOrAccurate.length); // Generate random number b/w 1-2
@@ -698,8 +694,7 @@ if (trialInstructions == true) { // true = SAT instructions present
                 temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
                 maxTrialTime = maxTrialTimeOpt[temp];
                 maxTrialTime = durations.shift();
-              }
-	else {
+              } else {
 		maxTrialTime = setMaxTrialTime;
 		}
 	}
@@ -710,21 +705,17 @@ else if (stimulus == 2) {
   if (randomTimer == true) {
 		 temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
      maxTrialTime = maxTrialTimeOpt[temp];
-      }
-	else {
+      } else {
 		maxTrialTime = setMaxTrialTime;
 		}
-	}
-else {
+	} else {
 }
-}
-else {
+} else {
 (stimulus == 0);
 if (randomTimer == true) {
 		 temp = Math.floor(Math.random() * maxTrialTimeOpt.length);
      maxTrialTime = maxTrialTimeOpt[temp];
-  }
-	else {
+  } else {
 		maxTrialTime = setMaxTrialTime;
 		}
 generateProductArray();
@@ -751,7 +742,7 @@ function generateProductArray() {									//makes the array of Phones
         case 2: // 2 = Hard code number of phones to be shown per trial. Number taken from var fixedPhones = X
             numPhones = fixedPhones;
             break;
-        case 3: // 3 = Select random number of options/phones to be shown for a block e.g. Block 1 = 2, block 4 = 4 etc..
+        case 3: // 3 = Select random number of options/phones to be shown for a block e.g. Block 1 = 2, block 4 = 8 etc..
         	numPhones = blockPhones;
         	break;
         case 4: // 4 = Select random number of options/phones to be shown for entire experiment
@@ -783,6 +774,8 @@ function createNewProduct() {	//creates Phones
     return phone;
 
 }
+
+
 
 
 
@@ -912,7 +905,7 @@ function recordKP(event) {
 */
 
 function createRow() {
-  console.log('createRow')
+  //console.log('createRow')
     var row = document.createElement("tr");
     tableBody.appendChild(row);
     return row;
@@ -928,7 +921,7 @@ function addCell(row, type, input) {
 }
 
 
-function phoneSelected(selected) {										//records which product is selected and generates what happens next
+function phoneSelected(selected) { //records which product is selected and generates what happens next
     console.log("phoneSelected " + "rt "+ rt +" " + minTrialTime);
     clearTimeout(timeout)
     //rt = endTime - startTime;
@@ -974,7 +967,7 @@ function phoneSelected(selected) {										//records which product is selected 
         output += phoneArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
       } 
       output += rt + ", "; // Record Rt
-      output += "null" + ", "; // trialError = "null" i.e. made a section in time (not fast/slow)
+      output += "null" + ", "; // trialError = "null" i.e. made a section in time (!= too fast/too slow)
       if (tooSlowPresent == true) {
         output += maxTrialTime + ", ";
       } 
@@ -1094,9 +1087,8 @@ function contKP(event) {
           }
          }
 
-function tooSlow() {	//when someone doesn't respond fast enough. Can set this above. Records mode as slow and doesnt show a selected product
+function tooSlow() {	// Choices when participant is too slow to respond
   console.log("tooSlow")
-  console.log("too slow function beginning " + nCurrentTrial)
   stopTimer()
   //document.removeEventListener('keyup', recordKP, false);
   document.getElementById("phoneTable").style.display = "none"

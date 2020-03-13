@@ -319,10 +319,7 @@ let uncorrPhAtts = [
 ]
 */
 
-
-
-
-let uncorrPhAtts = [
+let corrPhAtts = [
   {price: "$44", camera: "5MP", memory: "8GB", screenSize: '5"',resolution: "1280 x 720"},
   {price: "$134", camera: "13MP", memory: "16GB", screenSize: '5"', resolution: "1280 x 720"},
   {price: "$179", camera: "8MP", memory: "8GB", screenSize: '5"', resolution: "1280 x 720"},
@@ -425,14 +422,10 @@ let uncorrPhAtts = [
   {price: "$2499", camera: "12MP", memory: "512GB", screenSize: '6.5"', resolution: "2688 x 1242"},
   ]
   
-
- console.log(uncorrPhAtts[34])
- console.log(corPhAtAr[34])
-
-console.log(uncorrPhAtts[34]['camera'])
+console.log(corrPhAtts[0]) 
+ 
 
 
-/*
 
 
 function shuffleArr(arr) {    // This shuffle/randomise function lifted from https://bost.ocks.org/mike/shuffle/
@@ -452,8 +445,12 @@ function shuffleArr(arr) {    // This shuffle/randomise function lifted from htt
                               // and swap element durations[i] with the formerly last element of the durations array/list
     }
   return arr;
-  //console.log(shuffleArr)
 }
+
+shuffleArr(corrPhAtts)
+console.log(corrPhAtts)
+
+
 
 // Shuffle all correlated options
 shuffleArr(corrPhAtts) 
@@ -462,7 +459,7 @@ console.log(corrPhAtts[[1]])
 // Each phone is described by 5 attributes - Price, Camera, Memory, screen size and resolution
 // The location of each attribute should be randomised b/w subjects
 
-shuffleArr(uncorrPhAtts) // Shuffle all correlated options in the 
+// Shuffle all correlated options in the 
 
 ///console.log(uncorrPhAtts)
 
@@ -470,7 +467,7 @@ shuffleArr(uncorrPhAtts) // Shuffle all correlated options in the
 
 
 const randomPresentation = 1; 	
-const numAttributes = 3;
+const numAttributes = 5;
 const randomProductsMode = 2;
 const specificNumProducts = ["2", "4", "8"];
 var nCurrentBlock = 0
@@ -506,7 +503,7 @@ if (nCurrentBlock == 0) {
             }
 
             console.log(usingFeatures) // niyigiy
-            */
+            
 
 let priceLvls = [
 "$44", "$134", "$179", "$179", "$199", "$199", "$199", "$229", "$239", "$249",
@@ -579,10 +576,9 @@ console.log(memLvls.length, priceLvls.length, camLvls.length, scSzLvls.length, r
 
 
 // accessing object values
-console.log(uncorrPhAtts[34])
-console.log(corPhAtAr[34])
-
-console.log(uncorrPhAtts[34]['camera'])
+//console.log(uncorrPhAtts[34])
+//console.log(corPhAtAr[34])
+//console.log(uncorrPhAtts[34]['camera'])
 
 
 var features = [												// Available phone features and the random values it can have
@@ -654,8 +650,8 @@ var features = [												// Available phone features and the random values it
                    
                    
 var usingFeatures = [];
-const numAttributes = 5;
-var randomPresentation = 1
+
+
 for (var i = 0; i < features.length; i++)
 		usingFeatures.push(i);
     console.log(usingFeatures)
@@ -666,7 +662,7 @@ for (var i = 0; i < features.length; i++)
       if (randomPresentation == 1) {
           for (var i = 0; i < usingFeatures.length; i++) {
                 var randomFeature = Math.floor(Math.random() * usingFeatures.length); //
-
+                console.log(randomFeature)
                 var temp = usingFeatures[i];
                 console.log(temp)
                 usingFeatures[i] = usingFeatures[randomFeature];
@@ -696,6 +692,7 @@ function createNewProduct() {	//creates Phones
   for (var i = 0; i < numAttributes; i++) {
       // Pick a random attribute from usingAttributes to create an option
       var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length));
+      console.log(randomValue)/////////////
       product.features[usingFeatures[i]] = features[usingFeatures[i]][randomValue];
       console.log(product)
   }
@@ -703,7 +700,35 @@ function createNewProduct() {	//creates Phones
   return product;
 
 }
+
+
+
 console.log(createNewProduct())
+
+
+
+
+function createNewProduct() {	//creates Phones
+  //console.log("createNewProduct");
+  // Initialise product
+  var product = {features:[]};
+  // Add the attributes
+  for (var i = 0; i < numAttributes; i++) {
+      // Pick a random attribute from usingAttributes to create an option
+      var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length));
+      console.log(randomValue)/////////////
+      product.features[usingFeatures[i]] = features[usingFeatures[i]][randomValue];
+      console.log(product)
+  }
+  // Return the new product
+  return product;
+
+}
+
+
+// draw from correlated phone array 
+
+
 
 //var product = {features:[]};
 //product.features[usingFeatures[1]] = 
