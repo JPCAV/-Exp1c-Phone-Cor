@@ -212,8 +212,8 @@ const nTrials = 2; // Old phone DCE - 25 trials              // Number of trials
 const nBlocks = 4;	// Old phone DCE - 6 blocks               // Number of blocks in experiment
 const waitTime = 2000;											                  // Time participant must wait, after a 'too fast' response, before they can continue
 var maxTrialTime = [];											                  // Maximum trial time - The length of time a stimulus is shown for
-const setMaxTrialTime = 300;									                // Set maximum trial time (used if randomtimer = false)
-const minTrialTime = 150;											                // Minimum trial time
+const setMaxTrialTime = 4000;									                // Set maximum trial time (used if randomtimer = false)
+const minTrialTime = 1000;											                // Minimum trial time
 const stimTime = 1000;											                  // Stimulus duration of SAT instructions (when trialInstructions = true)
 const postSelectTime = 500;										                // Time after phone selected
 var fixationTime = [];											                  // Duration fixation cross is shown for
@@ -335,7 +335,7 @@ var stimTimeout;
 //var countdownTimeout;
 var fixationTimeout;
 var postTimeout;
-var srwTimeout;
+//var srwTimeout;
 var pFeedbackTO;
 var endExpTO;
 var dceTimeout;
@@ -762,11 +762,7 @@ function generateProductArray() {									//makes the array of Phones
     // Create 'numPhones' new phones - this is determined by the numbers from 1 of the 4 cases above
     for (var i = 0; i < numPhones; i++) {
         phoneArray.push(createNewProduct()) // Phones are created by createNewProduct func, run  for 'numPhones' times
-      /*if (tooSlowPresent == true) {
-    	timeout = setTimeout(tooSlow, maxTrialTime);
-    	}
-    	else {
-    	}*/
+      
     }
     updateTable()
     updateTrialNumber()
@@ -792,7 +788,7 @@ function createNewProduct() {	//creates Phones
 
 function updateTable() {									//makes the phone table
     console.log("updateTable()");
-    startTimer()
+    
     // Get the child nodes of the table
     var tableBody = document.getElementById("tableBody");
     var tableRows = tableBody.getElementsByTagName("tr");
@@ -846,7 +842,8 @@ function updateTable() {									//makes the phone table
 	}
 	else {
 	}*/
-	if (trialInstructions == true){
+  
+	/*if (trialInstructions == true){
     	if (stimulus == 1) {
     	goFast.show
     	goSlow.hide
@@ -861,8 +858,13 @@ function updateTable() {									//makes the phone table
 		}
 }
 else {
-}
+}*/
 	document.getElementById("phoneTable").setAttribute("style", "align:center;");
+  startTimer()
+  if (tooSlowPresent == true) {
+    timeout = setTimeout(tooSlow, maxTrialTime)
+    } else {
+    }
 }
 
 function updateTrialNumber() {
@@ -918,7 +920,7 @@ function createRow() {
 
 
 function addCell(row, type, input) {
-  console.log('addCell');
+  //console.log('addCell');
     var cell = document.createElement(type);
     cell.innerHTML = input;
     row.appendChild(cell);
@@ -927,20 +929,17 @@ function addCell(row, type, input) {
 
 
 function phoneSelected(selected) {										//records which product is selected and generates what happens next
-    console.log("phoneSelected");
-    rt = endTime - startTime;
+    console.log("phoneSelected " + "rt "+ rt +" " + minTrialTime);
+    clearTimeout(timeout)
+    //rt = endTime - startTime;
     if (rt < minTrialTime) {
         var output = "";
-        /* Output-file appearance on a "Too Fast!" trial
-        For each product: reponse time, 
-        was there an error? (0/1/2 - no error/too fast/too slow),
-        selected this product 1/0 (Y/N);
-        */
+    // Output file - "Too Fast!" trial
     for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", "; // Record Block # and trial #
-        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) { // Record attributes
-            output += phoneArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
-        }
+            for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) { // Record attributes
+                     output += phoneArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", "
+                    }
         output += rt + ", "; // Record RT
         output += "fast" + ", "; // Record - trialError = fast
         if (tooSlowPresent == true) {
@@ -1005,6 +1004,9 @@ function phoneSelected(selected) {										//records which product is selected 
 
 function posiFeedback() {
   inTimeDiv.show()
+  goFast.hide
+  goSlow.hide
+  document.getElementById("phoneTable").style.display = "none";
   console.log("Valid trial positive feedback")
   pFeedbackTO = setTimeout(nextRound, 500)
 }
@@ -1044,82 +1046,80 @@ console.log("timeLeft")
 	}
 */
 
-function stopTimer() {  //after product selected, gets time and calculates time taken
-  console.log('stopTimer')												
-    endDate = new Date();
-    endTime = endDate.getTime();
-    inTrial = false;
-    clearTimeout(dceTimeout);
+function stopTimer() {  // Stops the timer
+  console.log('stopTimer START')												
+    endDate = new Date()
+    endTime = endDate.getTime()
+    rt = endTime - startTime
+    inTrial = false
+    console.log("stop timer finished")
 	}
 
 
 
-function tooFast() {	  //when someone goes too fast (can set MinTrialTime above)
-  console.log("tooFast");
-  document.getElementById("phoneTable").style.display = "none";
+function tooFast() { // 'TOO FAST' choices (can set MinTrialTime above)
+  console.log("tooFast")
+  document.getElementById("phoneTable").style.display = "none"
   tooFastDiv.show()
   //signalResponseCue.hide()
-	//progDiv();
-  nCurrentTrial++;
+  //progDiv();
+  nCurrentTrial++
   if (nCurrentTrial == nTrials) {
-        endOfBlock();
-        }
-  else {
-        contWaitTime = setTimeout(fastTimeout, waitTime);
+        endOfBlock()
+        } else {
+        contWaitTime = setTimeout(fastTimeout, waitTime)
         }
     }
 
 
 function fastTimeout() {
-  console.log("fastTimeout");
-  stopContEvent = true;
+  console.log("fastTimeout")
+  stopContEvent = true
   clearTimeout(contWaitTime)
   spacebarToContinue.show()
-  document.addEventListener('keyup', contKP, false);
+  document.addEventListener('keyup', contKP, false)
 }
 
 
 function contKP(event) {
   if (event.keyCode == 32 && stopContEvent == true){
-           stopContEvent = false;
-           event.preventDefault();
-           document.removeEventListener('keyup', contKP, false);
+           stopContEvent = false
+           event.preventDefault()
+           document.removeEventListener('keyup', contKP, false)
            spacebarToContinue.hide()
            tooSlowDiv.hide()
            tooFastDiv.hide()
-           postTrial();
+           postTrial()
            console.log('spacebar Pressed')
           }
          }
 
-function tooSlow() {	//when someone doesnt respond fast enough. Can set this above. Records mode as slow and doesnt show a selected product
-  console.log("tooSlow");
-  stopTimer();
-  document.removeEventListener('keyup', recordKP, false);
-  document.getElementById("phoneTable").style.display = "none";
-  tooSlowDiv.show();
+function tooSlow() {	//when someone doesn't respond fast enough. Can set this above. Records mode as slow and doesnt show a selected product
+  console.log("tooSlow")
+  console.log("too slow function beginning " + nCurrentTrial)
+  stopTimer()
+  //document.removeEventListener('keyup', recordKP, false);
+  document.getElementById("phoneTable").style.display = "none"
+  tooSlowDiv.show()
   //signalResponseCue.hide();
-	clearTimeout(srwTimeout);
-	rt = endTime - startTime;
-  /* Output file - "TOO SLOW" trial
-  Records the following data for each product/option on a single trial
-  Block, trial, feature 1, feature 2, feature n, reponse time, 
-  was there an error? (0/1/2 - no error/too fast/too slow), selected this product 1/0 (Y/N); */
-  var output = "";
+	//clearTimeout(srwTimeout);
+	//rt = endTime - startTime;
+  // Output file - "TOO SLOW" trial
+  var output = ""
   for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
         output += nCurrentBlock +", " + nCurrentTrial + ", "; // Record block # and trial #
        for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) { // Record attributes
-           output += phoneArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", ";
+           output += phoneArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", "
           }
-          output += rt + ", ";          // Record RT
-          output += "Slow" + ", ";      // Record trialError = "SLOW"
+          output += rt + ", "          // Record RT
+          output += "Slow" + ", "      // Record trialError = "SLOW"
           if (tooSlowPresent == true) {
-            output += maxTrialTime + ", "; // Record length of time the DCE was shown for
+            output += maxTrialTime + ", " // Record length of time the DCE was shown for
           }
           else {
-            output += "null" + ", ";       // Record null for maxTrialTime when not using a timer
+            output += "null" + ", "       // Record null for maxTrialTime when not using a timer
           }
-          output += fixationTime + ", ";   // Record length of time fixation cross was shown
+          output += fixationTime + ", "   // Record length of time fixation cross was shown
           if (stimulus == 0)               // If no SAT verbal instructions i.e. timer
           output += "0, "                     // condition = "0"
           else if (stimulus == 1)          // SAT verbal instruction
@@ -1128,51 +1128,52 @@ function tooSlow() {	//when someone doesnt respond fast enough. Can set this abo
           output += "2, "                     // condition = "2" or "BE CAREFUL" trial
           else
           output += "0, "
-          output += "0;\n"                 // Record selected = "0" (no choice made)
-    dataOutput.push(output);
-    nCurrentTrial++;
+          output += "0;\n"
+        }                                  // Record selected = "0" (no choice made)
+    dataOutput.push(output)
+    nCurrentTrial++
 	 if (nCurrentTrial == nTrials) {
         endOfBlock();
         }
         else {
-            contWaitTime = setTimeout(fastTimeout, waitTime);
+            contWaitTime = setTimeout(fastTimeout, waitTime)
             }
-}
-}
+          }
+        
 
 
 function nextRound() {										//moves to the next trial
-    console.log("nextRound");
-    clearTimeout(pFeedbackTO);
-    inTimeDiv.hide();
-    nCurrentTrial++;
+    console.log("nextRound")
+    clearTimeout(pFeedbackTO)
+    inTimeDiv.hide()
+    nCurrentTrial++
     if (nCurrentTrial < nTrials) {
-        postTrial();
+        postTrial()
         }
     else {
-        endOfBlock();
+        endOfBlock()
         }
     }
 
 
 
 function endOfBlock() {									//works out the end of the block
- 	console.log("endOfBlock");
-  tooFastDiv.hide();
-  tooSlowDiv.hide();
- 	nCurrentTrial = (nCurrentTrial - nTrials);
- 	nCurrentBlock++;
+ 	console.log("endOfBlock")
+  tooFastDiv.hide()
+  tooSlowDiv.hide()
+  nCurrentTrial = (nCurrentTrial - nTrials)
+ 	nCurrentBlock++
  	 if (randomPhonesMode == 3) {
- 	 var randomSelectedPhone = Math.floor(Math.random() * specificNumPhones.length);
-    blockPhones = specificNumPhones[randomSelectedPhone];
+ 	 var randomSelectedPhone = Math.floor(Math.random() * specificNumPhones.length)
+    blockPhones = specificNumPhones[randomSelectedPhone]
     }
     else {
     }
  	if (nCurrentBlock < nBlocks) {
- 		showEndBlock();
+ 		showEndBlock()
  		}
  	else {
- 		endOfExperiment();
+ 		endOfExperiment()
  	}
  }
 
@@ -1180,11 +1181,11 @@ function endOfBlock() {									//works out the end of the block
 
 function showEndBlock() {									//shows "end of block"
   console.log("showEndBlock")
-  regEOBKP = true;
+  regEOBKP = true
   endBlock.show()
-  document.getElementById('chosenProduct').innerHTML = yourProd;
-  document.getElementById("phoneTable").style.display = "none";
-  document.addEventListener('keyup', endOBContKP,false);
+  //document.getElementById('chosenProduct').innerHTML = yourProd;
+  document.getElementById("phoneTable").style.display = "none"
+  document.addEventListener('keyup', endOBContKP,false)
   //progDiv();
 }
 
@@ -1193,11 +1194,11 @@ function showEndBlock() {									//shows "end of block"
 function endOBContKP(event) { // Event listener for end of block key press
   console.log("endOBContKP")
   if (event.keyCode == 32 && regEOBKP == true){
-           regEOBKP = false;
-           event.preventDefault();
-           document.removeEventListener('keyup', endOBContKP, false);
-           endBlock.hide();
-           postTrial();
+           regEOBKP = false
+           event.preventDefault()
+           document.removeEventListener('keyup', endOBContKP, false)
+           endBlock.hide()
+           postTrial()
           }
          }
 
@@ -1206,48 +1207,48 @@ function endOBContKP(event) { // Event listener for end of block key press
 function endOfExperiment() {	//shows the experiment end
   console.log("endOfExperiment")
   expEnd.show()
-  document.getElementById("phoneTable").style.display = "none";
-  console.log(dataOutput);
-  endExpTO = setTimeout(saveResults, 2000);
+  document.getElementById("phoneTable").style.display = "none"
+  console.log(dataOutput)
+  endExpTO = setTimeout(saveResults, 2000)
 }
 
 
 
 function saveResults() {	   //function to save the output file to php
-    console.log("saveResults");
+    console.log("saveResults")
     clearTimeout(endExpTO)
     /* Output file appearance
     Block, trial, feature 1, feature 2, feature n, reponse time, 
     was there an error? (0/1/2 - no error/too fast/too slow),selected this phone 1/0 (Y/N);
     */
-    var output_txt = "block, " + "trial, ";
+    var output_txt = "block, " + "trial, "
     for (i = 0; i < numAttributes; i++)
-    output_txt += "feature_" + i + ", ";
-    output_txt += "rt, ";
-    output_txt += "Error, ";
-    output_txt += "MaxTrialTime, ";
-    output_txt += "fixationTime, ";
-    output_txt += "condition, ";
-    output_txt += "selected\n";
+    output_txt += "feature_" + i + ", "
+    output_txt += "rt, "
+    output_txt += "Error, "
+    output_txt += "MaxTrialTime, "
+    output_txt += "fixationTime, "
+    output_txt += "condition, "
+    output_txt += "selected\n"
     for (var i = 0; i < dataOutput.length; i++) {
-        output_txt += dataOutput[i].toString() + "\n";
+        output_txt += dataOutput[i].toString() + "\n"
     }
-    console.log("check");
+    console.log("check") 
 
     //send data to PHP on server
     //var experimentDataRequest = new XMLHttpRequest();
     //experimentDataRequest.open("POST", "save.php", false);  //syncron
     //experimentDataRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    var expVarTxt = output_txt;
-    var expVarFn = username;
-    var expSendVariables = "" + expVarTxt + "SonaID=" + expVarFn + " Chosen Product: " + yourProd;
+    var expVarTxt = output_txt
+    var expVarFn = username
+    var expSendVariables = "" + expVarTxt + "SonaID=" + expVarFn + " Chosen Product: " + yourProd
 
     //experimentDataRequest.send(expSendVariables);
-    console.log(expSendVariables);
+    console.log(expSendVariables)
 
     //from:  http://help.dottoro.com/ljskourt.php
-jatos.submitResultData(expSendVariables, pointsLink);
+jatos.submitResultData(expSendVariables, pointsLink)
     //console.log(experimentDataRequest.responseText);
     pointsLink()
 }
@@ -1264,9 +1265,9 @@ jatos.submitResultData(expSendVariables, pointsLink);
 
 function pointsLink() {
         var url = "https://newcastle.sona-systems.com/services/SonaAPI.svc/WebstudyCredit?experiment_id=1062&credit_token=c4eac5ef19974180ab814513d16d76ce&survey_code=" + username;
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", url, true);
-    xhttp.send();
+        var xhttp = new XMLHttpRequest()
+        xhttp.open("GET", url, true)
+    xhttp.send()
     jatos.endStudyAjax(true)
   }
 

@@ -72,7 +72,7 @@ body.at-task {
 	  text-decoration: none;
 
 	  /* create a small space when buttons wrap on 2 lines */
-	  margin: 2px 0;
+	  margin: 1px 0;
 
 	  /* invisible border (will be colored on hover/focus) */
 	  border: solid 1px;
@@ -219,10 +219,10 @@ body.at-task {
     line-height:3;
 	}
 
-#productTable {
+#phoneTable {
 font-family: "Arial";
-font-size: 175%;
-border-spacing: 100px 10px;
+font-size: 150%;
+border-spacing: 35px 10px;
 }
 
 #tableBody {
