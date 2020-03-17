@@ -769,6 +769,7 @@ function createNewProduct() {	//creates Phones
         // Pick a random attribute from usingAttributes
         var randomValue = Math.floor(Math.random() * (attributes[usingAttributes[i]].length - 1)) + 1;
         phone.attributes[usingAttributes[i]] = attributes[usingAttributes[i]][randomValue];
+        
     }
     // Return the new product
     return phone;
@@ -800,12 +801,20 @@ function updateTable() {									//makes the phone table
         addCell(row, "td", phoneBrands[brand]);
     }
 
+for (var currentOption = 0; currentOption < numPhones; currentOption++) {
+  var randOpt = Math.floor(Math.random() * (attributes[usingAttributes[i]].length - 1)) + 1;
+  console.log(randOpt)
+}
+
+
+
+
     // Fill the data in
     for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
         var row = createRow();
 
         for (var currentPhone = -1; currentPhone < numPhones; currentPhone++) {
-            if (currentPhone == -1) // Add attribute names e.g. Price, memory
+            if (currentPhone == -1) // Add attribute names e.g. Price, memory to beginning of each row
                 addCell(row, "th", attributes[usingAttributes[currentFeature]][0]);
             else // Add attribute levels to cells e.g. $xx, xxGB, xxMP, xx"
                 addCell(row, "td", phoneArray[currentPhone].attributes[usingAttributes[currentFeature]]);

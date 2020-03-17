@@ -422,8 +422,9 @@ let corrPhAtts = [
   {price: "$2499", camera: "12MP", memory: "512GB", screenSize: '6.5"', resolution: "2688 x 1242"},
   ]
   
-console.log(corrPhAtts[0]) 
- 
+console.log(corrPhAtts[0])
+
+// Fill the DCE 
 
 
 
@@ -465,7 +466,7 @@ console.log(corrPhAtts[[1]])
 
 //console.log(uncorrPhAtts[2])
 
-
+var phoneArray = []
 const randomPresentation = 1; 	
 const numAttributes = 5;
 const randomProductsMode = 2;
@@ -504,7 +505,7 @@ if (nCurrentBlock == 0) {
 
             console.log(usingFeatures) // niyigiy
             
-
+/*
 let priceLvls = [
 "$44", "$134", "$179", "$179", "$199", "$199", "$199", "$229", "$239", "$249",
 "$249", "$249", "$279", "$279", "$279", "$299", "$299", "$299", "$299", "$299",
@@ -574,7 +575,7 @@ let resLvls = [
 
 console.log(memLvls.length, priceLvls.length, camLvls.length, scSzLvls.length, resLvls.length)
 
-
+*/
 // accessing object values
 //console.log(uncorrPhAtts[34])
 //console.log(corPhAtAr[34])
@@ -676,58 +677,45 @@ for (var i = 0; i < features.length; i++)
 
 const minPhones = 2; //
 const maxPhones = 8;   ////////////////////////   
-var numPhones = Math.floor(Math.random() * (maxPhones - minPhones + 1) + minPhones);
+//var numPhones = Math.floor(Math.random() * (maxPhones - minPhones + 1) + minPhones);
 
+var numPhones = 3
 console.log(numPhones)
 
 
 
-
-
 function createNewProduct() {	//creates Phones
   //console.log("createNewProduct");
   // Initialise product
+  console.log(product)
   var product = {features:[]};
   // Add the attributes
   for (var i = 0; i < numAttributes; i++) {
       // Pick a random attribute from usingAttributes to create an option
       var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length));
-      console.log(randomValue)/////////////
+      console.log(numAttributes)
+      console.log(randomValue)
       product.features[usingFeatures[i]] = features[usingFeatures[i]][randomValue];
       console.log(product)
   }
   // Return the new product
   return product;
-
 }
 
+console.log(usingFeatures)
+ // Random number b/w 0-100
 
-
-console.log(createNewProduct())
-
-
-
-
-function createNewProduct() {	//creates Phones
-  //console.log("createNewProduct");
-  // Initialise product
-  var product = {features:[]};
-  // Add the attributes
-  for (var i = 0; i < numAttributes; i++) {
-      // Pick a random attribute from usingAttributes to create an option
-      var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length));
-      console.log(randomValue)/////////////
-      product.features[usingFeatures[i]] = features[usingFeatures[i]][randomValue];
-      console.log(product)
-  }
-  // Return the new product
-  return product;
-
+for (var i = 0; i < numPhones; i++) {
+  var randOpt = Math.floor(Math.random() * features[1].length) + 1
+  phoneArray.push[i] = features[usingFeatures[i]][randOpt]
 }
+console.log(phoneArray)
 
 
+
+
+// 0 = res, 1 = screen, 2 = mem, 3 = cam, 4 =
 // draw from correlated phone array 
-
 
 
 //var product = {features:[]};
@@ -737,8 +725,11 @@ function createNewProduct() {	//creates Phones
 
 
 
+    
 
 
+
+console.log(phoneArray)
 
 
 function updateTable() {									//makes the phone table
@@ -828,3 +819,4 @@ else {
 }
 document.getElementById("phonesTable").setAttribute("style", "align:center;");
 }
+
