@@ -574,15 +574,12 @@ function initialisePhonesSetup() { //This function generates the NUMBER of attri
             } // randomPhonesMode == 4 Generate random number - determines  no. options/phones to be shown for entire experiment
         else {
           }
-    // To set the attributes being used, casually remove them randomly until it's the right length
-    for (var i = 0; i < usingAttributes.length - numAttributes; i++)
-          usingAttributes.splice(Math.floor(Math.random() * usingAttributes.length), 1); // Pro
-          if (randomPresentation == 1) { // Randomise the order of attributes displayed in DCE b/w subjects
-              for (var i = 0; i < usingAttributes.length; i++) { // For length of attributes
-                var randomFeature = Math.floor(Math.random() * usingAttributes.length); // Generate random number
-                var temp = usingAttributes[i]; // temp = index i of usingAttributes array
-                usingAttributes[i] = usingAttributes[randomFeature]; // Set index i of usingAttributes array to index   
-                usingAttributes[randomFeature] = temp; 
+          if (randomPresentation == 1) { // Randomise the order of attributes displayed in DCE b/w subjects (shuffle usingAttributes array)
+            for (var i = 0; i < usingAttributes.length; i++) { // For no. of attributes
+                 var randomFeature = Math.floor(Math.random() * usingAttributes.length); // Generate random number
+                 var temp = usingAttributes[i]; // temp = index i of usingAttributes array
+                 usingAttributes[i] = usingAttributes[randomFeature]; // Set index i of usingAttributes array to no. at index of 'randomFeature' no.
+                 usingAttributes[randomFeature] = temp; 
               }
             } else {
             }
@@ -638,23 +635,20 @@ function preTrial() {
   document.getElementById("phoneTable").style.display = "none";
   document.getElementById("totalProgress").innerHTML = totaltrials;
   //progDiv();
-	/* Exponential random number generator
-	Time until next arrival
-	randomExponential();
-	truncated exponential distribution for inter-trial times. repeatedly sample fixationTime until the random inter-trial time is less than maxFixationTime*/
+  /* Exponential random number generator i.e. Time until next DCE stimulus appears 
+  Taken from truncated exponential distribution for ITI times. 
+  Repeatedly sample fixationTime until the random ITI is less than maxFixationTime*/
 	fixationTime = 20000;  // set to large value prior to sampling inter-trial time
-	// repeatedly sample fixation time until it is lower than maxfixationtime
 	while(fixationTime > maxfixationtime) {
-       	fixationTime = randomExponential(exponentialRate);
-        }
-	if (trialInstructions == false) {
-	fixationTimeout = setTimeout(beSomething, fixationTime);
-	}
-	else if (trialInstructions == true) {
-	fixationTimeout = setTimeout(generateProductArray, fixationTime);
-	} else {
-	}
-}
+         fixationTime = randomExponential(exponentialRate);
+      }
+      if (trialInstructions == false) {
+        fixationTimeout = setTimeout(beSomething, fixationTime);
+      } else if (trialInstructions == true) {
+        fixationTimeout = setTimeout(generateProductArray, fixationTime)
+      } else { 
+      }
+    }
 
 
 function randomExponential(rate, randomUniform) {
@@ -800,13 +794,6 @@ function updateTable() {									//makes the phone table
     for (var brand = 0; brand < numPhones; brand++) {
         addCell(row, "td", phoneBrands[brand]);
     }
-
-for (var currentOption = 0; currentOption < numPhones; currentOption++) {
-  var randOpt = Math.floor(Math.random() * (attributes[usingAttributes[i]].length - 1)) + 1;
-  console.log(randOpt)
-}
-
-
 
 
     // Fill the data in
