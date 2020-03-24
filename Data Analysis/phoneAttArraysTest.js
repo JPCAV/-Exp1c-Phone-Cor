@@ -648,7 +648,14 @@ var features = [												// Available phone features and the random values it
                   //["Feature 3", "a", "b", "c", "d", "e"],
                   //["Feature 4", "a", "b", "c", "d", "e"],
                    ];
+            
                    
+                   const months = ['Jan', 'March', 'April', 'June'];
+                   months.splice(1, 0, 'Feb');
+                   // inserts at index 1
+                   months.splice(4, 1, 'May')
+                   console.log(months);
+
                    
 var usingFeatures = [];
 
@@ -660,6 +667,7 @@ for (var i = 0; i < features.length; i++)
 
     for (var i = 0; i < usingFeatures.length - numAttributes; i++)
           usingFeatures.splice(Math.floor(Math.random() * usingFeatures.length), 1); // Pro
+          console.log(usingFeatures)
       if (randomPresentation == 1) {
           for (var i = 0; i < usingFeatures.length; i++) {
                 var randomFeature = Math.floor(Math.random() * usingFeatures.length); //
@@ -702,7 +710,28 @@ function createNewProduct() {	//creates Phones
   return product;
 }
 
-console.log(usingFeatures)
+let condition = 1
+
+var phone = {attributes:[]};
+//if(condition == 1) {
+  for (var i = 0; i < numAttributes; i++) {
+       // Pick a random attribute from usingAttributes
+       var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length - 1)) + 1;
+       console.log(randomValue)
+       phone.attributes[usingFeatures[i]] = features[usingFeatures[i]][randomValue]
+       console.log(features[usingFeatures[3]][6])
+       console.log(phone.attributes[usingFeatures[i]])//
+       console.log(features[usingFeatures[1]])
+        console.log(features[usingFeatures[0]][4])
+      } 
+        for (var i = 0; i < numPhones; i++) {
+          var randomValue = Math.floor(Math.random() * (features[usingFeatures[i]].length - 1)) + 1
+          //phone.attributes[i] = 
+        }
+      
+    
+
+console.log(phone)
  // Random number b/w 0-100
 
 for (var i = 0; i < numPhones; i++) {
@@ -711,9 +740,35 @@ for (var i = 0; i < numPhones; i++) {
 }
 console.log(phoneArray)
 
+var phoneArray = [["1280 x 720", '5"', "8GB", "5MP", "$44"], ["1280 x 720", '5"', "8GB", "8MP", "$179"],]
+var new_phone = ["1280 x 720", '5"', "8GB", "8MP", "$179"]
 
 
+console.log(phoneArray)
 
+console.log(Object.getOwnPropertyNames(phone))
+
+
+    // Create 'numPhones' new phones - this is determined by the numbers from 1 of the 4 cases above
+    for (var i = 0; i < numPhones; i++) {
+        new_phone = createNewProduct(true)
+        if (phoneArray.includes(new_phone)) {
+          i--
+          console.log('duplicate option')
+          continue
+        }
+        phoneArray.push(new_phone)
+      }
+
+
+      for(var i = 0; i < phoneArray.length; i++) {
+        if(JSON.stringify(new_phone) == JSON.stringify(phoneArray[i])) { 
+            console.log('true ' + new_phone + ' ' + phoneArray[i]) 
+          } 
+        else 
+            console.log('false')
+        }
+      
 // 0 = res, 1 = screen, 2 = mem, 3 = cam, 4 =
 // draw from correlated phone array 
 
@@ -721,8 +776,6 @@ console.log(phoneArray)
 //var product = {features:[]};
 //product.features[usingFeatures[1]] = 
 //console.log(product)
-
-
 
 
     
@@ -819,4 +872,12 @@ else {
 }
 document.getElementById("phonesTable").setAttribute("style", "align:center;");
 }
+
+for(var i = 0; i < phoneArray.length; i++) {
+  if(JSON.stringify(new_phone) == JSON.stringify(phoneArray[i])) { 
+      console.log('true') 
+    } 
+  else 
+      console.log('false')
+  }
 
