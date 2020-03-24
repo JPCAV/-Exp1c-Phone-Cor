@@ -701,11 +701,12 @@ function generateProductArray() {									//makes the array of Phones
     // Create 'numPhones' new phones - this is determined by the numbers from 1 of the 4 cases above
     for (var i = 0; i < numPhones; i++) {
         new_phone = createNewProduct(true)
-        if (phoneArray.includes(new_phone)) {
+        if(phoneArray.some(phone => _.isEqual(phone, new_phone))){
           i--
           console.log('duplicate option')
           continue
         }
+        console.log('unique option')
         phoneArray.push(new_phone)// Phones are created by createNewProduct func, run  for 'numPhones' times
       }
       updateTable()
