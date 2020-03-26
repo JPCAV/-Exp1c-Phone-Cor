@@ -151,14 +151,15 @@ body.at-task {
 	}
 #youWentTooSlow {
 	position:absolute;
-	top:17%;
-	left: 44%;
-	font-size:300%;
+	/*top:17%;*/
+	left: 18%;
+	font-size:170%;
 	font-family: "Arial";
 	background-color:white;
     color:red;
     text-align:center;
-    line-height:3;
+	line-height:3;
+	transform: translate(-50%, -50%);
 	}
 
 #phoneTable {
@@ -234,6 +235,7 @@ border-spacing: 35px 10px;
 	font-family: "Arial";
 	background-color:white;
 	  color: red;
+	  transform: translate(-50%, -50%);
 }
 
 
