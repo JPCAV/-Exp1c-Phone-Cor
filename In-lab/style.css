@@ -221,13 +221,13 @@ body.at-task {
 
 #phoneTable {
 font-family: "Arial";
-font-size: 150%;
+font-size: 140%;
 border-spacing: 35px 10px;
 }
 
 #tableBody {
 	position: absolute;
-	 top: 27%;
+	 top: 40%;
 	 left: 49%;
 	 transform: translate(-50%, -50%);
 	 text-align:center;
@@ -244,20 +244,20 @@ border-spacing: 35px 10px;
     line-height:1.5;
 	}
 #goFast {
-	font-size: 150%;
+	font-size: 200%;
 	font-family: "Arial";
 	background-color:white;
     color:green;
     text-align:center;
-    margin-top: 6cm;
+    margin-top: 2cm;
 	}
 #goSlow {
-	font-size:150%;
+	font-size:200%;
 	font-family: "Arial";
 	background-color:white;
     color:red;
     text-align:center;
-    margin-top: 6cm;
+    margin-top: 2cm;
 	}
 #progress {
 	font-size:115%;
@@ -277,7 +277,7 @@ border-spacing: 35px 10px;
 	}
 #fixationCross {
 	position:absolute;
-		top:18%;
+		top:20%;
 		left:48%;
 	font-size:400%;
 	font-family: "Arial";
@@ -287,7 +287,7 @@ border-spacing: 35px 10px;
 #spacebarToContinue {
 	position:absolute;
 		top:40%;
-		left:41%;
+		left:40%;
 	font-size:170%;
 	font-family: "Arial";
 	background-color:white;
