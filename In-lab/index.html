@@ -88,61 +88,24 @@
       </table>
   </div>
 
-  
-<div id="pageOne" style="display: none">
-  <p>In this study we ask you to imagine that you are in the market to purchase a product/service. <br>Please choose from the set below which product you would <b>most</b> likely purchase.</p>
-  <form action="#" method="post" class="demoForm" id="productForm" style="display: none;">
-      <fieldset>
-          <label><input type="radio" name="ship" value="Shoes." checked /> Shoes</label> <!-- Shoes is the default 'checked' option-->
-          <label><input type="radio" name="ship" value="Chocolate." /> Chocolate</label>
-          <label><input type="radio" name="ship" value="an overnight stay in a hotel." />an overnight stay in a hotel</label>
-          <label><input type="radio" name="ship" value="Coffee." /> Coffee</label>
-          <label><input type="radio" name="ship" value="a Mobile phone." />Mobile Phone</label>
-          <label><input type="radio" name="ship" value="a Car." />Car</label>
-      </p>
-      <p><button type="button" class="btn" name="getVal" id="formBtn" onclick="getProduct()">This One</button></p>
-      <!--MUST specify the button type as 'button'. If the button type is not specified,
-          browser will set it to 'reset' or 'submit' which causes the page to reload.-->
-      </fieldset>
-</div>
+
 
 <div id ="instructionsOne" style="display: none;">
-    <p> Now we would like you to imagine that you are purchasing <b id="product"></b> </p>
-    <p> You will be shown options related to this purchase that look like the image below.</p>
-    <img src="S-R_DCE.svg" alt="DCE-ExampleHere">
-    <p> You will see two options (option <b>A</b> and option <b>B</b>) and each option
-        will have two attributes: <em>Price</em> and <em>Quality</em>.</p>
-    <p> Choices can be made by pressing the <kbd>Z</kbd> button for option <b>A</b>
-        or by pressing the <kbd>/</kbd> button for option <b>B</b>.
+  <p> Thankyou for participating in this study! </p>
+	<p> Please ensure that your browser is full screen. </p>
+	<p> In this study you will be shown selections of mobile phones. Each phone will have five different features. </p>
+	<p> For each selection of phones, we ask you to select the phone you most prefer from the available options. </p>
+	<p> There are no correct or incorrect answers. Our main interest is that you decide which phone you most prefer. </p>
+
+	<p> </p>
+	<p> In each trial you will be presented with a display similar to the one below. It is your job to select the phone you prefer most by clicking the 'This one' button. </p>
+	<img src="phoneChoice.jpeg" alt="Phone Choice" style="width:650px;height:199px;">
+
+	<p>  </p>
+	<p> You will be asked to make <b id='howManyTrials'>XXXX</b> choices in total. </p>
+	<p> This study will take approximately 45 minutes to complete. SONA points will be allocated after the experiment. </p>
 </div>
 
-
-<div id="instructionsTwo" class="iTwoWrapper" style="display:none;">
-  <div id="iTwoP1">
-       <p>For some choices, you will see the screen below.</p>
-       <!--<p> You <strong>MUST</strong> choose your preferred option when you see the screen below.</p>-->
-  </div>
-  <div id="iTwoP2">
-      <p>************</p>
-      <p>RESPOND NOW</p>
-      <p>************</p>
-  </div>
-  <div id="iTwoP3">
-       <p> You may feel some time pressure to make a choice when you see this screen. We ask that you please try to indicate your most preferred option as often as you can.</p>
-       <p> For some choices, you will have more time to choose your preferred option.</p>
-       <!--<p> We ask that you please try to indicate your most preferred option as often as you can.</p>
-       <p> You will be asked to make <b id='howManyTrials'>XXXX</b> choices across <b id='blocks'></b> blocks.-->
-       <p> This study will take approximately XXxxx minutes to complete. SONA points will be allocated after the experiment.</p>
-  </div>
-</div>
-
-<!--
-<div id ="signalResponseCue" style="display: none;">
-   <p>************</p>
-   <p>RESPOND NOW</p>
-   <p>************</p>
-</div>
--->
 
 <div id ="experimentEnd"style="display: none;">
     <p> You have now finished the experiment. Thank you for your participation! </p>
@@ -224,34 +187,14 @@ const exponentialRate = .002                                 /* Rate parameter f
                                                                  Rate = .002 -> mean exponential of 500ms. 
                                                                  combined with minfixationtime = 500 gives mean inter-trial time of 1 second. 
                                                                  set maxfixationtime to something sensible (eg 5 seconds)*/
-// ------------ Variables created for RT Titration experiment ---------------                
-/* const sigTrialArr = [100, 200, 400, 800, 1200]               // Signal trial stimulus durations
-const regTrialArr = [10000]                                  // Regular trial stimulus durations
-const propSigTrials = 0.50                                    // Proportion of signal trials required in each block
-const propRegTrials = 0.50                                    // Proportion of free RT trials required in each block                                            
-const nSignalTrials = propSigTrials * nTrials                 // Set n signalTrials within each block
-const nRegTrials = propRegTrials * nTrials                    // Set n regTrials within each block
-const prelimRegArr = []                                      // Create an empty array to store the regular trial stimulus durations
-const prelimSigArr = []                                      // Create an empty array to store the signal trial stimulus durations
-prelimRegArr.length = nRegTrials                              // Set no. of elements in prelimRegArr - must be a WHOLE number, if no. blocks and trials are uneven numbers, will throw
-prelimSigArr.length = nSignalTrials                           // Set no. of elements in prelimSigArr
-var durations = []                                           // Array to hold all stimulus durations for a single block
-const sigTrialMultip = nSignalTrials / sigTrialArr.length     // Calculate a multiplier for signal trials to fill prelimSigArr
-const regTrialMultip = nRegTrials / regTrialArr.length */        // Calculate a multiplier for signal trials to fill prelimSigArr
 // ---------------------------------------------------------------------------
 const phoneBrands = ["A", "B", "C"] 	                      // Array of options/brands of phones
 var attributes = [
-["Resolution", "1280 x 720", "1280 x 720", "1280 x 720", "1920 x 1080", "1560 x 720", ],
-['Screen Size', '5"', '5"', '5"', '5.2"', '6.1"',
-],
-["Memory", "8GB", "16GB", "8GB", "32GB", "64GB", 
-  ],
-  ["Camera", "5MP", "13MP", "8MP", "16MP", "13MP", 
-], 
-["Price", "$44", "$134", "$179", "$179", "$199", 
-],
-]
-
+["Resolution", "1280 x 720", "1280 x 720", "1280 x 720", "1920 x 1080", "1560 x 720",],
+['Screen Size', '5"', '5"', '5"', '5.2"', '6.1"',],
+["Memory", "8GB", "16GB", "8GB", "32GB", "64GB",],
+["Camera", "5MP", "13MP", "8MP", "16MP", "13MP",], 
+["Price", "$44", "$134", "$179", "$179", "$199",],]
 var startDate
 var startTime
 var endDate
@@ -273,24 +216,17 @@ var numPhones = []
 var dataOutput = []
 var randomStimulus
 var stimulus
-//var counter = 1000
-// ------------- Variables created for SR Experiment --------------
+// ------------- Variables created for RS Experiment --------------
 var username // = $("#username") uncomment this var to assign a Sona ID to username WHEN using dialog prompt box below
-//var tmpproduct = []
-var inTrial = false
-var maxResponseWindow = 750
 var stopContEvent = false
 var regEOBKP = false
 //-- timeout variables --//
 var contWaitTime
 var instructDelay1
-var instructDelay2
 var timeout
 var stimTimeout
-//var countdownTimeout
 var fixationTimeout
 var postTimeout
-//var srwTimeout
 var pFeedbackTO
 var endExpTO
 var dceTimeout
@@ -299,7 +235,6 @@ var dialogBox = $('#dialog-box')
 var fullscreen = $('#fullscreen')
 var taskDiv = $('#task-div')
 var instruxOne = $('#instructionsOne')
-var instruxTwo = $('#instructionsTwo')
 var loading = $('#loading')
 var countdownDiv = $('#countdown')
 var progressDiv = $('#progress')
@@ -307,16 +242,11 @@ var endBlock = $('#endBlock')
 var goFast = $('#goFast')
 var goSlow = $('#goSlow')
 var fixationCross = $('#fixationCross')
-//var signalResponseCue = $('#signalResponseCue')
 var expEnd = $("#experimentEnd")
 var spacebarToContinue = $('#spacebarToContinue')
 var tooSlowDiv = $("#youWentTooSlow")
 var tooFastDiv = $("#youWentTooFast")
 var inTimeDiv = $("#inTime")
-var prodFormDiv = $('#productForm')
-var pageOneDiv = $("#pageOne")
-var yourProd
-var radios
 
 /* The below "jatos.onload(function grabSonaID()" function is required when running ONLINE psych-JATOS study
 jatos.onLoad(function grabSonaID() {
@@ -336,7 +266,6 @@ jatos.onLoad(function grabSonaID() {
 
 // The below functions (startDialogBox,recenterDialog, checkLogin,dblCheckCreds)
 // are required when running the experiment in lab - i.e. manually entering a SONA //
-
 function startDialogBox (){
   $(window).resize(recenterDialog)
   recenterDialog()
@@ -358,8 +287,6 @@ var recenterDialog = function() {
   taskDiv.css( { top:taskDivTop, left:taskDivLeft } )
 }
 
-
-
 var checkLogin = function() {
   username = $("#username").val()
   dblCheckCreds()
@@ -368,7 +295,6 @@ var checkLogin = function() {
 $("#begin-button")
   .button( { disabled : false } )
   .click(checkLogin)
-
 
 var dblCheckCreds = function(){
   if (username == null) {
@@ -388,46 +314,13 @@ var dblCheckCreds = function(){
   }
 }
 
-/* function chooseYourProduct(){
-pageOneDiv.show()
-prodFormDiv.show()
-}
-
-
-function selectedRadioButton(form, name) {
-    var val
-    // get list of radio buttons with specified name
-    var radios = document.getElementById('productForm').elements[name]
-    //pageOne.form.elements[name]
-    // loop through list of radio buttons
-    for (var i = 0, len = radios.length; i < len; i++) {
-        if ( radios[i].checked ) { // radio checked?
-            val = radios[i].value // if so, hold its value in val
-            break                 // and break out of for loop
-        }
-    }
-    return val // return value of checked radio or undefined if none checked
-}
-
-function getProduct() { // get value of selected 'ship' radio button in 'prodForm'
-  var val = selectedRadioButton(document.getElementById('productForm'), 'ship')
-  yourProd = val
-  console.log(val)
-  pageOneDiv.hide()
-  prodFormDiv.hide()
-  instructOne()
-}
-*/
-
-
 function instructOne() {
   instruxOne.show()
-  document.getElementById('product').innerHTML = yourProd
 	experimentStartDate = new Date()
 	experimentStartTime = experimentStartDate.getTime()
-  instructDelay1 = setTimeout(instructOneButton, 1000) 
+  instructDelay1 = setTimeout(instructOneButton, 1000)
+  document.getElementById('howManyTrials').innerHTML = totaltrials
 }
-
 
 function instructOneButton (){
   // 1. Create the button
@@ -438,81 +331,19 @@ function instructOneButton (){
   instructionsOne.appendChild(introButton)
   // 3. Add onclick
   introButton.setAttribute("class", "btn")
-  introButton.setAttribute("onclick", "instructTwo()")
+  introButton.setAttribute("onclick", "postInstruct()")
 }
-
-
-
-function instructTwo() {
-  //console.log("instructTwo")
-  instruxOne.hide()
-  instruxTwo.show()
-  instructDelay2 = setTimeout(instructTwoButton, 1000)
-	//document.getElementById('howManyTrials').innerHTML = totaltrials
-  //document.getElementById('blocks').innerHTML = nBlocks
-}
-
-
-function instructTwoButton (){
-  // 1. Create the button
-  var instructTwoContButton = document.createElement("button")
-  instructTwoContButton.innerHTML = "Click here to continue"
-  // 2. Append somewhere
-  document.getElementById('instructionsTwo')
-  instructionsTwo.appendChild(instructTwoContButton)
-  // 3. Add onclick
-  instructTwoContButton.setAttribute("class", "btn")
-  instructTwoContButton.setAttribute("onclick", "postInstruct()")
-}
-
 
 function postInstruct() {
-  instruxTwo.hide()
+  instruxOne.hide()
   initialiseSetup()
   initialisePhonesSetup()
 }
 
-/*
-function fillPrelimArrays (multiplier, origArr, prelimArr) { // Function to fill the prelimary stimDuration arrays
-  let arrPos = 0
-    for (let i = 0; i < multiplier; i++) {
-          for (let j = 0; j < origArr.length; j++) {
-            prelimArr[arrPos] = origArr[j]
-            arrPos++
-          }
-        }
-      return prelimArr
-      //console.log(fillPrelimArrays)
-    }
-
-function shuffleArr(arr) {    // This shuffle/randomise function lifted from https://bost.ocks.org/mike/shuffle/
-                              // Shuffle function - Pick a random element, swap with last element in back of array/list.
-  let m = arr.length, t, i   // Shorthand for var m = arr.length, var t;, var i; i.e. multiple elements  
-    while (m) {               // While there remain elements to shuffle (i.e. m = > 0)
-                              // Pick a remaining element
-                              // Generate a random number within the range of no. durations array and round down
-      i = Math.floor(Math.random() * m--) 
-                              // And swap it with the current element.
-      t = arr[m]
-                              // var t = the last element in durations array/list
-      arr[m] = arr[i]
-                              // Swap the last element in the durations array/list to the
-                              // randomly chosen element in the durations array/list
-      arr[i] = t
-                              // and swap element durations[i] with the formerly last element of the durations array/list
-    }
-  return arr
-  //console.log(shuffleArr)
-}
-*/
-
 function initialiseSetup() { // Begin experiment - display phoneTable/DCE
   document.getElementById("phoneTable").style.display = "block"
   document.getElementById("totalProgress").innerHTML = totaltrials
-  //progDiv()
-  //console.log(initialiseSetup)
 }
-
 
 function initialisePhonesSetup() { //This function generates the NUMBER of attributes to be used when creating DCE
   //console.log("initialisePhonesSetup")
@@ -544,16 +375,7 @@ function initialisePhonesSetup() { //This function generates the NUMBER of attri
  postTrial()
  }
 }
-// This function needs to be updated - this is when end of block is reached.
-/* function produceDurationsArray() {
-  if (durations.length == 0) {
-      produceStimDurArr()
-      postTrial()
-  } else {
-      postTrial()
-  }
-}
- */
+
 function postTrial() {
   //console.log("postTrial")
   loading.show()
@@ -564,11 +386,10 @@ function postTrial() {
     postTimeout = setTimeout(preTrial, postSelectTime)
   }
   else if (trialInstructions == true) {
-    postTimeout = setTimeout(beSomething, postSelectTime)
+    postTimeout = setTimeout(trialSATCue, postSelectTime)
   } else {
   }
 }
-
 
 /*function progDiv() {
   if (progressOn == true) {
@@ -578,7 +399,6 @@ else {
   progressDiv.hide()
   }
 }*/
-
 
 function preTrial() {
   //console.log("preTrial")
@@ -599,27 +419,24 @@ function preTrial() {
          fixationTime = randomExponential(exponentialRate)
       }
       if (trialInstructions == false) {
-        fixationTimeout = setTimeout(beSomething, fixationTime)
+        fixationTimeout = setTimeout(trialSATCue, fixationTime)
       } else if (trialInstructions == true) {
         fixationTimeout = setTimeout(generateProductArray, fixationTime)
       } else { 
       }
     }
 
-
 function randomExponential(rate, randomUniform) {
   //console.log("randomExponential")
-	  /* Allow to pass a random uniform value or function
-  	   Default to Math.random() */
-  	var U = randomUniform
-  	if (typeof randomUniform === 'function') U = randomUniform()
-  	if (!U) U = Math.random()
-  	return (-Math.log(U)/rate) + minfixationtime
+  //Allow to pass a random uniform value or function. Default to Math.random()
+  var U = randomUniform
+  if (typeof randomUniform === 'function') U = randomUniform()
+  if (!U) U = Math.random()
+  return (-Math.log(U)/rate) + minfixationtime
 }
 
-
-function beSomething() {
-  //console.log("beSomething")
+function trialSATCue() {
+  //console.log("trialSATCue")
   clearTimeout(postTimeout)
   clearTimeout(fixationTimeout)
   loading.hide()
@@ -638,7 +455,6 @@ if (trialInstructions == true) { // true = SAT instructions present
             stimulus = fastOrAccurate[randomStimulus] // Set stimulus to "GO FAST" or "BE CAREFUL"
             if (stimulus == 1) { // GO FAST
               goFast.show()
-              console.log('show go fast in be something function')
               document.getElementById("phoneTable").style.display = "none"
               stimTimeout = setTimeout(preTrial, stimTime)
               if (randomTimer == true) { // Uncomment here +4 lines for countdown timer
@@ -651,7 +467,6 @@ if (trialInstructions == true) { // true = SAT instructions present
 	}
 else if (stimulus == 2) {
   goSlow.show() // BE CAREFUL
-  console.log('show go slow in be something function')
   document.getElementById("phoneTable").style.display = "none"
   stimTimeout = setTimeout(preTrial, stimTime)
   if (randomTimer == true) {
@@ -663,7 +478,7 @@ else if (stimulus == 2) {
 	} else {
 }
 } else {
-(stimulus == 0)
+(stimulus == 0) // Use timer SAT manipulation
 if (randomTimer == true) {
 		 temp = Math.floor(Math.random() * maxTrialTimeOpt.length)
      maxTrialTime = maxTrialTimeOpt[temp]
@@ -674,14 +489,12 @@ generateProductArray()
   }
 }
 
-
 function generateProductArray() {									//makes the array of Phones
   //console.log("generateProductArray")
   document.getElementById("phoneTable").style.display = "block"
   fixationCross.hide()
   //progDiv()
   clearTimeout(fixationTimeout)
-  //clearTimeout(stimTimeout)
    switch(randomPhonesMode) { 
      // This function determines the number of options to be shown in the DCE, case by case
         case 0: // 0 = Choose a random number from 'specificNumPhones' i.e. 2, 4, or 8 phones
@@ -718,7 +531,6 @@ function generateProductArray() {									//makes the array of Phones
       //timeLeft()
     }
 
-
 function createNewProduct(correlated) {	//creates Phones
     //console.log("createNewProduct")
     // Initialise product
@@ -743,7 +555,7 @@ function createNewProduct(correlated) {	//creates Phones
   }
 
 
-function updateTable() {									//makes the phone table
+function updateTable() { // Create the phone table DCE
     console.log("updateTable()")
     
     // Get the child nodes of the table
@@ -754,16 +566,14 @@ function updateTable() {									//makes the phone table
     while(tableRows.length != 0)
         tableRows[0].remove()
 
-
     // Add the Brand column - column name for first column (attributes)
     var row = createRow()
     addCell(row, "th", "")
 
-    // Add the current attributes row
+    /*// Add the current attributes row
     for (var brand = 0; brand < numPhones; brand++) {
         addCell(row, "td", phoneBrands[brand])
-    }
-
+    }*/
 
     // Fill the data in
     for (var currentFeature = 0; currentFeature < numAttributes; currentFeature++) {
@@ -789,9 +599,6 @@ function updateTable() {									//makes the phone table
         selectPhoneButton.innerHTML = "This one"
         selectPhone.appendChild(selectPhoneButton)
         selectPhoneButton.setAttribute("class", "btn")
-       // selectPhoneButton.setAttribute("value", "This one")
-       // selectPhoneButton.setAttribute("fontSize", "large")
-        //selectPhoneButton.setAttribute("style", "width:200px;height:52px;font-size:large;border-radius: 8px;");
         selectPhoneButton.setAttribute("onclick", "stopTimer(); phoneSelected(" + currentPhone + "); ")
         row.appendChild(selectPhone)
     }
@@ -805,17 +612,11 @@ function updateTable() {									//makes the phone table
     	if (stimulus == 1) {
     	goFast.show()
       goSlow.hide()
-      console.log('update table show go fast, hide go slow')
-    	//document.getElementById("goFast").setAttribute("style", "color:green;margin-top:1cm;")
-    	}
-    	else if (stimulus == 2) {
+    	} else if (stimulus == 2) {
         goSlow.show()
         goFast.hide()
-        console.log ('update tableshow go slow, hide go fast')
-        //document.getElementById("goSlow").setAttribute("style", "color:red;margin-top:1cm;")
-		}
-		else {
-		}
+		} else {
+    }
 }
 else {
 }
@@ -831,45 +632,7 @@ function updateTrialNumber() {
   //console.log("updateTrialNumber")
   currenttotaltrial = ((nCurrentTrial + 1) + (nCurrentBlock * nTrials))
   document.getElementById("currentProgress").innerHTML = currenttotaltrial
-  //console.log(currenttotaltrial)
 }
-
-
-/*function signalResponseWindow() {
-  //console.log("signalResponseWindow")
-  clearTimeout(dceTimeout)
-  //document.addEventListener('keyup', recordKP, false) // This adds event listener to page ("Listens" for keypress)
-  document.getElementById("phoneTable").style.display = "none"
-  signalResponseCue.show()
-  document.getElementById("totalProgress").innerHTML = totaltrials
-  srwTimeout = setTimeout(tooSlow, maxResponseWindow)
-}*/
-
-/*
-function recordKP(event) {
-  console.log("recordKP")
-  clearTimeout(srwTimeout)
-   var ekc = event.keyCode
-      if (inTrial == true && ekc == 90 ) {
-          stopTimer()
-          document.getElementById("phoneTable").style.display = "none"
-          event.preventDefault()
-          document.removeEventListener('keyup', recordKP, false)
-          signalResponseCue.hide()
-          phoneSelected("0")
-          console.log("z Button Pressed - recordKP fired")
-            }
-      else if (inTrial == true && ekc == 191) {
-          stopTimer()
-          document.getElementById("phoneTable").style.display = "none"
-          event.preventDefault()
-          document.removeEventListener('keyup', recordKP, false)
-          signalResponseCue.hide()
-          phoneSelected("1")
-          console.log("/ Button Pressed - recordKP fired")
-            }
-          }
-*/
 
 function createRow() {
   //console.log('createRow')
@@ -877,7 +640,6 @@ function createRow() {
     tableBody.appendChild(row)
     return row
 }
-
 
 function addCell(row, type, input) {
   //console.log('addCell')
@@ -887,9 +649,8 @@ function addCell(row, type, input) {
     return cell
 }
 
-
 function phoneSelected(selected) { //records which product is selected and generates what happens next
-    console.log("phoneSelected " + "rt "+ rt +" " + minTrialTime)
+    console.log("phoneSelected")
     clearTimeout(timeout)
     //rt = endTime - startTime
     if (rt < minTrialTime) {
@@ -961,7 +722,6 @@ function phoneSelected(selected) { //records which product is selected and gener
   }
 }
 
-
 function posiFeedback() {
   inTimeDiv.show()
   goFast.hide()
@@ -971,13 +731,11 @@ function posiFeedback() {
   pFeedbackTO = setTimeout(nextRound, 500)
 }
 
-
 function startTimer() { //starts the timer
   //console.log("startTimer")												
     startDate = new Date()
     startTime = startDate.getTime()
     countdownEndTime = startTime + maxTrialTime
-    inTrial = true
 	}
 
 /*
@@ -1011,10 +769,8 @@ function stopTimer() {  // Stops the timer
     endDate = new Date()
     endTime = endDate.getTime()
     rt = endTime - startTime
-    inTrial = false
+    //inTrial = false
 	}
-
-
 
 function tooFast() { // 'TOO FAST' choices (can set MinTrialTime above)
   //console.log("tooFast")
@@ -1022,7 +778,6 @@ function tooFast() { // 'TOO FAST' choices (can set MinTrialTime above)
   tooFastDiv.show()
   goSlow.hide()
   goFast.hide()
-  //signalResponseCue.hide()
   //progDiv()
   nCurrentTrial++
   if (nCurrentTrial == nTrials) {
@@ -1032,7 +787,6 @@ function tooFast() { // 'TOO FAST' choices (can set MinTrialTime above)
         }
     }
 
-
 function fastTimeout() {
   console.log("fastTimeout")
   stopContEvent = true
@@ -1041,8 +795,7 @@ function fastTimeout() {
   document.addEventListener('keyup', contKP, false)
 }
 
-
-function contKP(event) {
+function contKP(event) { // Press spacerbar to continue key press function
   if (event.keyCode == 32 && stopContEvent == true){
     stopContEvent = false
     event.preventDefault()
@@ -1058,14 +811,10 @@ function contKP(event) {
 function tooSlow() {	// Choices when participant is too slow to respond
   console.log("tooSlow")
   stopTimer()
-  //document.removeEventListener('keyup', recordKP, false)
   document.getElementById("phoneTable").style.display = "none"
   tooSlowDiv.show()
   goFast.hide()
   goSlow.hide()
-  //signalResponseCue.hide()
-	//clearTimeout(srwTimeout)
-	//rt = endTime - startTime
   // Output file - "TOO SLOW" trial
   var output = ""
   for (var currentproduct = 0; currentproduct < numPhones; currentproduct++) {
@@ -1101,10 +850,8 @@ function tooSlow() {	// Choices when participant is too slow to respond
             contWaitTime = setTimeout(fastTimeout, waitTime)
             }
           }
-        
 
-
-function nextRound() {										//moves to the next trial
+function nextRound() { // moves to the next trial
     console.log("nextRound")
     clearTimeout(pFeedbackTO)
     inTimeDiv.hide()
@@ -1119,7 +866,7 @@ function nextRound() {										//moves to the next trial
 
 
 
-function endOfBlock() {									//works out the end of the block
+function endOfBlock() {	//works out the end of the block
  	console.log("endOfBlock")
   tooFastDiv.hide()
   tooSlowDiv.hide()
@@ -1139,19 +886,14 @@ function endOfBlock() {									//works out the end of the block
  	}
  }
 
-
-
-function showEndBlock() {									//shows "end of block"
+function showEndBlock() {	//shows "end of block"
   console.log("showEndBlock")
   regEOBKP = true
   endBlock.show()
-  //document.getElementById('chosenProduct').innerHTML = yourProd
   document.getElementById("phoneTable").style.display = "none"
   document.addEventListener('keyup', endOBContKP,false)
   //progDiv()
 }
-
-
 
 function endOBContKP(event) { // Event listener for end of block key press
   console.log("endOBContKP")
@@ -1164,9 +906,7 @@ function endOBContKP(event) { // Event listener for end of block key press
   }
 }
 
-
-
-function endOfExperiment() {	//shows the experiment end
+function endOfExperiment() { //shows the experiment end
   console.log("endOfExperiment")
   expEnd.show()
   document.getElementById("phoneTable").style.display = "none"
@@ -1174,33 +914,26 @@ function endOfExperiment() {	//shows the experiment end
   endExpTO = setTimeout(saveResults, 2000)
 }
 
-
-
-function saveResults() {	   //function to save the output file to php
+function saveResults() { //function to save the output file to php
     console.log("saveResults")
     clearTimeout(endExpTO)
     /* Output file appearance
     Block, trial, feature 1, feature 2, feature n, reponse time, 
     was there an error? (0/1/2 - no error/too fast/too slow),selected this phone 1/0 (Y/N)
     */
-    var output_txt = "block, " + "trial, "
-    for (i = 0; i < numAttributes; i++)
-    output_txt += "feature_" + i + ", "
-    output_txt += "rt, "
-    output_txt += "Error, "
-    output_txt += "MaxTrialTime, "
-    output_txt += "fixationTime, "
-    output_txt += "condition, "
-    output_txt += "selected\n"
+    var output_txt = "block, " + "trial, " // Record block # and trial #
+    for (i = 0; i < numAttributes; i++) // On each trial, for each attribute
+    output_txt += "feature_" + i + ", " // Record attribute name
+    output_txt += "rt, "                // Record response time
+    output_txt += "Error, "             // Record if there was an error i.e. selection too fast/too slow or in time = NULL)
+    output_txt += "MaxTrialTime, "      // Record length of time the DCE was shown for
+    output_txt += "fixationTime, "      // Record length of time fixation cross was shown
+    output_txt += "condition, "         // Record SAT condition 1 = "GO FAST" trial, 2 = "BE CAREFUL" trial
+    output_txt += "selected\n"          // Record the number of the chosen option
     for (var i = 0; i < dataOutput.length; i++) {
         output_txt += dataOutput[i].toString() + "\n"
     }
     console.log("check") 
-
-    //send data to PHP on server
-    //var experimentDataRequest = new XMLHttpRequest()
-    //experimentDataRequest.open("POST", "save.php", false)  //syncron
-    //experimentDataRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 
     var expVarTxt = output_txt
     var expVarFn = username

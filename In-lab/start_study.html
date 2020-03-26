@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Tunnel Vision: Phase 1 (Allyson Ray - 2017)</title>
+        <script src="/study_assets/AllysonRay01/libs/jquery-1.11.1.min.js"></script>
+        <script src="/assets/javascripts/jatos.js"></script>
+        
+        <script src="/study_assets/AllysonRay01/jsPsych-master/jspsych.js"></script>
+        <script src="/study_assets/AllysonRay01/jsPsych-master/plugins/jspsych-instructions.js"></script>
+        <link href="/study_assets/AllysonRay01/jsPsych-master/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+
+        <style type="text/css">
+            #jspsych-instructions-next { 
+                color: #555;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #ccc;
+                border: solid 4px #ddd;
+                border-radius: 4px;
+                padding: 0.5em 2em;
+            }
+        </style>
+    </head>
+
+    <body>
+    </body>
+
+	<script>
+        var trial = {
+            type: 'instructions',
+            pages: ["Welcome to the SBSI Phase 1 study conducted by Allyson Ray.<br><br>" +
+                    "The first page you will be directed to is a study information page. " +
+                    "You need to read the information sheet by scrolling with your mouse " +
+                    "or using the page slider. At the bottom of the information sheet you " +
+                    "can choose to continue to the study by selecting the button labelled " +
+                    "'I wish to participate' to continue to the study, or you can select " +
+                    "the button labelled 'I do not wish to participate' to exit.<br><br>" +
+                    "Click next to begin."],
+            show_clickable_nav: true
+        }
+
+		// What todo when jatos.js is finished initializing
+		jatos.onLoad(function() {
+            // Get the SONA anonymous ID, if it exists (study may be being run from 
+            // outside SONA)
+            var sonaID = "0";
+            if (jatos.urlQueryParameters.hasOwnProperty("id")) {
+                sonaID = jatos.urlQueryParameters.id;
+            }
+            
+            // Define the permutations of the experiment order. The first field is the order
+            // of the questionnaires, the second is a counterbalancing code which 'flips'
+            // the sense of the labels and the responses in the test(s). A1 is the 'normal'
+            // version, per the spec, B2 is the 'mirror' counterbalancing version
+            var allStudyKeys = [['10', 'B2'],['01', 'A1'], ['01', 'B2'], ['02', 'A1'],
+                                ['02', 'B2'],['03', 'A1'], ['03', 'B2'], ['04', 'A1'],
+                                ['04', 'B2'],['05', 'A1'], ['05', 'B2'], ['06', 'A1'],
+                                ['06', 'B2'],['07', 'A1'], ['07', 'B2'], ['08', 'A1'],
+                                ['08', 'B2'],['09', 'A1'], ['09', 'B2'], ['10', 'A1']];   
+            var allStudyOrdersA1 = [[10, 12, 13, 14, 15, 16, 18, 'Order 1'], 
+                                    [10, 15, 16, 13, 14, 12, 18, 'Order 2'],
+                                    [10, 13, 14, 15, 18, 16, 12, 'Order 3'],
+                                    [10, 13, 14, 12, 18, 16, 15, 'Order 4'],
+                                    [10, 15, 16, 18, 13, 14, 12, 'Order 5'],
+                                    [10, 15, 18, 16, 13, 14, 12, 'Order 6'],
+                                    [10, 12, 13, 14, 18, 16, 15, 'Order 7'],
+                                    [10, 15, 13, 14, 16, 18, 12, 'Order 8'],
+                                    [10, 15, 16, 18, 12, 13, 14, 'Order 9'],
+                                    [10, 16, 12, 18, 15, 13, 14, 'Order 10']];
+            var allStudyOrdersB2 = [[11, 12, 13, 14, 15, 16, 19, 'Order 1'], 
+                                    [11, 15, 16, 13, 14, 12, 19, 'Order 2'],
+                                    [11, 13, 14, 15, 19, 16, 12, 'Order 3'],
+                                    [11, 13, 14, 12, 19, 16, 15, 'Order 4'],
+                                    [11, 15, 16, 19, 13, 14, 12, 'Order 5'],
+                                    [11, 15, 19, 16, 13, 14, 12, 'Order 6'],
+                                    [11, 12, 13, 14, 19, 16, 15, 'Order 7'],
+                                    [11, 15, 13, 14, 16, 19, 12, 'Order 8'],
+                                    [11, 15, 16, 19, 12, 13, 14, 'Order 9'],
+                                    [11, 16, 12, 19, 15, 13, 14, 'Order 10']];
+            
+            // Get the Jatos study result ID, which is a unique ID for this session, and use the last
+            // two digits to determine the study order and counterbalancing order to use
+            var myStudyVar = jatos.studyResultId % allStudyKeys.length;  // i.e. 0 - 19
+            console.log("SS Study result ID: " + jatos.studyResultId); // ####
+            console.log("SS Study var: " + myStudyVar);  // ####
+            
+            // Store the assembled id descriptor string in session data
+            jatos.studySessionData["myStudyResultId"] = pad(jatos.studyResultId, 3) + "_" + 
+                                                            allStudyKeys[myStudyVar][0] + "_" +
+                                                            allStudyKeys[myStudyVar][1];
+                                                            
+            // Create the study order as a list of module IDs. When each module finishes, it looks at the
+            // next entry on the list to direct the determine the next module to run.
+            // It also turns out that it's simpler and easier to run two versions of the initial IAT task
+            // in order to get the counterbalancing correct. We'll do this by adding the relevant IAT module
+            // to the front of the study order. We do the same thing with the expression rating task, except 
+            // at the end of the sequence.
+            myStudyOrder = [];
+            myStudyCB = allStudyKeys[myStudyVar][1];
+            console.log("SS Study CB: " + myStudyCB) // ####
+
+            if (myStudyCB == "A1") {
+                myStudyOrder = allStudyOrdersA1[parseInt(allStudyKeys[myStudyVar][0])];
+            } else {
+                myStudyOrder = allStudyOrdersB2[parseInt(allStudyKeys[myStudyVar][0])];
+            }
+            
+            // Make the variables visible to the rest of Jatos
+            jatos.studySessionData["myStudyOrder"] = myStudyOrder;
+            jatos.studySessionData["myStudyKey"] = myStudyCB
+            
+            // Store the SONA ID
+            jatos.submitResultData(sonaID);      
+       
+			// Run the jsPsych instructions
+			jsPsych.init({
+                timeline: [ trial ],
+                on_finish: function(){ 
+                    jatos.startNextComponent(); 
+                }
+            });
+		});
+        
+        function pad (val, n) {
+            val = val.toString()
+            for (var i=val.length; i<=n;i++) {
+                val = "0" + val
+            }
+            return val
+        }
+	</script>
+</body>
+</html>
