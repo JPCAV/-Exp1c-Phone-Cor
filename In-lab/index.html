@@ -155,15 +155,16 @@
 <script type="text/javascript">
 
 // ----- Customisation -----
-const numAttributes = 5  	 			     			  	 		          // Number of Attributes/Attributes for each poduct
-const randomPhonesMode = 2 				   				 		          /* Number of Options in a trial
+const correlatedPhones = true                            // IV1 - Are the phone attributes correlated (true) or uncorrelated (false)
+const numAttributes = 5  	 			     			  	 		       // Number of Attributes/Attributes for each poduct
+const randomPhonesMode = 2 				   				 		         /* Number of Options in a trial
                                                                     Modes: 
                                                                     0 = Choose a random phone from 'specificNumPhones' randomised per trial 
                                                                     1 = Random Phones between 'minPhones' & 'maxPhones'
                                                                     2 = static Phones from 'fixedPhones'
                                                                     3 = Static Phones from 'fixedPhones' randomised per block
                                                                     4 = static Phones, randomised BS. */
-const randomPresentation = 1 									              /* Attribute order (vertically: top-btm) for DCE
+const randomPresentation = 1 									           /* Attribute order (vertically: top-btm) for DCE
                                                                     Modes: 
                                                                     0 = set order of Phones 
                                                                     1 = between subjects randomisation of order 
@@ -463,7 +464,6 @@ else {
 function preTrial() {
   //console.log("preTrial")
   clearTimeout(postTimeout)
-  console.log('Pre-trial hide slow and fast')
   goSlow.hide()
   goFast.hide()
   loading.hide()
@@ -616,7 +616,7 @@ function createNewProduct(correlated) {	//creates Phones
 
 
 function updateTable() { // Create the phone table DCE
-    console.log("updateTable()")
+    //console.log("updateTable()")
     
     // Get the child nodes of the table
     var tableBody = document.getElementById("tableBody")
@@ -710,7 +710,7 @@ function addCell(row, type, input) {
 }
 
 function phoneSelected(selected) { //records which product is selected and generates what happens next
-    console.log("phoneSelected")
+    //console.log("phoneSelected")
     clearTimeout(timeout)
     //rt = endTime - startTime
     if (rt < minTrialTime) {
@@ -722,14 +722,14 @@ function phoneSelected(selected) { //records which product is selected and gener
                      output += phoneArray[currentproduct].attributes[usingAttributes[currentFeature]] + ", "
                     }
         output += rt + ", " // Record RT
-        output += "fast" + ", " // Record - trialError = fast
+        output += "fast" + ", " // Record trialError = fast
         if (tooSlowPresent == true) {
-        output += maxTrialTime + ", " // Record the max trial duration - this wont happen because this is a 'too fast' trial
+        output += maxTrialTime + ", " // Record the max trial duration
       } else {
-        output += "null" + ", " // Record "null" on this trial i.e. too fast trial
+        output += "null" + ", " // Record "null" on this trial
       }
         output += fixationTime + ", " // Record the fixation cross duration
-         if (stimulus == 0)            // If no SAT verbal instructions i.e. timer
+         if (stimulus == 0)            // If no SAT verbal instructions i.e. countdown timer
         	output += "0, "                // Record 0
         else if (stimulus == 1)        // SAT verbal instruction
         	output += "1, "                // record trial type i.e. "1" or "GO FAST" trial
@@ -738,12 +738,16 @@ function phoneSelected(selected) { //records which product is selected and gener
         else
         	output += "0, "
         if (currentproduct == selected) // Record 1 if chose the current option
-            output += "1;\n"
+        output += "1, "
         else
-            output += "0;\n"
-    }
+        output += "0, "
+        if(correlatedPhones == true)
+        output += "correlated;\n"
+        else
+        output += "uncorrelated;\n"
+      }
     dataOutput.push(output)
-    console.log("phoneSelected-tooFastTrial")
+    //console.log("phoneSelected-tooFastTrial")
         tooFast()
         }
     else {
@@ -772,13 +776,17 @@ function phoneSelected(selected) { //records which product is selected and gener
       else 
       output += "0, "
       if (currentproduct == selected) // Record "1" if chose the current option
-      output += "1;\n"
+      output += "1, "
       else
-      output += "0;\n"                // Record "0" if DID NOT chose the current option
+      output += "0, "
+      if(correlatedPhones == true)
+        output += "correlated;\n"
+        else
+        output += "uncorrelated;\n"                // Record "0" if DID NOT chose the current option
     }
     dataOutput.push(output)
     posiFeedback()
-    console.log("phoneSelected - Valid Trial")
+    //console.log("phoneSelected - Valid Trial")
   }
 }
 
@@ -787,7 +795,7 @@ function posiFeedback() {
   goFast.hide()
   goSlow.hide()
   document.getElementById("phoneTable").style.display = "none"
-  console.log("Valid trial positive feedback")
+  //console.log("Valid trial positive feedback")
   pFeedbackTO = setTimeout(nextRound, 500)
 }
 
@@ -849,7 +857,7 @@ function tooFast() { // 'TOO FAST' choices (can set MinTrialTime above)
     }
 
 function fastTimeout() {
-  console.log("fastTimeout")
+  //console.log("fastTimeout")
   stopContEvent = true
   clearTimeout(contWaitTime)
   spacebarToContinue.show()
@@ -867,12 +875,12 @@ function contKP(event) { // Press spacerbar to continue key press function
     tooFastDiv.hide()
     pleaseConsider.hide()
     postTrial()
-    console.log('spacebar Pressed')
+    //console.log('spacebar Pressed')
   }
 }
 
 function tooSlow() {	// Choices when participant is too slow to respond
-  console.log("tooSlow")
+  //console.log("tooSlow")
   stopTimer()
   document.getElementById("phoneTable").style.display = "none"
   tooSlowDiv.show()
@@ -903,7 +911,11 @@ function tooSlow() {	// Choices when participant is too slow to respond
           output += "2, "                     // condition = "2" or "BE CAREFUL" trial
           else
           output += "0, "
-          output += "0;\n"
+          output += "0, "
+          if(correlatedPhones == true)
+          output += "correlated;\n"
+          else
+          output += "uncorrelated;\n"
         }                                  // Record selected = "0" (no choice made)
     dataOutput.push(output)
     nCurrentTrial++
@@ -916,7 +928,7 @@ function tooSlow() {	// Choices when participant is too slow to respond
           }
 
 function nextRound() { // moves to the next trial
-    console.log("nextRound")
+    //console.log("nextRound")
     clearTimeout(pFeedbackTO)
     inTimeDiv.hide()
     nCurrentTrial++
@@ -931,7 +943,7 @@ function nextRound() { // moves to the next trial
 
 
 function endOfBlock() {	//works out the end of the block
- 	console.log("endOfBlock")
+ 	//console.log("endOfBlock")
   tooFastDiv.hide()
   pleaseConsider.hide()
   tooSlowDiv.hide()
@@ -953,7 +965,7 @@ function endOfBlock() {	//works out the end of the block
  }
 
 function showEndBlock() {	//shows "end of block"
-  console.log("showEndBlock")
+  //console.log("showEndBlock")
   regEOBKP = true
   endBlock.show()
   document.getElementById("phoneTable").style.display = "none"
@@ -962,7 +974,7 @@ function showEndBlock() {	//shows "end of block"
 }
 
 function endOBContKP(event) { // Event listener for end of block key press
-  console.log("endOBContKP")
+  //console.log("endOBContKP")
   if (event.keyCode == 32 && regEOBKP == true){
     regEOBKP = false
     event.preventDefault()
@@ -973,7 +985,7 @@ function endOBContKP(event) { // Event listener for end of block key press
 }
 
 function endOfExperiment() { //shows the experiment end
-  console.log("endOfExperiment")
+  //console.log("endOfExperiment")
   expEnd.show()
   document.getElementById("phoneTable").style.display = "none"
   console.log(dataOutput)
@@ -995,7 +1007,8 @@ function saveResults() { //function to save the output file to php
     output_txt += "MaxTrialTime, "      // Record length of time the DCE was shown for
     output_txt += "fixationTime, "      // Record length of time fixation cross was shown
     output_txt += "condition, "         // Record SAT condition 1 = "GO FAST" trial, 2 = "BE CAREFUL" trial
-    output_txt += "selected\n"          // Record the number of the chosen option
+    output_txt += "selected, "          // Record the number of the chosen option
+    output_txt += "attCorrelation\n"    // Record condition for attribute correlation
     for (var i = 0; i < dataOutput.length; i++) {
         output_txt += dataOutput[i].toString() + "\n"
     }
@@ -1010,7 +1023,7 @@ function saveResults() { //function to save the output file to php
 
     //from:  http://help.dottoro.com/ljskourt.php
 jatos.submitResultData(expSendVariables, pointsLink)
-    //console.log(experimentDataRequest.responseText)
+    ////console.log(experimentDataRequest.responseText)
     pointsLink()
 }
 
