@@ -1,3 +1,8 @@
+*{
+	box-sizing: border-box;
+}
+
+
 #dialog-box {
 	    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 	    -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -87,10 +92,35 @@ body.at-task {
 	  background-color: #FEFEFE;
 	}
 
+	#instructionsOne {
+		float:left;
+		width:100%;
+		font-size: 150%;
+		padding:0 20px;
+		text-align:center;
+	  }
+	  
+	  @media only screen and (max-width:620px) {
+		/* For mobile phones: */
+		#instructionsOne{
+		  width:100%;
+		}
+	}
+/*
+	#instructionsOne {
+	position: absolute;
+	top:49%;
+	left: 50%;
+	font-size:1vw;
+	font-family: "Arial";
+	background-color:white;
+    color:black;
+    text-align:center;
+	transform: translate(-50%, -50%);
+	}*/
+	
 
-
-
-/* Instruction page one - DCE page styling */
+/* Instruction page one - DCE page styling 
 #instructionsOne {
 	font-size: 130%;
 	font-family: "Arial";
@@ -101,7 +131,7 @@ body.at-task {
 		margin-left: 0.5cm;
 		line-height: 1.5;
 	}
-
+*/
 	selectPhoneButton {
 		width:200px;
 		height:52px;
@@ -109,17 +139,12 @@ body.at-task {
 		border-radius: 8px;
 	}
 
-
 	img {
 		display:inline-block;
-		margin-top:0px;
-		margin-bottom: 0px;
-	  margin-left: auto;
-	  margin-right: auto;
-	  width: 40%;
-		width:412px;
-		height:131px;
-		padding:1px;
+		margin-left: auto;
+		margin-right: auto;
+		max-width:650px;
+		max-height:450px;
 		border:1px solid rgba(0, 0, 0, 0.2);
 	}
 
@@ -129,9 +154,6 @@ body.at-task {
 	  padding: 1px 2px 0;
 	  border: 1px solid black;
 	}
-
-
-
 
 #experimentEnd {
 	font-size:150%;
@@ -166,31 +188,6 @@ body.at-task {
 	line-height:2;
 	transform: translate(-50%, -50%);
 }
-/*
-#tooSlow {
-	position:absolute;
-	top:10%;
-	left: 50%;
-	font-size:250%;
-	font-family: "Arial";
-	background-color:white;
-    color:red;
-    text-align:center;
-	transform: translate(-50%, -50%);
-	}
-
-#makeFasterChoices {
-	position:absolute;
-	top:30%;
-	left: 50%;
-	font-size:180%;
-	font-family: "Arial";
-	background-color:white;
-    color:red;
-    text-align:center;
-	line-height:2;
-	transform: translate(-50%, -50%);
-	}*/
 
 #phoneTable {
 	font-family: "Arial";
@@ -207,15 +204,15 @@ body.at-task {
 	}
 
 #endBlock {
-	position: absolute;
-		top:4%;
-		left:37%;
-	font-size:150%;
+	position:absolute;
+	top:20%;
+	left: 50%;
+	font-size:180%;
 	font-family: "Arial";
 	background-color:white;
     color:blue;
     text-align:center;
-    line-height:1.5;
+	transform: translate(-50%, -50%);
 	}
 
 #goFast {
