@@ -141,40 +141,71 @@ body.at-task {
     text-align:center;
     line-height:3;
 	}
-#youWentTooFast {
-	font-size:190%;
-	font-family: "Arial";
-	background-color:white;
-    color: red;
-    text-align:center;
-    line-height:3;
-	}
-#youWentTooSlow {
+
+.timeout {
 	position:absolute;
-	/*top:17%;*/
-	left: 18%;
-	font-size:170%;
+	top:10%;
+	left: 50%;
+	font-size:250%;
 	font-family: "Arial";
 	background-color:white;
     color:red;
     text-align:center;
-	line-height:3;
 	transform: translate(-50%, -50%);
 	}
 
+.demand {
+	position:absolute;
+	top:30%;
+	left: 50%;
+	font-size:180%;
+	font-family: "Arial";
+	background-color:white;
+	color:red;
+	text-align:center;
+	line-height:2;
+	transform: translate(-50%, -50%);
+}
+/*
+#tooSlow {
+	position:absolute;
+	top:10%;
+	left: 50%;
+	font-size:250%;
+	font-family: "Arial";
+	background-color:white;
+    color:red;
+    text-align:center;
+	transform: translate(-50%, -50%);
+	}
+
+#makeFasterChoices {
+	position:absolute;
+	top:30%;
+	left: 50%;
+	font-size:180%;
+	font-family: "Arial";
+	background-color:white;
+    color:red;
+    text-align:center;
+	line-height:2;
+	transform: translate(-50%, -50%);
+	}*/
+
 #phoneTable {
-font-family: "Arial";
-font-size: 140%;
-border-spacing: 35px 10px;
+	font-family: "Arial";
+	font-size: 140%;
+	border-spacing: 35px 10px;
 }
 
 #tableBody {
 	position: absolute;
-	 top: 40%;
-	 left: 49%;
+	 top: 35%;
+	 left: 50%;
 	 transform: translate(-50%, -50%);
 	 text-align:center;
 	}
+
 #endBlock {
 	position: absolute;
 		top:4%;
@@ -186,6 +217,7 @@ border-spacing: 35px 10px;
     text-align:center;
     line-height:1.5;
 	}
+
 #goFast {
 	font-size: 200%;
 	font-family: "Arial";
@@ -202,35 +234,40 @@ border-spacing: 35px 10px;
     text-align:center;
     margin-top: 2cm;
 	}
+
 #progress {
 	font-size:115%;
 	font-family: "Arial";
 	text-align: left;
 	margin-top: 3cm;
 	}
+
 #countDown {
 	font-size:150%;
 	font-family: "Arial";
 	margin-top: 2cm;
 	text-align: center;
 	}
+
 #timeLeft {
 	color: red;
 	font-family: "Arial";
 	}
+
 #fixationCross {
 	position:absolute;
-		top:20%;
-		left:48%;
+		top:30%;
+		left:50%;
 	font-size:400%;
 	font-family: "Arial";
 	text-align: center;
+	transform: translate(-50%, -50%);
 }
 
 #spacebarToContinue {
 	position:absolute;
-		top:40%;
-		left:40%;
+		top:50%;
+		left:50%;
 	font-size:170%;
 	font-family: "Arial";
 	background-color:white;
@@ -238,21 +275,9 @@ border-spacing: 35px 10px;
 	  transform: translate(-50%, -50%);
 }
 
-
 #loading {
 	font-family: "Arial";
 	}
-
-#signalResponseCue {
-	position:absolute;
-		top:15%;
-		left:40%;
-  font-size:300%;
-  font-family: "Arial";
-  background-color:white;
-	color: #CF00CF;
-	text-align:center;
-}
 
 #inTime {
 	font-size: 250%;

@@ -120,13 +120,22 @@
     <p> + </p>
 </div>
 
-<div id ="youWentTooFast" style="display: none;">
-    <p> Too Fast!! </p>
-    <p> Please avoid making your decision before you see the options. </p>
+<div id ="tooFast" class="timeout" style="display: none;">
+    <p> <em> Too Fast!! </em></p>
+    
 </div>
 
-<div id ="youWentTooSlow" style="display: none;">
-    <p> Too slow!! <br> It is important to carefully consider the available options. However, please try to make faster choices in future trials. </p>
+<div id ="pleaseConsider" class="demand" style="display: none;">
+  <p> Please avoid making your decision before you see the options. </p>
+</div>
+
+
+<div id ="tooSlow" class="timeout" style="display: none;">
+    <p><em> Too slow!! </em> </p>
+</div>
+
+<div id ="makeFasterChoices" class="demand" style="display: none;">
+  <p> It is important to carefully consider the available options. However, please try to make faster choices in future trials. </p>
 </div>
 
 <div id ="spacebarToContinue" style="display: none;">Press spacebar to continue</div>
@@ -146,7 +155,6 @@
 <script type="text/javascript">
 
 // ----- Customisation -----
-const online = true												                  // Is the current version online or not
 const numAttributes = 5  	 			     			  	 		          // Number of Attributes/Attributes for each poduct
 const randomPhonesMode = 2 				   				 		          /* Number of Options in a trial
                                                                     Modes: 
@@ -171,8 +179,8 @@ const randomTimer = false 										                // SAT countdown timer - Ran
 const timerPresent = false										                // SAT countdown timer - true = show timer, false = no timer
 const tooSlowPresent = true										              // Timeout choices
 const fastOrAccurate = [1,2] 									              // SAT Manipulation - Fast = 1, Accuratate = 2 
-const nTrials = 25 // Old phone DCE - 25 trials              // Number of trials per block
-const nBlocks = 10	// Old phone DCE - 6 blocks               // Number of blocks in experiment
+const nTrials = 2 // Old phone DCE - 25 trials              // Number of trials per block
+const nBlocks = 5	// Old phone DCE - 6 blocks               // Number of blocks in experiment
 const waitTime = 2000											                  // Time participant must wait, after a 'too fast' response, before they can continue
 var maxTrialTime = []											                  // Maximum trial time - The length of time a stimulus is shown for
 const setMaxTrialTime = 4000									                // Set maximum trial time (used if randomtimer = false)
@@ -187,13 +195,64 @@ const exponentialRate = .002                                 /* Rate parameter f
                                                                  combined with minfixationtime = 500 gives mean inter-trial time of 1 second. 
                                                                  set maxfixationtime to something sensible (eg 5 seconds)*/
 // ---------------------------------------------------------------------------
-const phoneBrands = ["A", "B", "C"] 	                      // Array of options/brands of phones
-var attributes = [
-["Resolution", "1280 x 720", "1280 x 720", "1280 x 720", "1920 x 1080", "1560 x 720",],
-['Screen Size', '5"', '5"', '5"', '5.2"', '6.1"',],
-["Memory", "8GB", "16GB", "8GB", "32GB", "64GB",],
-["Camera", "5MP", "13MP", "8MP", "16MP", "13MP",], 
-["Price", "$44", "$134", "$179", "$179", "$199",],]
+const phoneBrands = ["A", "B", "C"] // Array of options/brands of phones
+var attributes = [ // Available phone features and the random values it can have              
+  ["Resolution", "1280 x 720", "1280 x 720", "1280 x 720", "1920 x 1080", "1560 x 720", "1520 x 720", "1440 x 720", "1520 x 720", "1520 x 720", "1544 x 720",
+  "1920 x 1080", "1520 x 720", "1560 x 720", "1520 x 720", "2160 x 1080", "1520 x 720", "1520 x 720", "2560 x 1440", "1544 x 720", "1920 x 1080",
+  "1520 x 720", "1600 x 720", "1920 x 1080", "2340 x 1080", "1920 x 1080", "1920 x 1080", "2340 x 1080", "2340 x 1080", "2280 x 1080", "2520 x 1080",
+  "2312 x 1080", "1920 x 1080", "2340 x 1080", "1560 x 720", "1920 x 1080", "2560 x 1440", "2340 x 1080", "2280 x 1080", "1334 x 750", "2340 x 1080",
+  "2340 x 1080", "2280 x 1080", "2560 x 1440", "2560 x 1440", "3840 x 2160", "2880 x 1440", "2280 x 1080", "2220 x 1080", "1334 x 750", "2340 x 1080",
+  "2340 x 1080", "2340 x 1080", "2340 x 1080", "2400 x 1080", "2220 x 1080", "2880 x 1440", "2340 x 1080", "2340 x 1080", "3120 x 1400", "1280 x 720",
+  "1334 x 750", "2960 x 1440", "1920 x 1080", "1620 x 1080", "1334 x 750", "2160 x 1080", "2340 x 1080", "2960 x 1400", "2960 x 1440", "2436 x 1125",
+  "2280 x 1080", "2400 x 1080", "2960 x 1440", "2960 x 1440", "2280 x 1080", "1792 x 868", "1792 x 868", "2436 x 1125", "1792 x 828", "3040 x 1440",
+  "2340 x 1080", "2280 x 1080", "3040 x 1440", "2688 x 1242", "1792 x 828", "3040 x 1440", "2436 x 1125", "2688 x 1242", "3040 x 1440", "1792 x 828",
+   "3040 x 1440", "3040 x 1440", "3040 x 1440", "2436 x 1125", "2688 x 1242", "2436 x 1125", "3040 x 1440", "2688 x 1242", "2436 x 1125", "2688 x 1242",
+  ],
+  ['Screen Size', '5"', '5"', '5"', '5.2"', '6.1"', '5.7"', '5.5"', '6.2"', '6.2"', '6.4"',
+  '5.5"', '6.3"', '6.4"', '6.2"', '5.5"', '6.2"', '5.7"', '5.7"', '6.4"', '5.5"',
+  '6.3"', '6.5"', '5.2"', '6.6"', '6.4"', '5.7"', '6.5"', '6.3"', '6.3"', '6.3"',
+  '6.2"', '5.2"', '6.4"', '6.1"', '5.0"', '5.1"', '6.4"', '5.8"', '4.7"', '6.4"',
+  '5.5"', '6.2"', '5.5"', '5.5"', '5.5"', '5.7"', '6.3"', '5.6"', '4.7"', '6.5"',
+  '6.3"', '6.4"', '6.4"', '6.7"', '5.6"', '6.0"', '6.4"', '6.4"', '6.4"', '3.3"',
+  '4.7"', '6.2"', '5.5"', '4.5"', '4.7"', '5.5"', '6.1"', '5.8"', '6.3"', '5.8"',
+  '5.8"', '6.7"', '6.2"', '6.3"', '5.7"', '6.1"', '6.1"', '5.8"', '6.1"', '6.4"',
+  '6.5"', '5.7"', '6.1"', '6.5"', '6.1"', '6.3"', '5.8"', '6.5"', '6.3"', '6.1"',
+  '6.4"', '6.8"', '6.4"', '5.8"', '6.5"', '5.8"', '6.8"', '6.5"', '5.8"', '6.5"',
+  ],
+  [ "Memory", "8GB", "16GB", "8GB", "32GB", "64GB", "16GB", "32GB", "32GB", "64GB", "64GB",
+    "32GB", "32GB", "32GB", "64GB", "32GB", "64GB", "32GB", "64GB", "128GB", "32GB", 
+    "64GB", "64GB", "32GB", "128GB", "32GB", "32GB", "128GB", "128GB", "64GB", "128GB", 
+    "128GB", "32GB", "128GB", "128GB", "128GB", "32GB", "128GB", "32GB", "32GB", "64GB", 
+    "128GB", "64GB", "128GB", "128GB", "32GB", "64GB", "128GB", "32GB", "128GB", "128GB", 
+    "128GB", "128GB", "128GB", "128GB", "64GB", "128GB", "128GB", "256GB", "128GB", "32GB", 
+    "64GB", "64GB", "128GB", "32GB", "128GB", "128GB", "128GB", "256GB", "64GB", "64GB", 
+    "128GB", "128GB", "256GB", "128GB", "64GB", "64GB", "128GB", "256GB", "64GB", "128GB", 
+    "256GB", "128GB", "512GB", "64GB", "128GB", "64GB", "512GB", "256GB", "128GB", "256GB", 
+    "512GB", "256GB", "1000GB", "64GB", "64GB", "256GB", "512GB", "256GB", "512GB", "512GB",
+    ],
+    ["Camera", "5MP", "13MP", "8MP", "16MP", "13MP", "13MP", "13MP", "13MP", "13MP", "13MP", 
+  "13MP", "13MP", "13MP", "13MP", "13MP", "13MP", "13MP", "12MP", "13MP", "16MP", 
+  "16MP", "16MP", "12MP", "16MP", "16MP", "16MP", "48MP", "16MP", "16MP", "48MP", 
+  "24MP", "12MP", "16MP", "48MP", "12MP", "16MP", "48MP", "12MP", "12MP", "25MP", 
+  "48MP", "12MP", "20MP", "12MP", "23MP", "13MP", "48MP", "16MP", "12MP", "48MP", 
+  "48MP", "48MP", "20MP", "32MP", "12MP", "12MP", "12MP", "20MP", "12MP", "12MP", 
+  "12MP", "12MP", "12MP", "13MP", "12MP", "12MP", "40MP", "12MP", "12MP", "12MP", 
+  "16MP", "48MP", "12MP", "12MP", "16MP", "12MP", "12MP", "12MP", "12MP", "16MP", 
+  "40MP", "16MP", "16MP", "12MP", "12MP", "16MP", "12MP", "12MP", "16MP", "12MP", 
+  "16MP", "12MP", "16MP", "12MP", "12MP", "12MP", "12MP", "12MP", "12MP", "12MP",
+  ], 
+  ["Price", "$44", "$134", "$179", "$179", "$199", "$199", "$199", "$229", "$239", "$249",
+  "$249", "$249", "$279", "$279", "$279", "$299", "$299", "$299", "$299", "$299",
+  "$299", "$299", "$299", "$349", "$379", "$379", "$399", "$399", "$399", "$399",
+  "$399", "$399", "$399", "$399", "$399", "$399", "$449", "$449", "$499", "$499",
+  "$499", "$499", "$499", "$499", "$499", "$499", "$549", "$549", "$599", "$599",
+  "$599", "$599", "$599", "$649", "$649", "$699", "$699", "$699", "$699", "$699",
+  "$779", "$799", "$799", "$799", "$859", "$879", "$899", "$899", "$899", "$999", 
+  "$999", "$999", "$999", "$999", "$1049", "$1049", "$1129", "$1149", "$1199", "$1199", 
+  "$1199", "$1199", "$1199", "$1249", "$1279", "$1279", "$1349", "$1399", "$1429","$1449",
+  "$1599","$1699","$1699","$1749","$1899","$1999","$1999","$2149","$2349","$2499",
+  ],];
+
 var startDate
 var startTime
 var endDate
@@ -243,8 +302,10 @@ var goSlow = $('#goSlow')
 var fixationCross = $('#fixationCross')
 var expEnd = $("#experimentEnd")
 var spacebarToContinue = $('#spacebarToContinue')
-var tooSlowDiv = $("#youWentTooSlow")
-var tooFastDiv = $("#youWentTooFast")
+var tooSlowDiv = $("#tooSlow")
+var pleaseConsider = $("#pleaseConsider")
+var fasterChoicesDiv = $("#makeFasterChoices")
+var tooFastDiv = $("#tooFast")
 var inTimeDiv = $("#inTime")
 
 /* The below "jatos.onload(function grabSonaID()" function is required when running ONLINE psych-JATOS study
@@ -775,6 +836,7 @@ function tooFast() { // 'TOO FAST' choices (can set MinTrialTime above)
   //console.log("tooFast")
   document.getElementById("phoneTable").style.display = "none"
   tooFastDiv.show()
+  pleaseConsider.show()
   goSlow.hide()
   goFast.hide()
   //progDiv()
@@ -801,7 +863,9 @@ function contKP(event) { // Press spacerbar to continue key press function
     document.removeEventListener('keyup', contKP, false)
     spacebarToContinue.hide()
     tooSlowDiv.hide()
+    fasterChoicesDiv.hide()
     tooFastDiv.hide()
+    pleaseConsider.hide()
     postTrial()
     console.log('spacebar Pressed')
   }
@@ -812,6 +876,7 @@ function tooSlow() {	// Choices when participant is too slow to respond
   stopTimer()
   document.getElementById("phoneTable").style.display = "none"
   tooSlowDiv.show()
+  fasterChoicesDiv.show()
   goFast.hide()
   goSlow.hide()
   // Output file - "TOO SLOW" trial
@@ -868,7 +933,9 @@ function nextRound() { // moves to the next trial
 function endOfBlock() {	//works out the end of the block
  	console.log("endOfBlock")
   tooFastDiv.hide()
+  pleaseConsider.hide()
   tooSlowDiv.hide()
+  fasterChoicesDiv.hide()
   nCurrentTrial = (nCurrentTrial - nTrials)
  	nCurrentBlock++
  	 if (randomPhonesMode == 3) {
