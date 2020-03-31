@@ -25,11 +25,21 @@
 
 </head>
 <body>
+  
+  <div id ="preTrialGoFast"style="display: none;">
+    <p> </p>
+  <p> BE FAST!! </p>
+  </div>
 
   <div id ="goFast"style="display: none;">
     <p> </p>
   <p> BE FAST!! </p>
   </div>
+
+  <div id ="preTrialGoSlow"style="display: none;">
+    <p> </p>
+    <p> BE CAREFUL!! </p>
+    </div>
 
   <div id ="goSlow"style="display: none;">
   <p> </p>
@@ -141,7 +151,7 @@ const nTrials = 25 // Old phone DCE - 25 trials              // Number of trials
 const nBlocks = 10	// Old phone DCE - 6 blocks               // Number of blocks in experiment
 const waitTime = 2000											                  // Time participant must wait, after a 'too fast' response, before they can continue
 var maxTrialTime = []											                  // Maximum trial time - The length of time a stimulus is shown for
-const setMaxTrialTime = 4000									                // Set maximum trial time (used if randomtimer = false)
+const setMaxTrialTime = 40000									                // Set maximum trial time (used if randomtimer = false)
 const minTrialTime = 1000											                // Minimum trial time
 const stimTime = 1000											                  // Stimulus duration of SAT instructions (when trialInstructions = true)
 const postSelectTime = 500										                // Time after phone selected
@@ -257,6 +267,8 @@ var progressDiv = $('#progress')
 var endBlock = $('#endBlock')
 var goFast = $('#goFast')
 var goSlow = $('#goSlow')
+var preTrialGoFast = $('#preTrialGoFast')
+var preTrialGoSlow = $('#preTrialGoSlow')
 var fixationCross = $('#fixationCross')
 var expEnd = $("#experimentEnd")
 var spacebarToContinue = $('#spacebarToContinue')
@@ -374,6 +386,8 @@ function preTrial() {
   clearTimeout(postTimeout)
   goSlow.hide()
   goFast.hide()
+  preTrialGoFast.hide()
+  preTrialGoSlow.hide()
   loading.hide()
   fixationCross.show()
   document.getElementById("phoneTable").style.display = "none"
@@ -422,7 +436,7 @@ if (trialInstructions == true) { // true = SAT instructions present
   var randomStimulus = Math.floor(Math.random() * fastOrAccurate.length) // Generate random number b/w 1-2
             stimulus = fastOrAccurate[randomStimulus] // Set stimulus to "GO FAST" or "BE CAREFUL"
             if (stimulus == 1) { // GO FAST
-              goFast.show()
+              preTrialGoFast.show()
               document.getElementById("phoneTable").style.display = "none"
               stimTimeout = setTimeout(preTrial, stimTime)
               if (randomTimer == true) { // Uncomment here +4 lines for countdown timer
@@ -434,7 +448,7 @@ if (trialInstructions == true) { // true = SAT instructions present
 		}
 	}
 else if (stimulus == 2) {
-  goSlow.show() // BE CAREFUL
+  preTrialGoSlow.show() // BE CAREFUL
   document.getElementById("phoneTable").style.display = "none"
   stimTimeout = setTimeout(preTrial, stimTime)
   if (randomTimer == true) {
@@ -578,11 +592,11 @@ function updateTable() { // Create the phone table DCE
   
 	if (trialInstructions == true){
     	if (stimulus == 1) {
-    	goFast.show()
-      goSlow.hide()
+      preTrialGoFast.hide()
+      goFast.show()
     	} else if (stimulus == 2) {
         goSlow.show()
-        goFast.hide()
+        preTrialGoSlow.hide()
 		} else {
     }
 }

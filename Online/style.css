@@ -106,32 +106,7 @@ body.at-task {
 		  width:100%;
 		}
 	}
-/*
-	#instructionsOne {
-	position: absolute;
-	top:49%;
-	left: 50%;
-	font-size:1vw;
-	font-family: "Arial";
-	background-color:white;
-    color:black;
-    text-align:center;
-	transform: translate(-50%, -50%);
-	}*/
-	
 
-/* Instruction page one - DCE page styling 
-#instructionsOne {
-	font-size: 130%;
-	font-family: "Arial";
-	background-color:white;
-    color:black;
-    text-align: center;
-		margin-top: 1cm;
-		margin-left: 0.5cm;
-		line-height: 1.5;
-	}
-*/
 	selectPhoneButton {
 		width:200px;
 		height:52px;
@@ -215,21 +190,51 @@ body.at-task {
 	transform: translate(-50%, -50%);
 	}
 
+#preTrialGoFast {
+	font-size: 200%;
+	font-family: "Arial";
+	background-color:white;
+	color:green;
+	position: absolute;
+	 top: 30%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 text-align:center;
+		}
 #goFast {
 	font-size: 200%;
 	font-family: "Arial";
 	background-color:white;
     color:green;
-    text-align:center;
-    margin-top: 2cm;
+    position: absolute;
+	 top: 10%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 text-align:center;
 	}
+
+#preTrialGoSlow {
+	font-size: 200%;
+	font-family: "Arial";
+	background-color:white;
+	color:red;
+	position: absolute;
+	 top: 30%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 text-align:center;
+	}
+
 #goSlow {
 	font-size:200%;
 	font-family: "Arial";
 	background-color:white;
     color:red;
-    text-align:center;
-    margin-top: 2cm;
+	position: absolute;
+	top: 10%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align:center;
 	}
 
 #progress {
@@ -281,7 +286,10 @@ body.at-task {
 	font-family: "Arial";
 	background-color:white;
     color:green;
-    text-align:center;
-    margin-top: 6cm;
+    position: absolute;
+	 top: 30%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 text-align:center;
 	}
 
