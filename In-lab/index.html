@@ -149,7 +149,7 @@
 <script type="text/javascript">
 
 // ----- Customisation -----
-const correlatedPhones = true                            // IV1 - Are the phone attributes correlated (true) or uncorrelated (false)
+let correlatedPhones = false                            // IV1 - Are the phone attributes correlated (true) or uncorrelated (false)
 const numAttributes = 5  	 			     			  	 		       // Number of Attributes/Attributes for each poduct
 const randomPhonesMode = 2 				   				 		         /* Number of Options in a trial
                                                                     Modes: 
@@ -175,7 +175,7 @@ const timerPresent = false										                // SAT countdown timer - tru
 const tooSlowPresent = true										              // Timeout choices
 const fastOrAccurate = [1,2] 									              // SAT Manipulation - Fast = 1, Accuratate = 2 
 const nTrials = 2 // Old phone DCE - 25 trials              // Number of trials per block
-const nBlocks = 5	// Old phone DCE - 6 blocks               // Number of blocks in experiment
+const nBlocks = 2	// Old phone DCE - 6 blocks               // Number of blocks in experiment
 const waitTime = 2000											                  // Time participant must wait, after a 'too fast' response, before they can continue
 var maxTrialTime = []											                  // Maximum trial time - The length of time a stimulus is shown for
 const setMaxTrialTime = 4000									                // Set maximum trial time (used if randomtimer = false)
@@ -368,6 +368,10 @@ var dblCheckCreds = function(){
    //console.log('Valid Login', username)
   }
 }
+
+
+
+
 
 function instructOne() {
   instruxOne.show()
@@ -571,7 +575,7 @@ function generateProductArray() {									//makes the array of Phones
     phoneArray = []
     // Create 'numPhones' new phones - this is determined by the numbers from 1 of the 4 cases above
     for (var i = 0; i < numPhones; i++) {
-        new_phone = createNewProduct(true)
+        new_phone = createNewProduct(correlatedPhones)
         if(phoneArray.some(phone => _.isEqual(phone, new_phone))){
           i--
           //console.log('duplicate option')
@@ -591,14 +595,14 @@ function createNewProduct(correlated) {	//creates Phones
     var phone = {attributes:[]}
     if(correlated) {
       var randomValue = Math.floor(Math.random() * (attributes[0].length - 1)) + 1
-      //console.log('correlated ' + randomValue)
+      console.log('correlated')
     }
     // Add the attributes
     for (var i = 0; i < numAttributes; i++) {
         // Pick a random attribute from usingAttributes
         if(!correlated) {
         var randomValue = Math.floor(Math.random() * (attributes[usingAttributes[i]].length - 1)) + 1
-       // console.log('Uncorrelated ' + randomValue)
+        console.log('Uncorrelated')
         //console.log(phone)
       }
         phone.attributes[usingAttributes[i]] = attributes[usingAttributes[i]][randomValue]

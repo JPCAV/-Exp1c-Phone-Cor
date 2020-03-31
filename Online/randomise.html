@@ -1,0 +1,12 @@
+<script src="/assets/javascripts/jatos.js"></script>
+
+<script> jatos.onLoad(
+let component
+component = (Math.random() < 0.5 ? 1 : 2);
+console.log(component)
+if (component == 1) {
+    jatos.startNextComponent()    
+} else {
+    jatos.startLastComponent()
+})
+</script>
